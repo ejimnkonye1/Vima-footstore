@@ -1,0 +1,39 @@
+.box{
+    background-color: gray;
+  padding: 10px ;
+    position: relative;
+}
+.body{
+    position: absolute;
+   padding: 40px;
+    left: 35%;
+    color: white;
+    transform: translateX(-50%);
+  
+}
+.vi{
+    position: relative;
+    left: 45%;
+    margin-top: 10px;
+    transform: translateX(-50%);
+}
+.visit{
+    display: flex;
+}
+.visit-item{
+    flex: 1;
+   
+  width: 100%;
+}
+@media (max-width: 768px) {
+    .visit-item {
+        max-width: 300%; /* Adjust the maximum width for smaller screens */
+        width: auto; /* Allow images to resize proportionally on smaller screens */
+      }
+      .body{
+        position: absolute;
+        left: 10%;
+      }
+  }
+  
+  

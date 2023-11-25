@@ -1,0 +1,36 @@
+.cont{
+   position: relative;
+    background-color: gray;
+    height: 100vh;
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    
+}
+.hero{
+    max-Width: 73%;
+    max-height: 50%;
+  margin-left: 100px;
+    height: auto;
+}
+.img{
+position: cover;
+}
+.text{
+    position: relative;
+     top: -220%;
+}
+@media (max-width: 768px) {
+  .cont {
+    height: auto; /* Adjust height as needed for smaller screens */
+  }
+
+  .hero {
+    max-width: 100%; /* Make the image take up the full width */
+    margin-left: 0; /* Remove margin for smaller screens */
+  }
+
+  .text {
+    top: 0; /* Adjust top position for smaller screens */
+  }
+}

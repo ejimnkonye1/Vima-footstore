@@ -1,38 +1,76 @@
-.App {
-  text-align: center;
+a{
+  text-decoration: none !important;
+}
+.float {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #25D366; /* Change the background color as needed */
+  color: #fff; /* Change the text color as needed */
+  border-radius: 50%;
+  padding: 15px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  cursor: pointer;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.my-float {
+  font-size: 24px;
+}
+.menubar{
+  display: none;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+@media (max-width: 767px) {
+  .icon {
+   /* Stack icons on top of each other */
+    margin: 10px 0; /* Adjust the spacing between stacked icons */
+    display: inline;
+  }
+  ul li .myicon{
+    list-style: none;
+    display: inline;
+  }
+
+}
+
+
+@media (max-width: 768px) {
+  .row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .product-col {
+    width: 100%; /* Two items per row, with a small gap in between */
+    margin: 1%; /* Add some margin to separate the items */
+  }
+  .card-img-top{
+    width: 100px;
+    height: 200px;
+  }
+  .border{
+    border: none;
+  }
+  .men{
+    width: 50%;
+    height: 150px;
+  }
+  .woman{
+    width: 50%;
+    height: 150px;
+  }
+  .pro{
+  height: 60px;
+  width: 100%;
+  }
+  .page-item.disabled {
+    margin-left: 0 !important;
   }
 }
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.float {
+  bottom: 20px;
+  right: 20px;
 }
 
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}

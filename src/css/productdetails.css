@@ -1,0 +1,48 @@
+.size ul li{
+    
+    padding: 10px;
+}
+.size-item{
+    border: 2px solid rgb(165, 161, 161);
+    border-radius: 20px;
+}
+.quantity{
+    border: 2px solid rgb(165, 161, 161);
+    border-radius: 40px;
+    width: 24%;
+  
+}
+.plus{
+    margin-left: 40px;
+}
+.minus{
+    margin-left: 10px;
+    
+}
+
+.cart{
+    border: none;
+}
+.size-item.selected {
+    background-color: blue;
+    color: white; /* Adjust text color as needed */
+  }
+  .size-item {
+    cursor: pointer; /* Add this to indicate that the item is clickable */
+  }
+  
+  .size-item:hover {
+    background-color: lightblue; /* Change this to your preferred hover color */
+    color: white; /* Adjust text color as needed */
+  }
+.buy{
+    position: relative;
+    left: 10%;
+    border: none;
+    outline: none;
+    color: #fff;
+    background-color: green;
+    width: 80%;
+    border-radius: 20px;
+    height: 40px;
+}
