@@ -1,25 +1,26 @@
-.card {
-    position: relative;
-    overflow: hidden;
-  }
-  
-  .image-container {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    transform: translateX(-100%);
-    transition: transform 0.3s ease-in-out;
-  }
-  
-  .card:hover .image-container {
-    transform: translateX(0);
-  }
+
+
   @media (max-width: 768px) {
-    .img-fluid{
-      width: 800px;
-      height: 80%;
-    }
+    .card {
+      width: 100%; 
     
+    }
+  
+    .card img {
+      width: 100%; /* Set image width to 100% for smaller screens */
+      height: auto; /* Allow image height to adjust proportionally */
+    }
+  
+    .row {
+      width: 110%; /* Set row width to 100% for smaller screens */
+    }
+  
+    /* Add this to your CSS file */
+.truncate-text {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-wrap: nowrap;
+}
+
   }

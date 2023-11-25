@@ -58,13 +58,13 @@ const Woman = ({cartItems, setCartItems}) => {
         <div className="container mt-4">
    
    <div className="row mt-5 mb-4">
-    {currentProductsPage.map((product, index) => (
-   <div key={index} className="col-6 col-md-4 col-lg-3">
+    {currentProductsPage.map((product, id) => (
+   <div key={id} className="col-6 col-md-4 col-lg-3">
 
 <div className="card d-flex flex-column mt-5 mb-4" data-aos="fade-up" >
 <div className="">
     {/* Use Link to navigate to the product details page */}
-    <Link to={`/product/${index}`}>
+    <Link to={`/product/${product.id}`}>
             <img src={product.image} className="card-img-top woman" width={'300px'} height={'250px'} alt={product.name} />
             </Link>
           </div>

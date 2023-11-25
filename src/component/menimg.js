@@ -8,58 +8,47 @@ import img8 from '../images/men8.jpg';
 import img9 from '../images/boy.jpg';
 
 const Mendata = [
-   
-      {
-        id: 10,
-        name: 'Product 1',
-  
-        image: img2,
-        price: '5000',
-      },
-      {
-        id: 11,
-        name: 'Product 2',
-    
-        image: img3,
-        price: '4000',
-      },
-      {
-        id: 12,
-        name: 'Product 3',
-    
-        image: img4,
-        price: '5500',
-      },
-     
-      {
-        id: 14,
-        name: 'Product 4',
-  
-        image: img6,
-        price: '8000',
-      },
-      {
-        id: 15,
-        name: 'Product 5',
-      
-        image: img7,
-        price: '6500',
-      },
-      {
-        id: 16,
-        name: 'Product 6',
-       
-        image: img8,
-        price: '7000',
-      },
-      {
-        id: 17,
-        name: 'Product 7',
-     
-        image: img9,
-        price: '5000',
-      },
-
-      
-]
+  {
+    id: 8,
+    name: 'Product 1',
+    image: img2,
+    price: '5000',
+  },
+  {
+    id: 9,
+    name: 'Product 2',
+    image: img3,
+    price: '4000',
+  },
+  {
+    id: 10,
+    name: 'Product 3',
+    image: img4,
+    price: '5500',
+  },
+  {
+    id: 11,
+    name: 'Product 4',
+    image: img6,
+    price: '8000',
+  },
+  {
+    id: 12,
+    name: 'Product 5',
+    image: img7,
+    price: '6500',
+  },
+  {
+    id: 13,
+    name: 'Product 6',
+    image: img8,
+    price: '7000',
+  },
+  {
+    id: 14,
+    name: 'Product 7',
+    image: img9,
+    price: '5000',
+  },
+];
 export default Mendata;

@@ -28,7 +28,9 @@ position: cover;
   .hero {
     max-width: 100%; /* Make the image take up the full width */
     margin-left: 0; /* Remove margin for smaller screens */
+    margin-top: 50px;
   }
+  
 
   .text {
     top: 0; /* Adjust top position for smaller screens */

@@ -10,7 +10,7 @@ import Recommend from "./recommended";
 import Testimonials from "./testmonial";
 const ProductDetails = ({cartItems, setCartItems}) => {
     const { id } = useParams(); // Get the product ID from the route params
-    const allProducts = [...productdata, ...Womandata, ...Mendata];
+    const allProducts = [...productdata,  ...Mendata,  ...Womandata];
     const product = allProducts[Number(id)];
     const [selectedSize, setSelectedSize] = useState("");
   const [quantity, setQuantity] = useState(1); // Default quantity is 1

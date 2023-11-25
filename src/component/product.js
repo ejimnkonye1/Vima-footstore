@@ -30,33 +30,26 @@ const Proudcts = ({cartItems, setCartItems}) => {
     });
   }, []);
 return(
-    <div className="container p-5">
-        <h5 className="text-center p-3">FEATURED COLLECTION</h5>
-       <div className="row mt-3 mb-4">
-        {productdata.map((product, index) => (
-       <div key={product.id} className="col-4 col-md-4 col-lg-3" >
-        
- 
-    <div className="card  mt-5 mb-4"data-aos="fade-up" style={{ marginBottom: '' }}>
-    <div className="i">
-        {/* Use Link to navigate to the product details page */}
-        <Link to={`/product/${index}`}>
-                <img src={product.image} className="img-fluid " width={'300px'} alt={product.name} />
-                </Link>
-              </div>
-             
-                <div className="card-body">
-                  <p className="card-title">{product.name}</p>
-                
-                  <p className="card-text">{product.price}</p>
-                </div>
-              
-              </div>
-       </div>
-        ))}
-
-       </div>
-    </div>
+  <div className="container">
+  <h5 className="text-center p-3">FEATURED COLLECTION</h5>
+  <div className="row mt-5 mb-4 justify-content-center">
+    {productdata.map((product, index) => (
+      <div key={product.id} className="col-4 col-sm-6 col-md-4 col-lg-3">
+        <div className=" d-flex flex-column mt-5 mb-4" data-aos="fade-up">
+          <div className="">
+            <Link to={`/product/${index}`}>
+              <img src={product.image} className="img-fluid" alt={product.name} />
+            </Link>
+          </div>
+          <div className="card-body mt-4 "  style={{ height: "90px", width:'100%' }}>
+            <p className="card-title text-truncate">{product.name}</p>
+            <p className="card-text text-danger">NGN{product.price}</p>
+          </div>
+        </div>
+      </div>
+    ))}
+  </div>
+</div>
 )
 }
 export default Proudcts

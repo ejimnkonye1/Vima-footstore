@@ -1,6 +1,6 @@
 import React,{useEffect} from "react";
-// import img1 from '../images/beautiful-men-sandal.jpg';
-import img2 from '../images/man-two-background-accessory-velcro-removebg-preview.png';
+import img1 from '../images/pro5-removebg-preview.png';
+import img2 from '../images/pro2-removebg-preview.png';
 // import img3 from '../images/men-leather-sandal-flip-flop-shoes (1).jpg';
 // import img4 from '../images/leather-shoes-sandal.jpg';
 import '../css/visit.css';
@@ -18,7 +18,7 @@ const Visitdata = [
         id: 1,
         name: 'Product 2',
         description: 'Description of Product 2.',
-        image: img2,
+        image: img1,
         price: '$19.99',
       },
       {
@@ -59,7 +59,7 @@ return(
                 <img src={img2} className="card-img-top" alt="" data-aos="" />
                 </div>  
                 <div className="visit-item">
-                <img src={img2} className="card-img-top" alt="" data-aos="" />
+                <img src={img1} className="card-img-top" alt="" data-aos="" />
                 </div>
                 <div className="visit-item">
                 <img src={img2} className="card-img-top" alt="" data-aos="" />
