@@ -57,7 +57,7 @@ const Men = ({ cartItems, setCartItems }) => {
             <h5 className="text-center mt-2 mb-4 border-bottom p-2">100 products</h5>
         <div className="container mt-4">
    
-   <div className="row mt-5 mb-4 w-100">
+   <div className="row mt-5 mb-4 ">
     {currentProductsPage.map((product, id) => (
    <div key={id} className="col-6 col-md-4 col-lg-3">
 
@@ -68,7 +68,7 @@ const Men = ({ cartItems, setCartItems }) => {
           <img src={product.image} className="card-img-top men" width={'70%'} height={'250px'} alt={product.name} data-aos="fade-up"/>
           </Link>
           </div>
-            <div className="card-body mt-0">
+            <div className="card-body mt-0"style={{height:'100px'}}>
               <p className="card-title text-success">{product.name}</p>
 
               <p className="card-text text-danger">NGN{product.price}</p>

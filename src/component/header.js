@@ -39,7 +39,29 @@ const Header = ({cartItems}) => {
           />
         </Link>
         
-        
+        <form className="form-inline search-form d-lg-none"
+            onSubmit={(e) => {
+              e.preventDefault(); // Prevent the default form submission
+              handleSearch(); // Manually trigger the search function
+            }}
+          >
+            <div className="input-group" style={{width:''}}>
+              <input
+                type="text"
+                className="form-control"
+                placeholder="i'm searching for.."
+                aria-label="I'm searching for.."
+                aria-describedby="basic-addon2"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    handleSearch();
+                  }
+                }}
+              />
+            </div>
+          </form>
           <div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel">
   <div class="offcanvas-header">
     <h5 class="offcanvas-title" id="offcanvasWithBothOptionsLabel">vimafootstore</h5>
@@ -72,13 +94,7 @@ const Header = ({cartItems}) => {
          
             <ul className="navbar-nav icon ml-auto d-flex flex-row ">
          
-            {!isSearchVisible && (
-          <li className="nav-item myicon">
-            <Link to="/" className="nav-link" onClick={toggleSearch}>
-              <i className="fas fa-search" ></i>
-            </Link>
-          </li>
-        )}
+       
 
 {isSearchVisible && (
   <li className="nav-item search-input">
@@ -103,12 +119,12 @@ const Header = ({cartItems}) => {
   </li>
 )}
 
-      <li className="nav-item myicon">
+      <li className="nav-item myicon user">
         <Link to="/login" className="nav-link">
           <i className="fas fa-user"></i>
         </Link>
       </li>
-      <li className="nav-item myicon">
+      <li className="nav-item myicon ">
         <Link to="/cart" className="nav-link">
         <div className="cart-icon-container">
                 <i className="fas fa-shopping-cart"></i>
@@ -116,6 +132,13 @@ const Header = ({cartItems}) => {
               </div>
         </Link>
       </li>
+      {!isSearchVisible && (
+          <li className="nav-item myicon user">
+            <Link to="/" className="nav-link" onClick={toggleSearch}>
+              <i className="fas fa-search" ></i>
+            </Link>
+          </li>
+        )}
       <li>
       <div className="menubar"
             

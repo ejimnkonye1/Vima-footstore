@@ -22,6 +22,9 @@ import Checkout from './component/checkout';
 import WhatsAppLink from './component/whatsapp';
 import 'font-awesome/css/font-awesome.min.css';
 import SearchPage from './component/searchpg';
+import Ani from './component/animat';
+import YES from './component/sco';
+import BottomNavbar from './css/bottomnav';
 function App() {
   const [cartItems, setCartItems] = useState([]); // Define cart state
   const [searchError, setSearchError] = useState(false); // State for search error
@@ -47,10 +50,13 @@ function App() {
          <Route path="/searchpg/:query" element={<SearchPage searchError={searchError} />} />
       </Routes>
       <Testimonials />
+      {/* <YES /> */}
       <Text />
       <WhatsAppLink />
       <Footer />
+      <BottomNavbar />
     </BrowserRouter>
+    
     </div>
   );
 }

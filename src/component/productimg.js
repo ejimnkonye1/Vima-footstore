@@ -70,7 +70,7 @@ const productdata = [
     price: '5500',
   },
   {
-    id: 30,
+    id: 8,
     name: 'Product 9',
     description: 'Description of Product 9.',
     image: img9,
@@ -78,21 +78,21 @@ const productdata = [
 
   },
   {
-    id: 31,
+    id: 9,
     name: 'Product 10',
     description: 'Description of Product 10.',
     image: img10,
     price: '6000',
   },
   {
-    id: 32,
+    id: 10,
     name: 'Product 11',
     description: 'Description of Product 11.',
     image: img11,
     price: '5000',
   },
   {
-    id: 33,
+    id: 11,
     name: 'Product 12',
     description: 'Description of Product 12.',
     image: img12,

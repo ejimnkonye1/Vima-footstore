@@ -1,13 +1,16 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import Catalogdata from "./catalogimg";
+import productdata from "./productimg";
+import Mendata from "./menimg";
+import Womandata from "./womanimg";
 import { Link } from 'react-router-dom'
 import AOS from 'aos';
 import 'aos/dist/aos.css'; // You may need to import the AOS styles
 const Catalog = ({cartItems, setCartItems}) => {
-    const [currentProducts, setCurrentProducts] = useState(Catalogdata);
+  const Allproduct = [...Mendata, ...Womandata, ...productdata]
+    const [currentProducts, setCurrentProducts] = useState(Allproduct);
   const [currentPage, setCurrentPage] = useState(1);
-  const productsPerPage = 15; // Number of products to display per page
+  const productsPerPage = 16; // Number of products to display per page
 
   // Calculate the index range for the current page
   const indexOfLastProduct = currentPage * productsPerPage;
@@ -57,26 +60,24 @@ const Catalog = ({cartItems, setCartItems}) => {
             <h5 className="text-center mt-2 mb-4 border-bottom p-2">100 products</h5>
         <div className="container mt-4">
    
-   <div className="row mt-5 mb-4">
-    {currentProductsPage.map((product, index) => (
-   <div key={index} className="col-md-3">
+        <div className="row mt-5 mb-4">
+    {currentProductsPage.map((product, id) => (
+   <div key={id} className="col-6 col-md-4 col-lg-3">
 
-<div className="card d-flex flex-column mt-5 mb-4" style={{ marginBottom: '', borderRadius:'40px' }} data-aos="fade-up">
-<div className="image-container ">
+<div className="card d-flex flex-column mt-5 mb-4" data-aos="fade-up" >
+<div className="">
     {/* Use Link to navigate to the product details page */}
-    <Link to={`/product/${index}`}>
-            <img src={product.image} className="card-img-top" width={'300px'} height={'250px'} alt={product.name} />
+    <Link to={`/product/${product.id}`}>
+            <img src={product.image} className="card-img-top woman" width={'300px'} height={'250px'} alt={product.name} />
             </Link>
           </div>
-          <div className="onhover flex-grow-1">
-          <img src={product.image} className="card-img-top" width={'300px'} height={'250px'} alt={product.name} data-aos="fade-up"/>
-          </div>
-            <div className="card-body mt-4">
+          
+            <div className="card-body mt-0" style={{height:'100px'}}>
               <h5 className="card-title">{product.name}</h5>
-              <p className="card-text">{product.description}</p>
+              
               <p className="card-text">{product.price}</p>
             </div>
-         
+     
           </div>
    </div>
     ))}
