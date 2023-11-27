@@ -25,6 +25,11 @@ import SearchPage from './component/searchpg';
 import Ani from './component/animat';
 import YES from './component/sco';
 import BottomNavbar from './css/bottomnav';
+import SimpleSlider from './component/animat';
+import AutoPlay from './component/sco';
+
+
+
 function App() {
   const [cartItems, setCartItems] = useState([]); // Define cart state
   const [searchError, setSearchError] = useState(false); // State for search error
@@ -34,7 +39,7 @@ function App() {
       <Header cartItems={cartItems}  />
     
       <Routes>
-         <Route path='/' element={<Home cartItems={cartItems} setCartItems={setCartItems}/>} />
+         <Route path='/' element={<  SimpleSlider  cartItems={cartItems} setCartItems={setCartItems}/>} />
          <Route path='/visit' element={<Visit />} />
         
          <Route path='/product/:id' element={<ProductDetails cartItems={cartItems} setCartItems={setCartItems} />} />
@@ -49,9 +54,12 @@ function App() {
          <Route path='/checkout' element={<Checkout />} />
          <Route path="/searchpg/:query" element={<SearchPage searchError={searchError} />} />
       </Routes>
-      <Testimonials />
+      
+      {/* <AutoPlay />
+      <Testimonials /> */}
       {/* <YES /> */}
       <Text />
+    
       <WhatsAppLink />
       <Footer />
       <BottomNavbar />

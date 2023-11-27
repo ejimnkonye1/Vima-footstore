@@ -1,44 +1,66 @@
-// Inside your React component (Ani.js)
-import React from "react";
-import '../css/aninat.css';
+import React, { Component } from "react";
+import Slider from "react-slick";
+import img2 from '../images/leather-sandals-pair-colors-sea-removebg.png';
+import img3 from '../images/29210__1_-removebg-preview.png';
 import img1 from '../images/brown-man-s-leather-derby-shoes-removebg-preview.png'
-import img2 from '../images/leather-sandals-pair-colors-sea-removebg.png'
-import img3 from '../images/soft-woolen-baby-booties-handmade-with-elegance-generated-by-ai-removebg.png'
+import Proudcts from "./product";
+import { Link } from "react-router-dom";
+import AutoPlay from "./sco";
+import Testimonials from "./testmonial";
 
-const Ani = () => {
+class CustomSlide extends Component {
+  render() {
+    const { index, imageSrc, ...props } = this.props;
     return (
-        <div className="container-fluid cont p-5">
-        <section className="ani">
-            <div className="slider-wrapper">
-                <div className="slider">
-                    <div className="slide">
-                        <div className="slide-content">
-                            <img id="slide-1" src={img1} alt="Slide 1" />
-                            <p>LET MAKE</p>
-                        </div>
-                    </div>
-                    <div className="slide">
-                        <div className="slide-content">
-                            <img id="slide-2" src={img2} height={'80%'} alt="Slide 2" />
-                            <p>OUR HOPE YOUR</p>
-                        </div>
-                    </div>
-                    <div className="slide">
-                        <div className="slide-content">
-                            <img id="slide-3" src={img3} alt="Slide 3" />
-                            <p>WE HAVE</p>
-                        </div>
-                    </div>
-                </div>
-                <div className="slider-nav">
-                    <a href="#slide-1"></a>
-                    <a href="#slide-2"></a>
-                    <a href="#slide-3"></a>
-                </div>
-            </div>
-        </section>
-        </div>
+      <div {...props}>
+        <img src={imageSrc} alt={`Slide ${index}`} style={{ width: '90%', height: 'auto' }} className="img-fluid" />
+      </div>
     );
+  }
 }
 
-export default Ani;
+export default class SimpleSlider extends Component {
+    
+  render() {
+    const { cartItems, setCartItems } = this.props;
+    const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    autoplay: true,
+      autoplaySpeed: 2000,
+      pauseOnHover: true
+  };
+
+    const images = [img1, img3];
+
+    return (
+        <div>
+      <div className="" style={{backgroundColor:'gray', marginTop:'80px', overflow:'hidden'}}>
+        
+        <Slider {...settings}>
+          {images.map((image, index) => (
+            <CustomSlide key={index} index={index + 1} imageSrc={image}  />
+          ))}
+        </Slider>
+      </div>
+      <Proudcts cartItems={cartItems} setCartItems={setCartItems} />
+    {/* <Visit /> */}
+    <div className='d-flex justify-content-center mb-4'>
+    <Link to='/Cat'>
+      <button  className='btn btn-danger '>
+        
+       
+        VIEW ALL
+       
+        </button>
+        </Link>
+    </div>
+    <AutoPlay />
+    <Testimonials />
+      </div>
+    );
+  }
+}

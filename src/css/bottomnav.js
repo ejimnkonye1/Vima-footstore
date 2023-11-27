@@ -16,7 +16,7 @@ function BottomNavbar({ }) {
             </Link>
           </li>
           <li className="nav-item text-center">
-            <Link to="/shop" className="nav-link">
+            <Link to="/Cat" className="nav-link">
               <i className="fas fa-store"></i>
               <div>Shop</div>
             </Link>
@@ -29,7 +29,7 @@ function BottomNavbar({ }) {
             </Link>
           </li>
           <li className="nav-item text-center">
-            <Link to="/account" className="nav-link">
+            <Link to="/login" className="nav-link">
               <i className="fas fa-user"></i>
               <div>Account</div>
             </Link>

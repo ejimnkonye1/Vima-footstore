@@ -120,8 +120,9 @@ return(
         </div>
       </div>
     </div>
-    <Testimonials />
+    < div className="mt-5">
     <Recommend />
+    </div>
   </div>
 )
 }
