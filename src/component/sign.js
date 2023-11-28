@@ -52,7 +52,7 @@ const SignUp = () => {
         })
           .then(() => {
             console.log('User profile updated successfully:', user);
-            navigate('/account');
+            navigate('/');
           })
           .catch((profileError) => {
             console.error('Error updating user profile:', profileError);

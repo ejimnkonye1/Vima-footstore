@@ -35,7 +35,7 @@ const Login = () => {
             .then((userCredential) => {
               const user = userCredential.user;
               console.log('User signed in:', user);
-              navigate('/account');
+              navigate('/');
             })
             .catch((error) => {
               console.error('Sign-in error:', error);
