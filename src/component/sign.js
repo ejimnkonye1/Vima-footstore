@@ -52,7 +52,7 @@ const SignUp = () => {
         })
           .then(() => {
             console.log('User profile updated successfully:', user);
-            navigate('/dashboard');
+            navigate('/account');
           })
           .catch((profileError) => {
             console.error('Error updating user profile:', profileError);
@@ -70,6 +70,7 @@ const SignUp = () => {
 
     return(
         <div className="container">
+          
             <div className="d-grid justify-content-center" style={{marginTop:'250px'}}>
                 <h3 className="text-center">Create Account</h3>
             <form name="" method="" action="" onSubmit={handleSignUp}>
