@@ -61,7 +61,7 @@ const Men = ({ cartItems, setCartItems }) => {
     {currentProductsPage.map((product, id) => (
    <div key={id} className="col-6 col-md-4 col-lg-3">
 
-<div className="card d-flex flex-column mt-5 mb-4 bod" data-aos="fade-up" >
+<div className=" d-flex flex-column mt-5 mb-4 bod" data-aos="fade-up" >
 
           <div className="">
           <Link to={`/product/${product.id}`}>

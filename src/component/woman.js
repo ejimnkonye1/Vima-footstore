@@ -61,7 +61,7 @@ const Woman = ({cartItems, setCartItems}) => {
     {currentProductsPage.map((product, id) => (
    <div key={id} className="col-6 col-md-4 col-lg-3">
 
-<div className="card d-flex flex-column mt-5 mb-4" data-aos="fade-up" >
+<div className=" d-flex flex-column mt-5 mb-4 " data-aos="fade-up" >
 <div className="">
     {/* Use Link to navigate to the product details page */}
     <Link to={`/product/${product.id}`}>
@@ -69,7 +69,7 @@ const Woman = ({cartItems, setCartItems}) => {
             </Link>
           </div>
           
-            <div className="card-body mt-0" style={{height:'100px'}}>
+            <div className="card-body mt-0 " style={{height:'100px'}}>
               <h5 className="card-title">{product.name}</h5>
               
               <p className="card-text">{product.price}</p>

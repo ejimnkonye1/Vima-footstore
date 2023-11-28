@@ -38,7 +38,7 @@ const Womandata = [
   {
     id: 23,
     name: 'Product 5',
-    image: img5,
+    image: img9,
     price: '19.99',
   },
   {
@@ -69,6 +69,12 @@ const Womandata = [
     id: 28,
     name: 'Product 10',
     image: img10,
+    price: '19.99',
+  },
+  {
+    id: 29,
+    name: 'Product 11',
+    image: img11,
     price: '19.99',
   },
   {

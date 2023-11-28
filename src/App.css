@@ -69,10 +69,23 @@ a{
   .page-item.disabled {
     margin-left: 0 !important;
   }
+  .page-item{
+    margin-left: 0 !important;
+  }
   .ada{
     height: 150px;
     width: 150px;
   }
+  .we{
+    height: 150px;
+  }
 }
 
 
+
+@media (max-width: 400px) {
+  .woman{
+   
+    height: 150px;
+  }
+}
