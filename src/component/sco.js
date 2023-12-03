@@ -55,9 +55,9 @@ export default class AutoPlay extends Component {
           {products.map((product) => (
             <div key={product.id}>
               <img src={product.image} alt={product.name} width={'200'} height={'200'} className="ada"/>
-              <h3>{product.name}</h3>
-              <p>Price: ${product.price}</p>
-              <button onClick={() => this.addToCart(product)}>Add to Cart</button>
+              <h5>{product.name}</h5>
+              <p className="text-danger">NGN:{product.price}</p>
+              <button className="btn btn-success" onClick={() => this.addToCart(product)}>Add to Cart</button>
             </div>
           ))}
         </Slider>

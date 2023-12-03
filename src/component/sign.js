@@ -36,7 +36,10 @@ const SignUp = () => {
     
     return isEmailValid && isPasswordValid && isUserNameValid;
   };
-  
+  const handleInputChange = () => {
+    // Clear error message when the user interacts with the input fields
+    setError(null);
+  };
   const handleSignUp = (e) => {
     e.preventDefault();
     const isFormValid = validateForm();
@@ -52,7 +55,7 @@ const SignUp = () => {
         })
           .then(() => {
             console.log('User profile updated successfully:', user);
-            navigate('/');
+            navigate('/account');
           })
           .catch((profileError) => {
             console.error('Error updating user profile:', profileError);
@@ -82,7 +85,7 @@ const SignUp = () => {
                      id="fname"
                     className="int" 
                     required
-                    onChange={(e) => setFirstName(e.target.value)}
+                    onChange={(e) => { setFirstName(e.target.value); handleInputChange(); }}
                    
                        />
                     <br />
@@ -93,7 +96,8 @@ const SignUp = () => {
                      id="lname" 
                      className="int"
                      required
-                     onChange={(e) => setLastName(e.target.value)} 
+                     onChange={(e) => { setLastName(e.target.value); handleInputChange(); }}
+
                      />
                     <br />
                     <label for='email'>Email</label>
@@ -103,7 +107,7 @@ const SignUp = () => {
                      id="email" 
                      className="int"
                      required
-                     onChange={(e) => setEmail(e.target.value)} 
+                     onChange={(e) => { setEmail(e.target.value); handleInputChange(); }}
                        />
                     <br/>
                     <label for='password'>Password</label>
@@ -114,7 +118,7 @@ const SignUp = () => {
                      className="int" 
                      required  
                      minLength={'8'}
-                     onChange={(e) => setPassword(e.target.value)}
+                     onChange={(e) => { setPassword(e.target.value); handleInputChange(); }}
                       />
                 </div>
                  <button type="submit" className="btn btn-danger mt-3 sign">

@@ -81,7 +81,7 @@ const updateQuantity = (item, increment) => {
   };
 
   return (
-    <div className='mt-5' style={{marginTop:'200px'}}>
+    <div className='mt-5' style={{marginTop:'100px'}}>
     
       <div className="container mt-5" style={{marginTop:'100px'}}>
       <div className='mb-3' style={{marginTop:'200px'}}>
@@ -162,10 +162,10 @@ const updateQuantity = (item, increment) => {
   </table>
   <table className="table d-md-none"> {/* Display on small screens */}
   <thead>
-    <tr className='text-center'>
-      <th className='border'>Image</th>
-      <th className='border'>Name</th>
-      <th className='border'>Total</th>
+    <tr className=''>
+      <th className=''>Image</th>
+      <th className=''>Name</th>
+      <th className=''>Total</th>
     
     </tr>
   </thead>
@@ -176,7 +176,7 @@ const updateQuantity = (item, increment) => {
           <img
             src={item.image}
             className="img-fluid"
-            style={{ width: '100px' }}
+            style={{ width: '50px' }}
             alt={item.name}
           />
         </td>
@@ -223,9 +223,9 @@ const updateQuantity = (item, increment) => {
     </div>
    <div className='d-flex justify-content-end'>
   
-    <Link to={'/checkout'}>
+    <Link to={'/'}>
    
-    <p className="btn btn-danger mt-3"> Proceed to checkout </p>
+    <p className="btn btn-danger mt-3" onClick={handleCheckoutClick}> Proceed to checkout </p>
   </Link>
  
    </div>
@@ -238,5 +238,7 @@ const updateQuantity = (item, increment) => {
     </div>
   );
 }
-
+const handleCheckoutClick = () => {
+  alert('Checkout page in progress!');
+};
 export default Cart;

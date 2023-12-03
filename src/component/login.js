@@ -35,7 +35,7 @@ const Login = () => {
             .then((userCredential) => {
               const user = userCredential.user;
               console.log('User signed in:', user);
-              navigate('/');
+              navigate('/account');
             })
             .catch((error) => {
               console.error('Sign-in error:', error);
@@ -47,16 +47,25 @@ const Login = () => {
       const location = useLocation();
         // Check if there is a state indicating reset success
   const resetSuccess = location.state && location.state.resetSuccess;
-
+  const handleInputChange = () => {
+    // Clear error message when the user interacts with the input fields
+    setError(null);
+  };
 
     return(
         <div className="container">
             <div className="d-grid justify-content-center" style={{marginTop:'250px'}}>
-            {resetSuccess && (
-        <div className="int alert alert-success mt-3" role="alert">
-        We've sent you an email with a link to update your password.
-        </div>
-      )}
+            {resetSuccess ? (
+          <div className="int alert alert-success mt-3" role="alert">
+            We've sent you an email with a link to update your password.
+          </div>
+        ) : (
+          error && (
+            <div className="int alert alert-danger mt-3" role="alert">
+              {error}
+            </div>
+          )
+        )}
                 <h3 className="text-center">Login</h3>
               
             <form name="" method="" action="" onSubmit={handleSignIn}>
@@ -67,7 +76,7 @@ const Login = () => {
                     name="email" 
                     id="email"  
                     className="int" 
-                    onChange={(e) => setEmail(e.target.value)}
+                    onChange={(e) => { setEmail(e.target.value); handleInputChange(); }}
                     required
                     />
                     <br/>
@@ -77,7 +86,7 @@ const Login = () => {
                      name="password" 
                      id="password"
                       className="int" 
-                      onChange={(e) => setPassword(e.target.value)}
+                      onChange={(e) => { setPassword(e.target.value); handleInputChange(); }}
                       minLength={'8'}
                       required
                       />

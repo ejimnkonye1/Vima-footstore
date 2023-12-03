@@ -201,3 +201,14 @@
  
    }
 }
+@media (max-width: 400px) {
+  .offcanvas {
+    width: 20%;
+  }
+  .custom-offcanvas {
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+}

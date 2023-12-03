@@ -1,4 +1,6 @@
-
+.pro img{
+  height: 50%;
+}
 
   @media (max-width: 768px) {
     .card {
@@ -7,12 +9,12 @@
     }
   
     .card img {
-      width: 100%; /* Set image width to 100% for smaller screens */
-      height: auto; /* Allow image height to adjust proportionally */
+      width: 100%; 
+      height: auto;
     }
   
     .row {
-      width: 110%; /* Set row width to 100% for smaller screens */
+      width: 110%; 
     }
   
     /* Add this to your CSS file */

@@ -5,16 +5,18 @@ import Womandata from "./womanimg";
 import { useParams } from "react-router-dom";
 import { useState } from "react";
 
+
 import '../css/productdetails.css'
 import Recommend from "./recommended";
 import Testimonials from "./testmonial";
+
 const ProductDetails = ({cartItems, setCartItems}) => {
     const { id } = useParams(); // Get the product ID from the route params
     const allProducts = [...productdata,  ...Mendata,  ...Womandata];
     const product = allProducts[Number(id)];
     const [selectedSize, setSelectedSize] = useState("");
   const [quantity, setQuantity] = useState(1); // Default quantity is 1
-  
+
     if (!product) {
       return <div>Product not found</div>;
     }
@@ -22,7 +24,9 @@ const ProductDetails = ({cartItems, setCartItems}) => {
       // Check if a size is selected
       if (!selectedSize) {
         alert("Please select a size");
+        
         return;
+     
       }
     
       // Check if the product is already in the cart
@@ -46,7 +50,7 @@ const ProductDetails = ({cartItems, setCartItems}) => {
 return(
     <div className="container mt-5" style={{marginTop:'400px'}}>
     <div className="row" style={{marginTop:'200px'}}>
-      <div className="col-md-6  ">
+      <div className="col-md-6  d-flex justify-content-center">
         <img
           src={product.image}
           alt={product.name}

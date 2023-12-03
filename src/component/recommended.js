@@ -30,8 +30,9 @@ export default class AutoPlay extends Component {
       {
         breakpoint: 480,
         settings: {
-          slidesToShow: 2,
-          slidesToScroll: 1
+          slidesToShow: 1,
+          slidesToScroll: 1,
+         
         }
       }
     ]
@@ -53,11 +54,11 @@ export default class AutoPlay extends Component {
         
         <Slider {...settings}>
           {products.map((product) => (
-            <div key={product.id}>
+            <div key={product.id} className="mt-5">
               <img src={product.image} alt={product.name} width={'200'} height={'200'} className="ada"/>
-              <h3>{product.name}</h3>
-              <p>Price: ${product.price}</p>
-              <button onClick={() => this.addToCart(product)}>Add to Cart</button>
+              <h5>{product.name}</h5>
+              <p className="text-success">NGN{product.price}</p>
+              <button className="btn btn-danger" onClick={() => this.addToCart(product)}>Add to Cart</button>
             </div>
           ))}
         </Slider>

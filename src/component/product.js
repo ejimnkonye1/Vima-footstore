@@ -35,7 +35,7 @@ return(
   <div className="row mt-5 mb-4 justify-content-center">
     {productdata.map((product, index) => (
       <div key={product.id} className="col-4 col-sm-6 col-md-4 col-lg-3">
-        <div className=" d-flex flex-column mt-5 mb-4" data-aos="fade-up">
+        <div className=" d-flex flex-column mt-3 mb-2" data-aos="fade-up">
           <div className="">
             <Link to={`/product/${index}`}>
               <img src={product.image} className="img-fluid" alt={product.name} />
@@ -43,7 +43,7 @@ return(
           </div>
           <div className="card-body mt-4 "  style={{ height: "90px", width:'100%' }}>
             <p className="card-title text-truncate">{product.name}</p>
-            <p className="card-text text-danger">NGN{product.price}</p>
+            <p className="card-text text-danger mt-1">NGN:{product.price}</p>
           </div>
         </div>
       </div>
