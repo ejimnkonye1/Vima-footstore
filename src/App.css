@@ -12,7 +12,7 @@ a{
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   z-index: 1000;
   cursor: pointer;
-  margin-bottom: 60px;
+  /* margin-bottom: 60px; */
 }
 
 .my-float {
@@ -32,7 +32,9 @@ a{
     list-style: none;
     display: inline;
   }
-
+.float {
+  margin-bottom: 20px;
+}
 }
 
 

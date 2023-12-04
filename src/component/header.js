@@ -9,7 +9,7 @@ const Header = ({cartItems}) => {
   const [searchQuery, setSearchQuery] = useState("");
   const navigate = useNavigate();
   const [searchError, setSearchError] = useState(false); // State for search error
-
+  const [isOffcanvasVisible, setOffcanvasVisible] = useState(false);
   const handleSearch = () => {
     const query = searchQuery.toLowerCase().trim();
     if (query) {
@@ -27,9 +27,14 @@ const Header = ({cartItems}) => {
   const toggleSearch = () => {
     setSearchVisible(!isSearchVisible);
   };
+  
+  const closeOffcanvas = () => {
+    const offcanvas = document.getElementById('offcanvasWithBothOptions');
+    offcanvas.classList.remove('show'); // Remove the 'show' class to hide the offcanvas
+  };
   return (
     
-    <div className="navbar navbar-expand-lg navbar-light bg-light fixed-top border-bottom ">
+    <div className="navbar navbar-expand-lg navbar-light bg-light  border-bottom ">
       <div className="container">
         <Link to="/" className="navbar-brand">
           <img
@@ -73,16 +78,17 @@ const Header = ({cartItems}) => {
             <div className='justify-content-center'>
             <ul className="navbar-nav" id="navbar-nav">
         <li className="nav-item">
-      <Link to="/" className="nav-link">Home</Link>
+      <Link to="/" className="nav-link"  onClick={closeOffcanvas}>Home</Link>
     </li>
     <li className="nav-item">
-      <Link to="/Man" className="nav-link">Men</Link>
+            <Link to="/Man" className="nav-link" onClick={closeOffcanvas}>Men</Link>
+          </li>
+
+    <li className="nav-item">
+      <Link to="/Woman" className="nav-link"  onClick={closeOffcanvas}>Women</Link>
     </li>
     <li className="nav-item">
-      <Link to="/Woman" className="nav-link">Women</Link>
-    </li>
-    <li className="nav-item">
-      <Link to="/Cat" className="nav-link">Catalog</Link>
+      <Link to="/Cat" className="nav-link"  onClick={closeOffcanvas}>Catalog</Link>
     </li>
   </ul>
           </div>

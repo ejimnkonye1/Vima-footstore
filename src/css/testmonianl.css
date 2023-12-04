@@ -43,3 +43,30 @@
       justify-content: center;
     }
   }
+  /* Common styles for both big and small screens */
+
+.testimonials {
+  /* Common styles go here */
+}
+
+/* Styles specific to big screens */
+@media (min-width: 768px) {
+  .big-screen {
+    /* Styles for big screens go here */
+  }
+
+  .small-screen {
+    display: none; /* Hide small-screen layout on big screens */
+  }
+}
+
+/* Styles specific to small screens */
+@media (max-width: 767px) {
+  .big-screen {
+    display: none; /* Hide big-screen layout on small screens */
+  }
+
+  .small-screen {
+    /* Styles for small screens go here */
+  }
+}

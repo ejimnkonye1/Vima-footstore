@@ -1,3 +1,11 @@
+.offcanvas.show {
+
+}
+
+.offcanvas-backdrop.show {
+  display: none;
+}
+
 .search-container {
   position: relative;
 }

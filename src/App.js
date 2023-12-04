@@ -22,11 +22,11 @@ import Checkout from './component/checkout';
 import WhatsAppLink from './component/whatsapp';
 import 'font-awesome/css/font-awesome.min.css';
 import SearchPage from './component/searchpg';
-import Ani from './component/animat';
-import YES from './component/sco';
+import Ani from './component/home';
+import YES from './component/autoplayproduct';
 import BottomNavbar from './component/bottomnav';
-import SimpleSlider from './component/animat';
-import AutoPlay from './component/sco';
+import SimpleSlider from './component/home';
+import AutoPlay from './component/autoplayproduct';
 import { auth } from "./Firebase"; // Import Firebase auth object
 
 const Loader = () => (
@@ -110,7 +110,7 @@ function App() {
     
       <WhatsAppLink />
       <Footer />
-      <BottomNavbar />
+      {/* <BottomNavbar /> */}
       </Layout>
     </BrowserRouter>
    

@@ -1,6 +1,6 @@
 #foot{
     background-color: #0e1b4d;
-    color: white;
+    color: grey;
     width: 100%;
 }
 .input-container {
@@ -84,7 +84,7 @@
         transform: translateX(-50%);
 }
 #links ul li{
-font-size: xx-small;
+font-size: 60%;
 
 margin-left: 10PX;
 

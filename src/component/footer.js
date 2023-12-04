@@ -56,31 +56,31 @@ const Footer = () => {
             <div className="navbar navbar-expand-lg p-4" id="links" data-aos="fade-up">
              <ul className="navbar-nav ml-auto d-flex flex-row">
              <li className="nav-item">
-             <Link to="/" className="nav-link" style={{color:'white'}}>
+             <Link to="#ss" className="nav-link" style={{color:'grey'}}>
              © 2023, vimafootstore.Ng
                 </Link>
                 </li>
                 
              <li>
-             <Link to="/" className="nav-link"style={{color:'white'}}>
+             <Link to="#ss" className="nav-link"style={{color:'grey'}}>
              Refund policy
                 </Link>
                  </li>
 
              <li className="nav-item">
-             <Link to="/" className="nav-link" style={{color:'white'}}>
+             <Link to="#dd" className="nav-link" style={{color:'grey'}}>
              Terms of service
 
                 </Link>
                 </li>
              <li className="nav-item">
-             <Link to="/" className="nav-link"style={{color:'white'}}>
+             <Link to="#dd" className="nav-link"style={{color:'grey'}}>
              Shipping policy
 
                 </Link> 
                 </li>
                 <li className="nav-item">
-             <Link to="/" className="nav-link"style={{color:'white'}}>
+             <Link to="#dd" className="nav-link"style={{color:'grey'}}>
              Contact information
 
                 </Link> 

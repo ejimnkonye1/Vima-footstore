@@ -6,6 +6,11 @@ import img6 from '../images/men6.jpg';
 import img7 from '../images/men7.jpg';
 import img8 from '../images/men8.jpg';
 import img9 from '../images/boy.jpg';
+import img10 from '../images/men9.jpg';
+import img11 from '../images/men10.jpg';
+import img12 from '../images/men11.jpg';
+import img13 from '../images/men12.jpg';
+import img14 from '../images/pro6.jpg';
 
 const Mendata = [
   {
@@ -49,6 +54,36 @@ const Mendata = [
     name: 'Product 7',
     image: img9,
     price: '5000',
+  },
+  {
+    id: 19,
+    name: 'Product 8',
+    image: img10,
+    price: '5000',
+  },
+  {
+    id: 20,
+    name: 'Product 9',
+    image: img11,
+    price: '6000',
+  },
+  {
+    id: 21,
+    name:'Product 10',
+    image: img13,
+    price: '9000',
+  },
+  {
+    id: 22,
+    name: 'Product 11',
+    image: img12,
+    price: '8000',
+  },
+    {
+    id: 23,
+    name: 'Product 12',
+    image: img14,
+    price: '9000',
   },
 ];
 export default Mendata;

@@ -8,6 +8,8 @@ const Woman = ({cartItems, setCartItems}) => {
     const [currentProducts, setCurrentProducts] = useState(Womandata);
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 15; // Number of products to display per page
+  const [totalProducts, setTotalProducts] = useState(Womandata.length);
+  
 
   // Calculate the index range for the current page
   const indexOfLastProduct = currentPage * productsPerPage;
@@ -49,17 +51,17 @@ const Woman = ({cartItems, setCartItems}) => {
     });
   }, []);
     return(
-        <section className="" style={{marginTop:'150px'}}>
-            <div className=" border-bottom p-5">
+        <section className="" style={{marginTop:'40px'}}>
+            <div className=" border-bottom p-4">
                 <h4 className="text-center">Women</h4>
                 <p className="text-center">Here we'll find beautiful design shoes, slippers and sandals for Woman... Happy Shopping</p>
             </div>
-            <h5 className="text-center mt-2 mb-4 border-bottom p-2">100 products</h5>
+            <h5 className="text-center mt-3 mb-2 border-bottom p-2"style={{fontSize:'100%', color:'grey', fontFamily:'initial'}}>{totalProducts} products</h5>
         <div className="container mt-4">
    
    <div className="row mt-5 mb-4">
     {currentProductsPage.map((product, id) => (
-   <div key={id} className="col-6 col-md-4 col-lg-3">
+   <div key={id} className="col-4 col-md-4 col-lg-3">
 
 <div className=" d-flex flex-column mt-5 mb-4 " data-aos="fade-up" >
 <div className="">
@@ -72,7 +74,7 @@ const Woman = ({cartItems, setCartItems}) => {
             <div className="card-body mt-0 " style={{height:'100px'}}>
               <h5 className="card-title">{product.name}</h5>
               
-              <p className="card-text">{product.price}</p>
+              <p className="card-text mt-1">{product.price}</p>
             </div>
      
           </div>

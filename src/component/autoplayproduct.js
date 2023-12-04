@@ -37,14 +37,14 @@ export default class AutoPlay extends Component {
     ]
   };
 
-    const products = [
-      { id: 1, name: "Product 1", price: 20, image: img1 },
-      { id: 2, name: "Product 2", price: 30, image: img2 },
-      { id: 3, name: "Product 3", price: 25, image: img3 },
-      { id: 4, name: "Product 4", price: 40, image: img4 },
-      { id: 5, name: "Product 5", price: 35, image: img5 },
-      { id: 6, name: "Product 6", price: 50, image: img6 },
-      { id: 7, name: "Product 7", price: 45, image: img7 },
+    const autoproducts = [
+      { id: 1, name: "Product 1", price: 4000, image: img1 },
+      { id: 2, name: "Product 2", price: 3000, image: img2 },
+      { id: 3, name: "Product 3", price: 2500, image: img3 },
+      { id: 4, name: "Product 4", price: 4000, image: img4 },
+      { id: 5, name: "Product 5", price: 3500, image: img5 },
+      { id: 6, name: "Product 6", price: 5000, image: img6 },
+      { id: 7, name: "Product 7", price: 4500, image: img7 },
     ];
 
     return (
@@ -52,7 +52,7 @@ export default class AutoPlay extends Component {
       
         
         <Slider {...settings}>
-          {products.map((product) => (
+          {autoproducts.map((product) => (
             <div key={product.id}>
               <img src={product.image} alt={product.name} width={'200'} height={'200'} className="ada"/>
               <h5>{product.name}</h5>

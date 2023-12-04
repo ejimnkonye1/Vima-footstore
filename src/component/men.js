@@ -8,6 +8,7 @@ const Men = ({ cartItems, setCartItems }) => {
   const [currentProducts, setCurrentProducts] = useState(Mendata);
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 15; // Number of products to display per page
+  const [totalProducts, setTotalProducts] = useState(Mendata.length);
 
   // Calculate the index range for the current page
   const indexOfLastProduct = currentPage * productsPerPage;
@@ -49,29 +50,29 @@ const Men = ({ cartItems, setCartItems }) => {
     });
   }, []);
     return(
-        <section className="" style={{marginTop:'150px'}}>
-            <div className=" border-bottom p-5">
+        <section className="" style={{marginTop:'30px'}}>
+            <div className=" border-bottom p-3">
                 <h4 className="text-center">Men</h4>
                 <p className="text-center">Here we'll find beautiful design shoes, slippers and sandals for men... Happy Shopping</p>
             </div>
-            <h5 className="text-center mt-2 mb-4 border-bottom p-2">100 products</h5>
+            <h5 className="text-center mt-2 mb-4 border-bottom p-2" style={{fontSize:'100%', color:'grey', fontFamily:'initial'}}>{totalProducts} products</h5>
         <div className="container mt-4">
    
    <div className="row mt-5 mb-4 ">
     {currentProductsPage.map((product, id) => (
-   <div key={id} className="col-6 col-md-4 col-lg-3">
+   <div key={id} className="col-4 col-md-4 col-lg-3">
 
-<div className=" d-flex flex-column mt-5 mb-4 bod" data-aos="fade-up" >
+<div className=" d-flex flex-column mt-3 mb-2 bod" data-aos="fade-up" >
 
           <div className="">
           <Link to={`/product/${product.id}`}>
-          <img src={product.image} className="card-img-top men" width={'70%'} height={'250px'} alt={product.name} data-aos="fade-up"/>
+          <img src={product.image} className="card-img-top men" width={'70%'} height={'280px'} alt={product.name} data-aos="fade-up"/>
           </Link>
           </div>
             <div className="card-body mt-0"style={{height:'100px'}}>
               <p className="card-title text-success">{product.name}</p>
 
-              <p className="card-text text-danger">NGN{product.price}</p>
+              <p className="card-text text-danger mt-1">NGN{product.price}</p>
             </div>
            
           </div>

@@ -48,14 +48,14 @@ const ProductDetails = ({cartItems, setCartItems}) => {
     };
     
 return(
-    <div className="container mt-5" style={{marginTop:'400px'}}>
-    <div className="row" style={{marginTop:'200px'}}>
-      <div className="col-md-6  d-flex justify-content-center">
+    <div className="container mt-5" style={{marginTop:'40px'}}>
+    <div className="row" style={{marginTop:'40px'}}>
+      <div className="col-md-6 ">
         <img
           src={product.image}
           alt={product.name}
           className="img-fluid"
-          style={{ height: "", width: "300px",  }}
+          style={{ height: "", width: "400px",  }}
         />
       </div>
       <div className="col-md-6  ">

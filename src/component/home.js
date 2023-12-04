@@ -1,78 +1,54 @@
-import React, { useState, useEffect } from 'react';
-import img0 from '../images/soft-woolen-baby-booties-handmade-with-elegance-generated-by-ai-removebg.png';
-
-import img73 from '../images/soft-woolen-baby-booties-handmade-with-elegance-generated-by-ai-removebg.png';
-import Proudcts from './product';
-import Visit from './visit';
-import '../css/home.css';
-import AOS from "aos";
-import 'aos/dist/aos.css';
-import '../css/aninat.css';
+import React, { Component } from "react";
+import Slider from "react-slick";
+import img2 from '../images/leather-sandals-pair-colors-sea-removebg.png';
+import img3 from '../images/29210__1_-removebg-preview.png';
 import img1 from '../images/brown-man-s-leather-derby-shoes-removebg-preview.png'
-import img2 from '../images/leather-sandals-pair-colors-sea-removebg.png'
-import img3 from '../images/soft-woolen-baby-booties-handmade-with-elegance-generated-by-ai-removebg.png'
-import { Link } from 'react-router-dom';
+import Proudcts from "./product";
+import { Link } from "react-router-dom";
+import AutoPlay from "./autoplayproduct";
+import Testimonials from "./testmonial";
 
-const Home = ({ cartItems, setCartItems }) => {
-  
-  
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentImageIndex((prevIndex) => (prevIndex + 1) % 3); // Assuming you have 3 slides
-    }, 5000); // Change the interval as needed (in milliseconds)
+class CustomSlide extends Component {
+  render() {
+    const { index, imageSrc, ...props } = this.props;
+    return (
+      <div {...props}>
+        <img src={imageSrc} alt={`Slide ${index}`} style={{ width: '90%', height: 'auto' }} className="img-fluid" />
+      </div>
+    );
+  }
+}
 
-    return () => clearInterval(interval); // Cleanup the interval on component unmount
-  }, []);
+export default class SimpleSlider extends Component {
+    
+  render() {
+    const { cartItems, setCartItems } = this.props;
+    const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    autoplay: true,
+      autoplaySpeed: 2000,
+      pauseOnHover: true
+  };
 
- 
-  useEffect(() => {
-    AOS.init({
-      // You can customize AOS options here if needed
-      duration: 1000,
-      once: true,
-    });
-  }, []);
-  return (
-    <div>
-   <div className='container-fluid cont p-5'>
-   <section className="ani">
-            <div className="slider-wrapper">
-                <div className="slider">
-                    <div className="slide">
-                        <div className="slide-content">
-                            <img id="slide-1" src={img3} alt="Slide 1" />
-                            <p>LET MAKE</p>
-                        </div>
-                    </div>
-                    <div className="slide">
-                        <div className="slide-content">
-                            <img id="slide-2" src={img2} height={'80%'} alt="Slide 2" />
-                            <p>OUR HOPE YOUR</p>
-                        </div>
-                    </div>
-                    <div className="slide">
-                        <div className="slide-content">
-                            <img id="slide-3" src={img3} alt="Slide 3" />
-                            <p>WE HAVE</p>
-                        </div>
-                    </div>
-                </div>
-                <div className="slider-nav">
-                    <a href="#slide-1"></a>
-                    <a href="#slide-2"></a>
-                    <a href="#slide-3"></a>
-                </div>
-            </div>
-        </section>
+    const images = [img1, img3];
 
-</div>
-
-
-    <Proudcts cartItems={cartItems} setCartItems={setCartItems} />
+    return (
+        <div>
+      <div className="" style={{backgroundColor:'gray', marginTop:'', overflow:'hidden'}}>
+        
+        <Slider {...settings}>
+          {images.map((image, index) => (
+            <CustomSlide key={index} index={index + 1} imageSrc={image}  />
+          ))}
+        </Slider>
+      </div>
+      <Proudcts cartItems={cartItems} setCartItems={setCartItems} />
     {/* <Visit /> */}
-    <div className='d-flex justify-content-center'>
+    <div className='d-flex justify-content-center mb-4'>
     <Link to='/Cat'>
       <button  className='btn btn-danger '>
         
@@ -82,8 +58,9 @@ const Home = ({ cartItems, setCartItems }) => {
         </button>
         </Link>
     </div>
-    </div>
-  );
-};
-
-export default Home;
+    <AutoPlay />
+    <Testimonials />
+      </div>
+    );
+  }
+}
