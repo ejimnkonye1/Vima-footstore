@@ -52,24 +52,24 @@ const Men = ({ cartItems, setCartItems }) => {
     return(
         <section className="" style={{marginTop:'30px'}}>
             <div className=" border-bottom p-3">
-                <h4 className="text-center">Men</h4>
+                <h4 className="text-center text-danger">Men</h4>
                 <p className="text-center">Here we'll find beautiful design shoes, slippers and sandals for men... Happy Shopping</p>
             </div>
-            <h5 className="text-center mt-2 mb-4 border-bottom p-2" style={{fontSize:'100%', color:'grey', fontFamily:'initial'}}>{totalProducts} products</h5>
+            <h5 className="text-center mt-2 mb-4 border-bottom p-2 text-success" style={{fontSize:'100%', color:'grey', fontFamily:'initial'}}>{totalProducts} products</h5>
         <div className="container mt-4">
    
    <div className="row mt-5 mb-4 ">
     {currentProductsPage.map((product, id) => (
    <div key={id} className="col-4 col-md-4 col-lg-3">
 
-<div className=" d-flex flex-column mt-3 mb-2 bod" data-aos="fade-up" >
+<div className=" d-flex flex-column mt-3 mb-2"   data-aos="fade-up" >
 
           <div className="">
           <Link to={`/product/${product.id}`}>
-          <img src={product.image} className="card-img-top men" width={'70%'} height={'280px'} alt={product.name} data-aos="fade-up"/>
+          <img src={product.image} className="img-fluid men"   alt={product.name} />
           </Link>
           </div>
-            <div className="card-body mt-0"style={{height:'100px'}}>
+            <div className="card-body mt-0" style={{ height: "90px", width:'100%' }}>
               <p className="card-title text-success">{product.name}</p>
 
               <p className="card-text text-danger mt-1">NGN{product.price}</p>

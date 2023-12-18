@@ -4,11 +4,12 @@ import Mendata from "./menimg";
 import Womandata from "./womanimg";
 import { useParams } from "react-router-dom";
 import { useState } from "react";
-
+import Recommend from "./recommended";
 
 import '../css/productdetails.css'
-import Recommend from "./recommended";
+
 import Testimonials from "./testmonial";
+import { useNavigate } from "react-router-dom";
 
 const ProductDetails = ({cartItems, setCartItems}) => {
     const { id } = useParams(); // Get the product ID from the route params
@@ -16,6 +17,7 @@ const ProductDetails = ({cartItems, setCartItems}) => {
     const product = allProducts[Number(id)];
     const [selectedSize, setSelectedSize] = useState("");
   const [quantity, setQuantity] = useState(1); // Default quantity is 1
+  const navigate = useNavigate();
 
     if (!product) {
       return <div>Product not found</div>;
@@ -36,6 +38,7 @@ const ProductDetails = ({cartItems, setCartItems}) => {
         // If the product with the selected size exists in the cart, update its quantity
         existingProduct.quantity += quantity;
         setCartItems([...cartItems]);
+        
       } else {
         // If the product is not in the cart, add it with the selected size and quantity
         const newItem = {
@@ -45,6 +48,7 @@ const ProductDetails = ({cartItems, setCartItems}) => {
         };
         setCartItems([...cartItems, newItem]);
       }
+      navigate('/cart')
     };
     
 return(
@@ -60,7 +64,7 @@ return(
       </div>
       <div className="col-md-6  ">
         <div className="" style={{ marginLeft: "20px" }}>
-          <h2 className="mt-4">{product.name}</h2>
+          <h2 className="mt-4 text-danger">{product.name}</h2>
           <p>
      
           </p>
@@ -125,7 +129,7 @@ return(
       </div>
     </div>
     < div className="mt-5">
-    <Recommend />
+    <Recommend cartItems={cartItems} setCartItems={setCartItems}/>
     </div>
   </div>
 )

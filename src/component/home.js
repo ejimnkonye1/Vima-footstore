@@ -58,7 +58,7 @@ export default class SimpleSlider extends Component {
         </button>
         </Link>
     </div>
-    <AutoPlay />
+    <AutoPlay cartItems={cartItems} setCartItems={setCartItems} />
     <Testimonials />
       </div>
     );

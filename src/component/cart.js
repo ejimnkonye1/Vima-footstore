@@ -81,11 +81,11 @@ const updateQuantity = (item, increment) => {
   };
 
   return (
-    <div className='mt-5' style={{marginTop:'100px'}}>
+    <div className='mt-5'>
     
-      <div className="container mt-5" style={{marginTop:'100px'}}>
-      <div className='mb-3' style={{marginTop:'200px'}}>
-      <h3 className='ml-4 mt-3'> Cart</h3>
+      <div className="container mt-5" >
+      <div className='mb-3' style={{marginTop:'50px', marginBottom:'100px'}}>
+      <h3 className='ml-4 mt-3 text-danger'> Cart</h3>
       </div>
       {cartItems.length === 0 ? ( // Check if the cart is empty
           <div className="text-center">

@@ -55,10 +55,10 @@ const Catalog = ({cartItems, setCartItems}) => {
     return(
         <section className="" style={{marginTop:'40px'}}>
             <div className=" border-bottom p-3">
-                <h4 className="text-center">Products</h4>
+                <h4 className="text-center text-danger">Products</h4>
 
             </div>
-            <h5 className="text-center mt-2 mb-4 border-bottom p-2"style={{fontSize:'100%', color:'grey', fontFamily:'initial'}}>{totalProducts} products</h5>
+            <h5 className="text-center mt-2 mb-4 border-bottom p-2 text-success"style={{fontSize:'100%', color:'grey', fontFamily:'initial'}}>{totalProducts} products</h5>
         <div className="container mt-4">
    
         <div className="row mt-5 mb-4">
@@ -69,14 +69,14 @@ const Catalog = ({cartItems, setCartItems}) => {
 <div className="">
     {/* Use Link to navigate to the product details page */}
     <Link to={`/product/${product.id}`}>
-            <img src={product.image} className="card-img-top woman" width={'300px'} height={'250px'} alt={product.name} />
+            <img src={product.image} className="img-fluid woman" alt={product.name} />
             </Link>
           </div>
           
-            <div className="card-body mt-0" style={{height:'100px'}}>
-              <h5 className="card-title">{product.name}</h5>
+            <div className="card-body mt-0"style={{ height: "90px", width:'100%' }}>
+              <p className="card-title text-success">{product.name}</p>
               
-              <p className="card-text mt-1">{product.price}</p>
+              <p className="card-text mt-1 text-danger">NGN{product.price}</p>
             </div>
      
           </div>

@@ -28,6 +28,7 @@ import BottomNavbar from './component/bottomnav';
 import SimpleSlider from './component/home';
 import AutoPlay from './component/autoplayproduct';
 import { auth } from "./Firebase"; // Import Firebase auth object
+import Recommend from './component/recommended';
 
 const Loader = () => (
 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh' }}>
@@ -84,7 +85,7 @@ function App() {
       <Header cartItems={cartItems}  />
 
       <Routes>
-         <Route path='/' element={<  SimpleSlider  cartItems={cartItems} setCartItems={setCartItems}/>} />
+         <Route path='/' element={<  SimpleSlider cartItems={cartItems} setCartItems={setCartItems}/>} />
          <Route path='/visit' element={<Visit />} />
         
          <Route path='/product/:id' element={<ProductDetails cartItems={cartItems} setCartItems={setCartItems} />} />
@@ -100,6 +101,8 @@ function App() {
          <Route path='/resetpaasword' element={<ResetPassword />} />
          <Route path='/cart' element={<Cart cartItems={cartItems} setCartItems={setCartItems}  />} />
          <Route path='/checkout' element={<Checkout cartItems={cartItems}/>} />
+         <Route path='/auto' element={<AutoPlay cartItems={cartItems} setCartItems={setCartItems}  />} />
+         <Route path='/auto' element={<Recommend cartItems={cartItems} setCartItems={setCartItems}  />} />
          <Route path="/searchpg/:query" element={<SearchPage searchError={searchError} />} />
       </Routes>
 
