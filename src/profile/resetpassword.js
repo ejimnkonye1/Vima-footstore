@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { sendPasswordResetEmail } from 'firebase/auth'; // Import the necessary Firebase auth function
 import { auth } from '../Firebase'; // Import the Firebase auth object
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
 import '../css/reset.css';
-
+import Login from './login';
 const ResetPassword = () => {
   
     const [resetSuccess, setResetSuccess] = useState(false);
@@ -17,7 +17,7 @@ const ResetPassword = () => {
         // Password reset email sent successfully
         console.log('Password reset email sent');
         setResetSuccess(true);
-        navigate('/login',{ state: { resetSuccess: true } }); // Use navigate to redirect to the reset-message route
+     
       })
       .catch((error) => {
         // Handle errors
@@ -26,10 +26,20 @@ const ResetPassword = () => {
       
       });
   };
+  useEffect(() => {
+    setTimeout(() => {
+   setResetSuccess(false)
+    }, 2000);
+  }, []);
+  if (resetSuccess) {
+    // Render the Login component directly
+    return <Login resetSuccess={resetSuccess}/>;
+  }
+
 
   return (
     <div className="container">
-    <div className="d-grid justify-content-center" style={{marginTop:'250px'}}>
+    <div className="d-grid justify-content-center" style={{marginTop:'90px'}}>
         <h3 className="text-center">RESET YOUR PASSWORD</h3>
         <p className='mt-2 text-center'>We will send you an email to reset your password.</p>
         <form>   

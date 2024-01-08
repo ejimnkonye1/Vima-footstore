@@ -34,13 +34,13 @@ const Header = ({cartItems}) => {
   };
   return (
     
-    <div className="navbar navbar-expand-lg navbar-light bg-light  border-bottom ">
+    <div className="navbar navbar-expand-lg navbar-light bg-success  border-bottom ">
       <div className="container">
         <Link to="/" className="navbar-brand">
           <img
             src={logo}
             alt="Logo"
-            height="120"
+            height="90"
             className="d-inline-block align-top"
           />
         </Link>
@@ -68,28 +68,35 @@ const Header = ({cartItems}) => {
               />
             </div>
           </form>
-          <div class="offcanvas offcanvas-start custom-offcanvas" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel">
+          <div class="offcanvas offcanvas-start custom-offcanvas " data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel">
   <div class="offcanvas-header">
-    <h5 class="offcanvas-title" id="offcanvasWithBothOptionsLabel">vimafootstore</h5>
+    
+  <Link to="/account" className="nav-link">
+    <h5 class="offcanvas-title" id="offcanvasWithBothOptionsLabel"  onClick={closeOffcanvas}>Login?</h5>
+    </Link>
+   
     <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    
   </div>
+  
   <div class="offcanvas-body">
   <div className=" navbar-collapse justify-content-center" id="navbarNav">
             <div className='justify-content-center'>
-            <ul className="navbar-nav" id="navbar-nav">
+            <ul className="navbar-nav " id="navbar-nav">
         <li className="nav-item">
-      <Link to="/" className="nav-link"  onClick={closeOffcanvas}>Home</Link>
+      <Link to="/" className="nav-link text-white"  onClick={closeOffcanvas}>Home</Link>
     </li>
     <li className="nav-item">
-            <Link to="/Man" className="nav-link" onClick={closeOffcanvas}>Men</Link>
+            <Link to="/Man" className="nav-link  text-white" onClick={closeOffcanvas}>Men</Link>
           </li>
 
     <li className="nav-item">
-      <Link to="/Woman" className="nav-link"  onClick={closeOffcanvas}>Women</Link>
+      <Link to="/Woman" className="nav-link  text-white"  onClick={closeOffcanvas}>Women</Link>
     </li>
     <li className="nav-item">
-      <Link to="/Cat" className="nav-link"  onClick={closeOffcanvas}>Catalog</Link>
+      <Link to="/Cat" className="nav-link  text-white"  onClick={closeOffcanvas}>Catalog</Link>
     </li>
+    
   </ul>
           </div>
          
@@ -120,21 +127,21 @@ const Header = ({cartItems}) => {
           }
         }}
       />
-      <i className="fas fa-search search-icon" onClick={handleSearch}></i>
+      <i className="fas fa-search search-icon " onClick={handleSearch}></i>
       
     </div>
   </li>
 )}
 
-      <li className="nav-item myicon user">
+      <li className="nav-item myicon user ">
         <Link to="/account" className="nav-link">
-          <i className="fas fa-user"></i>
+          <i className="fas fa-user" style={{color:'white'}}></i>
         </Link>
       </li>
       <li className="nav-item myicon ">
         <Link to="/cart" className="nav-link">
         <div className="cart-icon-container">
-                <i className="fas fa-shopping-cart"></i>
+                <i className="fas fa-shopping-cart" style={{color:'white'}}></i>
                 <span className='count'>{cartItemCount}</span>
               </div>
         </Link>
@@ -142,7 +149,7 @@ const Header = ({cartItems}) => {
       {!isSearchVisible && (
           <li className="nav-item myicon user">
             <Link to="/" className="nav-link" onClick={toggleSearch}>
-              <i className="fas fa-search" ></i>
+              <i className="fas fa-search"style={{color:'white'}} ></i>
             </Link>
           </li>
         )}
@@ -152,7 +159,7 @@ const Header = ({cartItems}) => {
             data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions"
           
           >
-            <div className="bar"></div>
+            <div className="bar" ></div>
             <div className="bar"></div>
             <div className="bar"></div>
           </div>

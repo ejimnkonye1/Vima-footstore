@@ -4,7 +4,8 @@ import '../css/product.css'
 import { Link } from "react-router-dom";
 import AOS from 'aos';
 import 'aos/dist/aos.css'; // You may need to import the AOS styles
-
+import Pagination from '@mui/material/Pagination';
+import Stack from '@mui/material/Stack';
 
 
 const Proudcts = ({cartItems, setCartItems}) => {
@@ -30,20 +31,23 @@ const Proudcts = ({cartItems, setCartItems}) => {
     });
   }, []);
 return(
-  <div className="container">
-  <h5 className="text-center p-3 text-danger">FEATURED COLLECTION</h5>
+  <div className="container ">
+  <h5 className="text-left pro mt-5 text-danger">FEATURED COLLECTION</h5>
   <div className="row mt-5 mb-4 justify-content-center">
     {productdata.map((product, index) => (
-      <div key={product.id} className="col-4 col-sm-6 col-md-4 col-lg-3">
-        <div className=" d-flex flex-column mt-3 mb-2" data-aos="fade-up">
+      <div key={product.id} className="col-6 col-sm-6 col-md-4 col-lg-3">
+        <div className="card d-flex flex-column mt-3 mb-2" data-aos="fade-up">
           <div className="">
             <Link to={`/product/${index}`}>
               <img src={product.image} className="img-fluid men" alt={product.name} />
             </Link>
           </div>
-          <div className="card-body mt-3 "  style={{ height: "90px", width:'100%' }}>
-            <h5 className="card-title text-truncate">{product.name}</h5>
+          <div className="card-body mt-1"  >
+            <p className="card-title text-truncate">{product.name}</p>
             <p className="card-text text-danger mt-0">NGN{product.price}</p>
+            <Link to={`/product/${index}`}>
+            <button className="btn btn-sm btn-success" style={{width:'100%',textOverflow:'initial' }}>View details</button>
+         </Link>
           </div>
         </div>
       </div>

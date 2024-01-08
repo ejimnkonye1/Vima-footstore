@@ -1,7 +1,14 @@
-.offcanvas.show {
+body{
+  
+}
+.offcanvas{
+  width: 80% !important;
+ 
 
 }
+.nav-item{
 
+}
 .offcanvas-backdrop.show {
   display: none;
 }
@@ -64,7 +71,8 @@
   .bar{
     width: 20px;
     height: 3px;
-    background-color: rgb(137, 130, 130);
+    /* background-color: rgb(137, 130, 130); */
+    background-color: #fff;
     margin-bottom: 3px;
   }
   .menubar{
@@ -95,6 +103,9 @@
   }
     .search {
       width: 100%; /* Adjust the width for smaller screens */
+    }
+    .text-white{
+      color: rgb(156, 150, 150) !important;
     }
   }
   

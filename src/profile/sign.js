@@ -1,8 +1,9 @@
 import React, {useState, useEffect} from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, redirect } from "react-router-dom";
 import { updateProfile, createUserWithEmailAndPassword } from 'firebase/auth'; 
 import { auth } from '../Firebase'; // Import the Firebase auth object
 import '../css/Login.css'
+import Login from "./login";
 const SignUp = () => {
     const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -12,6 +13,8 @@ const SignUp = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
+  const [signupSuccess, setSignupSuccess] = useState(false);
+
 
 
   useEffect(() => {
@@ -55,7 +58,9 @@ const SignUp = () => {
         })
           .then(() => {
             console.log('User profile updated successfully:', user);
-            navigate('/account');
+         setSignupSuccess(true);
+        
+          
           })
           .catch((profileError) => {
             console.error('Error updating user profile:', profileError);
@@ -67,14 +72,19 @@ const SignUp = () => {
         console.error('Sign-up error:', signupError);
         setError(signupError.message);
         setIsLoading(false);
+        setSignupSuccess(false)
       });
     }
   };
+  if (signupSuccess) {
+    // Render the Login component directly
+    return <Login signupSuccess={signupSuccess}/>;
+  }
 
     return(
         <div className="container">
           
-            <div className="d-grid justify-content-center" style={{marginTop:'250px'}}>
+            <div className="d-grid justify-content-center" style={{marginTop:'90px'}}>
                 <h3 className="text-center">Create Account</h3>
             <form name="" method="" action="" onSubmit={handleSignUp}>
                 <div className="signup">
@@ -83,13 +93,13 @@ const SignUp = () => {
                     <input type="text"
                      name="fname" 
                      id="fname"
-                    className="int" 
+                    className="int mb-2" 
                     required
                     onChange={(e) => { setFirstName(e.target.value); handleInputChange(); }}
                    
                        />
                     <br />
-                    <label for='lname'>Lastname</label>
+                    <label for='lname' className="mt-2">Lastname</label>
                     <br/>
                     <input type="text" 
                     name="lname"
@@ -100,7 +110,7 @@ const SignUp = () => {
 
                      />
                     <br />
-                    <label for='email'>Email</label>
+                    <label for='email'  className="mt-2">Email</label>
                     <br/>
                     <input type="email"
                      name="email"
@@ -110,7 +120,7 @@ const SignUp = () => {
                      onChange={(e) => { setEmail(e.target.value); handleInputChange(); }}
                        />
                     <br/>
-                    <label for='password'>Password</label>
+                    <label for='password'  className="mt-2">Password</label>
                     <br/>
                     <input type="password"
                      name="password" 

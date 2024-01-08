@@ -1,8 +1,13 @@
 .pro img{
 
 }
-
+.pro{
+  
+}
   @media (max-width: 768px) {
+    .container{
+     
+    }
     .card {
       width: 100%; 
     
@@ -14,7 +19,7 @@
     }
   
     .row {
-      width: 110%; 
+      width: 100%; 
     }
   
     /* Add this to your CSS file */

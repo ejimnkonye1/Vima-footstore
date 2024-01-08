@@ -8,8 +8,10 @@ import img5 from '../images/woman4.jpg';
 import img6 from '../images/woman5.jpg';
 import img7 from '../images/woman6.jpg';
 import { useNavigate } from "react-router-dom";
+import ColorAlerts from "./alerts";
 const Recommend = ({ cartItems, setCartItems }) => {
   const navigate = useNavigate()
+  const [showToast, setShowToast] = useState(false);
   const handleAddToCart = (product) => {
     const existingProduct = cartItems.find((item) => item.name === product.name);
 
@@ -20,8 +22,13 @@ const Recommend = ({ cartItems, setCartItems }) => {
       product.quantity = 1;
       setCartItems([...cartItems, product]);
     }
-    navigate('./cart')
-    
+    // navigate('./cart')
+    setShowToast(true);
+
+    // Hide the toast after a delay (adjust as needed)
+    setTimeout(() => {
+      setShowToast(false);
+    }, 5000);
   };
 
   const settings = {
@@ -78,12 +85,18 @@ const Recommend = ({ cartItems, setCartItems }) => {
   
   return (
     <div className="container" style={{ overflow: 'hidden' }}>
+            {showToast && (
+     <div className="custom-toast">
+      <ColorAlerts />
+
+   </div>
+  )} 
       <h5 className="text-center text-danger p-2">Recommended For You</h5>
       <Slider {...settings}>
         {reproducts.map((product) => (
           <div key={product.id}>
             <img src={product.image} alt={product.name} width={'200'} height={'200'} className="ada" />
-            <h5>{product.name}</h5>
+            <p>{product.name}</p>
             <p className="text-danger">{formatAsNaira(product.price)}</p>
             <button className="btn btn-success" onClick={() => handleAddToCart(product)}>Add to Cart</button>
           </div>

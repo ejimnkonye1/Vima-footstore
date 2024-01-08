@@ -13,10 +13,11 @@ const Footer = () => {
       });
     }, []);
     return(
-    <div className="d-flex justify-content-center p-5" id="foot">
+      <footer>
+    <div className="d-flex justify-content-center bg-success p-5" id="foot">
         <div className=" d-grid justify-content-center " >
         <h3 className="text-center p-2"data-aos="fade-up">Subscribe to our emails</h3>
-        <p className="text-center"data-aos="fade-up">Be the first to know about new collections and exclusive offers.</p>
+        <p className="text-center p-4"data-aos="fade-up">Be the first to know about new collections and exclusive offers.</p>
         <div className=" justify-content-center" style={{width:'100%'}}>
             <form name="" action="" >
             <div class="input-container"data-aos="fade-up">
@@ -52,8 +53,8 @@ const Footer = () => {
             </ul>
             </div>
             </div>
-            <div className="border-bottom p-1" id="bot"></div>
-            <div className="navbar navbar-expand-lg p-4" id="links" data-aos="fade-up">
+            {/* <div className="border-bottom p-1" id="bot"></div> */}
+            {/* <div className="navbar navbar-expand-lg p-4" id="links" data-aos="fade-up">
              <ul className="navbar-nav ml-auto d-flex flex-row">
              <li className="nav-item">
              <Link to="#ss" className="nav-link" style={{color:'grey'}}>
@@ -86,10 +87,14 @@ const Footer = () => {
                 </Link> 
                 </li>
             </ul>
+            </div> */}
+            <div className="text-center " >
+            © 2023, vimafootstore.Ng
             </div>
         </div>
         </div>
     </div>
+    </footer>
     )
 }
 

@@ -12,6 +12,7 @@
     width: 24%;
   
 }
+
 .plus{
     margin-left: 40px;
 }
@@ -19,6 +20,12 @@
     margin-left: 10px;
     
 }
+.oga{
+    position: relative;
+    left: 10px;
+    top: 10px;
+}
+
 
 .cart{
     border: none;
@@ -52,4 +59,15 @@
     margin-bottom: 10px;
    }
     
+    }
+    @media (max-width: 768px) {
+        .detials{
+            width:  100% !important;
+        
+        }
+
+
+    }
+    .we{
+        
     }

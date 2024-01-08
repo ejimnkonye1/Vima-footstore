@@ -5,11 +5,13 @@ import Womandata from "./womanimg";
 import { useParams } from "react-router-dom";
 import { useState } from "react";
 import Recommend from "./recommended";
+import Alert from '@mui/material/Alert';
 
 import '../css/productdetails.css'
 
 import Testimonials from "./testmonial";
 import { useNavigate } from "react-router-dom";
+import ColorAlerts from "./alerts";
 
 const ProductDetails = ({cartItems, setCartItems}) => {
     const { id } = useParams(); // Get the product ID from the route params
@@ -18,6 +20,8 @@ const ProductDetails = ({cartItems, setCartItems}) => {
     const [selectedSize, setSelectedSize] = useState("");
   const [quantity, setQuantity] = useState(1); // Default quantity is 1
   const navigate = useNavigate();
+  const [showToast, setShowToast] = useState(false);
+
 
     if (!product) {
       return <div>Product not found</div>;
@@ -27,6 +31,8 @@ const ProductDetails = ({cartItems, setCartItems}) => {
       if (!selectedSize) {
         alert("Please select a size");
         
+      
+    
         return;
      
       }
@@ -48,18 +54,30 @@ const ProductDetails = ({cartItems, setCartItems}) => {
         };
         setCartItems([...cartItems, newItem]);
       }
-      navigate('/cart')
+      // navigate('/cart')
+      setShowToast(true);
+
+      // Hide the toast after a delay (adjust as needed)
+      setTimeout(() => {
+        setShowToast(false);
+      }, 1000);
     };
     
 return(
-    <div className="container mt-5" style={{marginTop:'40px'}}>
-    <div className="row" style={{marginTop:'40px'}}>
+    <div className="container mt-5">
+        {showToast && (
+     <div className="custom-toast">
+      <ColorAlerts />
+
+   </div>
+  )} 
+    <div className="row " >
       <div className="col-md-6 ">
         <img
           src={product.image}
           alt={product.name}
-          className="img-fluid"
-          style={{ height: "", width: "400px",  }}
+          className="img-fluid detials rounded"
+          style={{ height: "450px", width: "400px",  }}
         />
       </div>
       <div className="col-md-6  ">
@@ -95,10 +113,10 @@ return(
 
           <p className="border-bottom mt-3"></p>
 
-          <div>
-            <p>
+          <div className="d-flex p-2">
+            {/* <p>
               <strong>Quantity</strong>
-            </p>
+            </p> */}
             <div className='d-flex justify-content-center align-items-center' style={{border:'1px solid blue',
          borderRadius:'5px',width:'90px',
         
@@ -115,19 +133,22 @@ return(
               +
               </div>
          </div>
-          </div>
-
-          <p className="border-bottom mt-3"></p>
-
-          <button className="btn btn-danger cart mb-3" onClick={() => handleAddToCart(product)} >
+         <div className="oga">
+         <button className="btn btn-danger cart mb-3" id="liveToastBtn" onClick={() => handleAddToCart(product)} >
             Add to Cart
           </button>
-          <div className="now p-1">
-            <button className="text-center buy  ">Buy It Now</button>
           </div>
+          </div>
+          
+
+          {/* <div className="now p-1">
+            <button className="text-center buy  ">Buy It Now</button>
+          </div> */}
         </div>
       </div>
     </div>
+
+
     < div className="mt-5">
     <Recommend cartItems={cartItems} setCartItems={setCartItems}/>
     </div>

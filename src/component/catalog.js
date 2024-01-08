@@ -5,7 +5,8 @@ import Mendata from "./menimg";
 import Womandata from "./womanimg";
 import { Link } from 'react-router-dom'
 import AOS from 'aos';
-import 'aos/dist/aos.css'; // You may need to import the AOS styles
+import 'aos/dist/aos.css'; 
+import CustomPagination from "./page";
 const Catalog = ({cartItems, setCartItems}) => {
   const Allproduct = [...Mendata, ...Womandata, ...productdata]
     const [currentProducts, setCurrentProducts] = useState(Allproduct);
@@ -58,25 +59,47 @@ const Catalog = ({cartItems, setCartItems}) => {
                 <h4 className="text-center text-danger">Products</h4>
 
             </div>
-            <h5 className="text-center mt-2 mb-4 border-bottom p-2 text-success"style={{fontSize:'100%', color:'grey', fontFamily:'initial'}}>{totalProducts} products</h5>
+            <div className="text-center mt-2 mb-4 p-2 border-bottom">
+      <div className="d-flex justify-content-between align-items-center">
+        {/* Filter Section (Right) */}
+        
+        <div>
+          {/* Add your filter content here */}
+          <span style={{ fontSize: '100%', color: 'grey', fontFamily: 'initial', padding:'30px' }}>Filter <i class="fa-solid fa-caret-down"></i></span>
+        
+        </div>
+
+        {/* Total Product Section (Center) */}
+        <div>
+          <h5 style={{ fontSize: '100%', color: 'grey', fontFamily: 'initial' }}>{totalProducts} products</h5>
+        </div>
+
+        {/* Sort Section (End) */}
+        <div>
+          {/* Add your sort content here */}
+          <span style={{ fontSize: '100%', color: 'grey', fontFamily: 'initial', padding:'30px' }}>Sort <i class="fa-solid fa-caret-down"></i></span>
+        </div>
+      </div>
+    </div>
         <div className="container mt-4">
    
         <div className="row mt-5 mb-4">
     {currentProductsPage.map((product, id) => (
-   <div key={id} className="col-4 col-md-4 col-lg-3">
+   <div key={id} className="col-6 col-md-4 col-lg-3">
 
-<div className=" d-flex flex-column mt-3 mb-2" data-aos="fade-up" >
+<div className="card  d-flex flex-column mt-3 mb-2" data-aos="fade-up" >
 <div className="">
     {/* Use Link to navigate to the product details page */}
     <Link to={`/product/${product.id}`}>
-            <img src={product.image} className="img-fluid woman" alt={product.name} />
+            <img src={product.image} className="img-fluid woman rounded " alt={product.name} />
             </Link>
           </div>
           
-            <div className="card-body mt-0"style={{ height: "90px", width:'100%' }}>
-              <p className="card-title text-success">{product.name}</p>
-              
+            <div className="card-body border-top ">
+              <p className="card-title text-success ">{product.name}</p>
+              <button className="btn btn-sm btn-danger">Add to cart</button>
               <p className="card-text mt-1 text-danger">NGN{product.price}</p>
+              
             </div>
      
           </div>
@@ -85,25 +108,16 @@ const Catalog = ({cartItems, setCartItems}) => {
 
    </div>
 </div>
-<nav aria-label="Page navigation example">
-        <ul className="pagination justify-content-center">
-          <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
-            <button className="page-link" onClick={prevPage}>
-               <i className="fas fa-arrow-left"></i>
-            </button>
-          </li>
-          {/* Create page number buttons */}
-          <li className="page-item disabled" style={{marginLeft:'100px'}}>
-      <span className="page-link">Page {currentPage} of {Math.ceil(currentProducts.length / productsPerPage)}</span>
-    </li>
-          <li style={{marginLeft:'100px'}} className={`page-item ${currentPage === Math.ceil(currentProducts.length / productsPerPage) ? 'disabled' : ''}`}>
-            <button className="page-link " onClick={nextPage}>
-            <i className="fas fa-arrow-right"></i>
-            </button>
-          </li>
-        </ul>
-      </nav>
+
+      <div className="d-flex justify-content-center">
+            <CustomPagination 
+        currentPage={currentPage}
+        totalPages={Math.ceil(totalProducts / productsPerPage)}
+        prevPage={prevPage}
+        nextPage={nextPage}
       
+      />
+      </div>
 </section>
     )
 }

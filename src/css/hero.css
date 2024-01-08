@@ -1,0 +1,40 @@
+.heros{
+ 
+    
+   
+}
+.slider{
+    position: relative;
+    left: 27%;
+    top: -60px;
+}
+.slide-text{
+    position: relative;
+    top: -50px;
+}
+
+@media  (max-width: 768px) {
+    .heros{
+       
+        height: 400PX !important;
+    
+    }
+    .slider{
+        position: none;
+        left: 0 !important;
+        margin: none !important;
+    }
+}
+
+
+@media  (max-width: 400px) {
+    .heros{
+     
+       
+        height: 300PX !important;
+    }
+    .slide-text{
+        margin: 10px;
+        margin-bottom: 30px;
+    }
+}

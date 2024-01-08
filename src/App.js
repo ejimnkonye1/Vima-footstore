@@ -12,15 +12,15 @@ import Men from './component/men';
 import Woman from './component/woman';
 import Catalog from './component/catalog';
 import Footer from './component/footer';
-import Login from './component/login';
-import SignUp from './component/sign';
+import Login from './profile/login';
+import SignUp from './profile/sign';
 import Account from './component/account';
 import Cart from './component/cart';
 import Testimonials from './component/testmonial';
-import ResetPassword from './component/resetpassword';
+import ResetPassword from './profile/resetpassword';
 import Checkout from './component/checkout';
 import WhatsAppLink from './component/whatsapp';
-import 'font-awesome/css/font-awesome.min.css';
+
 import SearchPage from './component/searchpg';
 import Ani from './component/home';
 import YES from './component/autoplayproduct';
@@ -29,6 +29,12 @@ import SimpleSlider from './component/home';
 import AutoPlay from './component/autoplayproduct';
 import { auth } from "./Firebase"; // Import Firebase auth object
 import Recommend from './component/recommended';
+import BillingAddressForm from './component/checkout';
+import ConfirmationPage from './component/confirm';
+import Dashboard from './profile/dashboard';
+import OrderPage from './profile/order';
+
+
 
 const Loader = () => (
 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh' }}>
@@ -41,6 +47,7 @@ const Loader = () => (
 
 
 );
+
 
 // Layout component that includes the loader logic
 const Layout = ({ children }) => {
@@ -58,6 +65,10 @@ const Layout = ({ children }) => {
 };
 
 function App() {
+  const [formData, setFormData] = useState({});
+const handleFormDataChange = (newFormData) => {
+  setFormData(newFormData);
+};
   const [cartItems, setCartItems] = useState([]); // Define cart state
   const [searchError, setSearchError] = useState(false); // State for search error
   // Add this line at the beginning of your component
@@ -86,20 +97,28 @@ function App() {
 
       <Routes>
          <Route path='/' element={<  SimpleSlider cartItems={cartItems} setCartItems={setCartItems}/>} />
-         <Route path='/visit' element={<Visit />} />
+         <Route path='/cart/checkout' element={<BillingAddressForm cartItems={cartItems} setCartItems={setCartItems} onFormDataChange={handleFormDataChange} />} />
+         <Route path='/confirm' element={<ConfirmationPage cartItems={cartItems} setCartItems={setCartItems} />} />
         
+         <Route path='/order' element={<OrderPage formData={formData}/>} />
+
+         
          <Route path='/product/:id' element={<ProductDetails cartItems={cartItems} setCartItems={setCartItems} />} />
          <Route path='/Man' element={<Men cartItems={cartItems} setCartItems={setCartItems} />} />
          <Route path='/Woman' element={<Woman cartItems={cartItems} setCartItems={setCartItems}/>} />
          <Route path='/Cat' element={<Catalog cartItems={cartItems} setCartItems={setCartItems}/>} />
          <Route path="/account">
-          <Route path="/account" element={user ? <Account /> : <Login />} />
+          <Route path="/account" element={user ? <Dashboard /> : <Login />} />
           </Route>
          {/* <Route path='/login' element={<Login />} /> */}
          <Route path='/signup' element={<SignUp />} />
          {/* <Route path='/account' element={<Account />} /> */}
          <Route path='/resetpaasword' element={<ResetPassword />} />
-         <Route path='/cart' element={<Cart cartItems={cartItems} setCartItems={setCartItems}  />} />
+         {user ? (
+    <Route path='/cart' element={<Cart cartItems={cartItems} setCartItems={setCartItems} />} />
+  ) : (
+    <Route path='/cart' element={<Login/>} />
+  )}
          <Route path='/checkout' element={<Checkout cartItems={cartItems}/>} />
          <Route path='/auto' element={<AutoPlay cartItems={cartItems} setCartItems={setCartItems}  />} />
          <Route path='/auto' element={<Recommend cartItems={cartItems} setCartItems={setCartItems}  />} />

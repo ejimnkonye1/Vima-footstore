@@ -3,7 +3,8 @@ import { useState } from "react";
 import Mendata from "./menimg";
 import { Link } from 'react-router-dom'
 import AOS from 'aos';
-import 'aos/dist/aos.css'; // You may need to import the AOS styles
+import 'aos/dist/aos.css';
+import CustomPagination from "./page";
 const Men = ({ cartItems, setCartItems }) => {
   const [currentProducts, setCurrentProducts] = useState(Mendata);
   const [currentPage, setCurrentPage] = useState(1);
@@ -60,9 +61,9 @@ const Men = ({ cartItems, setCartItems }) => {
    
    <div className="row mt-5 mb-4 ">
     {currentProductsPage.map((product, id) => (
-   <div key={id} className="col-4 col-md-4 col-lg-3">
+   <div key={id} className="col-6 col-md-4 col-lg-3">
 
-<div className=" d-flex flex-column mt-3 mb-2"   data-aos="fade-up" >
+<div className="card d-flex flex-column mt-3 mb-2"   data-aos="fade-up" >
 
           <div className="">
           <Link to={`/product/${product.id}`}>
@@ -81,25 +82,17 @@ const Men = ({ cartItems, setCartItems }) => {
 
    </div>
 </div>
-<nav aria-label="Page navigation example">
-        <ul className="pagination justify-content-center">
-          <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
-            <button className="page-link" onClick={prevPage}>
-               <i className="fas fa-arrow-left"></i>
-            </button>
-          </li>
-          {/* Create page number buttons */}
-          <li className="page-item disabled" style={{marginLeft:'100px'}}>
-      <span className="page-link">Page {currentPage} of {Math.ceil(currentProducts.length / productsPerPage)}</span>
-    </li>
-          <li style={{marginLeft:'100px'}} className={`page-item ${currentPage === Math.ceil(currentProducts.length / productsPerPage) ? 'disabled' : ''}`}>
-            <button className="page-link " onClick={nextPage}>
-            <i className="fas fa-arrow-right"></i>
-            </button>
-          </li>
-        </ul>
-      </nav>
+
+
+<div className="d-flex justify-content-center">
+            <CustomPagination 
+        currentPage={currentPage}
+        totalPages={Math.ceil(totalProducts / productsPerPage)}
+        prevPage={prevPage}
+        nextPage={nextPage}
       
+      />
+      </div>
 </section>
     )
 }

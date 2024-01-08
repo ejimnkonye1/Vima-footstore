@@ -8,7 +8,10 @@ const Testimonials = () => {
    <h1>TESTIMONIALS</h1>
       <div className="testimonials big-screen">
         
-      <div className="testimonial-item">
+      <div className="testimonial-item ">
+      <p className='text-center'>
+      <i class="fa-solid fa-quote-right "></i>
+      </p>
   <p>
     "I absolutely love Vima Shoes! The quality and style of their footwear are unmatched.
     The comfort and durability of the shoes make every step a pleasure. Vima Shoes has
@@ -19,6 +22,9 @@ const Testimonials = () => {
 </div>
 
 <div className="testimonial-item">
+<p className='text-center'>
+      <i class="fa-solid fa-quote-right "></i>
+      </p>
   <p>
     "Vima Shoes exceeded my expectations! The attention to detail in their designs
     and the craftsmanship of their shoes are truly impressive. I've received numerous
@@ -30,6 +36,9 @@ const Testimonials = () => {
 </div>
 
 <div className="testimonial-item">
+<p className='text-center'>
+      <i class="fa-solid fa-quote-right "></i>
+      </p>
   <p>
     "Vima Shoes is a game-changer! Their commitment to quality and style sets them apart
     from the rest. I recently purchased a pair, and I'm thrilled with the level of comfort
@@ -48,9 +57,13 @@ const Testimonials = () => {
     <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
     <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
   </div>
+
   <div class="carousel-inner justify-content-center p-5 ">
     <div class="carousel-item active">
      <div className="testimonial-item">
+     <p className='text-center'>
+      <i class="fa-solid fa-quote-right "></i>
+      </p>
   <p>
     "I absolutely love Vima Shoes! The quality and style of their footwear are unmatched.
     The comfort and durability of the shoes make every step a pleasure. Vima Shoes has
@@ -62,6 +75,9 @@ const Testimonials = () => {
     </div>
     <div class="carousel-item">
     <div className="testimonial-item">
+    <p className='text-center'>
+      <i class="fa-solid fa-quote-right "></i>
+      </p>
     <p>
     "Vima Shoes exceeded my expectations! The attention to detail in their designs
     and the craftsmanship of their shoes are truly impressive. I've received numerous
@@ -74,6 +90,9 @@ const Testimonials = () => {
     </div>
     <div class="carousel-item">
     <div className="testimonial-item">
+    <p className='text-center'>
+      <i class="fa-solid fa-quote-right "></i>
+      </p>
     <p>
     "Vima Shoes is a game-changer! Their commitment to quality and style sets them apart
     from the rest. I recently purchased a pair, and I'm thrilled with the level of comfort

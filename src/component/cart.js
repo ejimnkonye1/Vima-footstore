@@ -2,24 +2,33 @@
 import { Button } from 'bootstrap';
 import React from 'react';
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+
+import { auth } from "../Firebase"; // Import Firebase auth object
 
 
 function Cart({ cartItems, setCartItems }) {
+  const [email, setEmail] = useState('');
+  const [user, setUser] = useState(null); // Store user information
+    const navigate = useNavigate();
 
-
-
-  useEffect(() => {
-    // Retrieve cart items from localStorage when the component mounts
-    const storedCartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
-    setCartItems(storedCartItems);
-  }, []);
-
-  useEffect(() => {
-    // Update localStorage whenever cartItems change
-    localStorage.setItem('cartItems', JSON.stringify(cartItems));
-  }, [cartItems]);
-
+    useEffect(() => {
+      // Add a Firebase authentication listener
+      const unsubscribe = auth.onAuthStateChanged((authUser) => {
+        if (authUser) {
+          // User is signed in
+          setUser(authUser);
+        } else {
+          // User is signed out
+          setUser(null);
+        }
+      });
+  
+      // Clean up the listener when the component unmounts
+      return () => {
+        unsubscribe();
+      };
+    }, []);
   useEffect(() => {
     // Retrieve cart items from localStorage when the component mounts
     const storedCartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
@@ -76,9 +85,61 @@ const updateQuantity = (item, increment) => {
   // Function to calculate the total including shipping
   const calculateTotal = () => {
     const subtotal = parseFloat(calculateSubtotal());
-    const shipping = 3000; // Change this to the actual shipping cost
+    const shipping = 1000; // Change this to the actual shipping cost
     return (subtotal + shipping).toFixed(2);
   };
+  console.log(cartItems);
+ 
+ 
+
+  useEffect(() => {
+    const script = document.createElement('script');
+    script.src = 'https://js.paystack.co/v1/inline.js';
+    script.async = true;
+    script.onload = () => {
+      // Paystack library has been loaded
+      // You can initialize PaystackPop.setup here if needed
+    };
+    document.body.appendChild(script);
+
+    return () => {
+      // Cleanup: remove the script when the component is unmounted
+      document.body.removeChild(script);
+    };
+  }, []);
+
+  const payWithPaystack = (e) => {
+      e.preventDefault();
+    
+      if (window.PaystackPop) {
+        // PaystackPop is available, proceed with the payment logic
+        let handler = window.PaystackPop.setup({
+          key: 'pk_test_9f04ff1cdc541872fbbdb8816c9057d2b6c883a5', // Replace with your public key
+          email: user.email,
+       
+          currency: 'NGN',
+          amount: calculateTotalPrice() * 100,
+          ref: '' + Math.floor(Math.random() * 1000000000 + 1),
+          onClose: function () {
+            alert('Window closed.');
+          },
+          callback: function (response) {
+            let message = 'Payment complete! Reference: ' + response.reference;
+            alert(message);
+          },
+        });
+    
+        handler.openIframe();
+      } else {
+        // Handle the case where PaystackPop is not available
+        console.error('PaystackPop is not available');
+      }
+    };
+    const handleCheckoutClick = () => {
+      navigate('./checkout')
+    }
+    const orderTotal = calculateTotal();
+    localStorage.setItem('orderTotal', orderTotal);
 
   return (
     <div className='mt-5'>
@@ -222,12 +283,11 @@ const updateQuantity = (item, increment) => {
   <p className='text-danger'>Total Price: NGN{calculateTotalPrice()}</p>
     </div>
    <div className='d-flex justify-content-end'>
-  
-    <Link to={'/'}>
-   
-    <p className="btn btn-danger mt-3" onClick={handleCheckoutClick}> Proceed to checkout </p>
-  </Link>
+   {/* <form onSubmit={payWithPaystack}> */}
  
+    <button type='submit' onClick={handleCheckoutClick} className="btn btn-danger mt-3" > Proceed to checkout </button>
+
+ {/* </form> */}
    </div>
    </div>
       )}
@@ -238,7 +298,7 @@ const updateQuantity = (item, increment) => {
     </div>
   );
 }
-const handleCheckoutClick = () => {
-  alert('Checkout page in progress!');
-};
+// const handleCheckoutClick = () => {
+//   alert('Checkout page in progress!');
+// };
 export default Cart;

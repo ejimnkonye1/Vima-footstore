@@ -7,13 +7,18 @@ import Proudcts from "./product";
 import { Link } from "react-router-dom";
 import AutoPlay from "./autoplayproduct";
 import Testimonials from "./testmonial";
+import '../css/hero.css'
 
 class CustomSlide extends Component {
   render() {
-    const { index, imageSrc, ...props } = this.props;
+    const { index, imageSrc,text, ...props } = this.props;
     return (
-      <div {...props}>
-        <img src={imageSrc} alt={`Slide ${index}`} style={{ width: '90%', height: 'auto' }} className="img-fluid" />
+      <div {...props} className="">
+        <img src={imageSrc} alt={`Slide ${index}`} style={{ width: '', height: '' }} className="img-fluid slider" />
+        <div className="slide-text ">
+          <h5 className="text-center text-primary">{text.title}</h5>
+          <p className="text-center text-danger">{text.description}</p>
+        </div>
       </div>
     );
   }
@@ -33,24 +38,39 @@ export default class SimpleSlider extends Component {
       autoplaySpeed: 2000,
       pauseOnHover: true
   };
-
-    const images = [img1, img3];
+  const slides = [
+    {
+      image: img1,
+      text: {
+        title: "We Love It Too Simple",
+        description: "Some representative placeholder content for the first slide."
+      }
+    },
+    {
+      image: img3,
+      text: {
+        title: "What Footprints....",
+        description: "Let make your walking do the talking."
+      }
+    }
+  ];
 
     return (
         <div>
-      <div className="" style={{backgroundColor:'gray', marginTop:'', overflow:'hidden'}}>
+      {/* <div className="heros" style={{backgroundColor:'gray', marginTop:'', overflow:'hidden', height:'530px'}}>
         
         <Slider {...settings}>
-          {images.map((image, index) => (
-            <CustomSlide key={index} index={index + 1} imageSrc={image}  />
-          ))}
+        {slides.map((slide, index) => (
+              <CustomSlide key={index} index={index + 1} imageSrc={slide.image} text={slide.text}  />
+            ))}
+          
         </Slider>
-      </div>
+      </div> */}
       <Proudcts cartItems={cartItems} setCartItems={setCartItems} />
     {/* <Visit /> */}
     <div className='d-flex justify-content-center mb-4'>
     <Link to='/Cat'>
-      <button  className='btn btn-danger '>
+      <button  className='btn btn-primary '>
         
        
         VIEW ALL
