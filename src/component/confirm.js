@@ -5,6 +5,7 @@ import img1 from '../images/pp.png'
 import img2 from '../images/america.png'
 import img3 from '../images/paypal.png'
 import { useNavigate } from 'react-router-dom';
+import formatAsNaira from '../currency/naira';
 const ConfirmationPage = ({ cartItems, setCartItems }) => {
   const [user, setUser] = useState(null); // Store user information
 
@@ -157,48 +158,116 @@ const ConfirmationPage = ({ cartItems, setCartItems }) => {
         <div className="card-body">
           <h4 className='border-bottom'>Review Products</h4>
           <div className="table-responsive">
-            <table className="table">
-              <thead>
-                <tr>
-                  <th>image</th>
-                  <th>Product</th>
-                  <th>Quantity</th>
-                  <th>Total Price</th>
-                </tr>
-              </thead>
-              <tbody>
-                {cartItems.map((item, index) => (
-                  <tr key={index}>
-                    <td>
-                      <img
-                        src={item.image}
-                        className="img-fluid"
-                        style={{ width: '50px' }}
-                        alt={item.name}
-                      />
-                    </td>
-                    <td>
-                      <div className='mt-4'>
-                        <h5>{item.name}</h5>
-                        <p>Size: {item.size}</p>
-                      </div>
-                    </td>
-                    <td>
-                      <div className='d-flex justify-content-center align-items-center'>
-                        <div className='m-2'>
-                          {item.quantity}
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <div className='mt-4 text-primary'>
-                        NGN{calculateUpdatedPrice(item)}
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+          <table className="table d-none d-md-table">
+    <thead>
+      <tr className=''>
+        <th className=''>Product</th>
+        <th className=''></th>
+        <th className=''>Price</th>
+        <th className=''>Quantity</th>
+        <th className=''>Total</th>
+       
+      </tr>
+    </thead>
+    <tbody className=''>
+      {cartItems.map((item, index) => (
+        <tr key={index}>
+          <td className=''>
+            <img
+              src={item.image}
+              className="img-fluid"
+              style={{ width: '100px' }}
+              alt={item.name}
+            />
+          </td>
+          <td className=''>
+            <div className='mt-4'>
+            <h5>{item.name}</h5>
+             <p>Size: {item.size}</p>
+            
+            </div>
+          </td>
+          <td className=''>
+            <div className='mt-4 text-primary'>
+            {formatAsNaira(item.price)}
+            </div>
+          </td>
+          <td className=''>
+         <div className='d-flex  mt-3'>
+         <div className='d-flex justify-content-center align-items-center' style={{border:'1px solid blue',
+         borderRadius:'5px',width:'90px',
+        
+        }}>
+         
+              <div className='m-2'>
+              {item.quantity}
+              </div>
+              
+         </div>
+         </div>
+
+          </td>
+          <td className=''>
+            <div className='mt-4 text-primary'>
+            {formatAsNaira(calculateUpdatedPrice(item))}
+
+            </div>
+          </td>
+        
+        </tr>
+      ))}
+    </tbody>
+  </table>
+  <table className="table d-md-none"> {/* Display on small screens */}
+  <thead>
+    <tr className=''>
+      <th className=''>Image</th>
+      <th className=''>Name</th>
+      <th className=''>Total</th>
+    
+    </tr>
+  </thead>
+  <tbody className=''>
+    {cartItems.map((item, index) => (
+      <tr key={index}>
+        <td className='border'>
+          <img
+            src={item.image}
+            className="img-fluid"
+            style={{ width: '50px' }}
+            alt={item.name}
+          />
+        </td>
+        <td className='border'>
+          <div className='mt-4'>
+          {item.name}
+          </div>
+          <div className='d-flex justify-content-center align-items-center mt-3'>
+         <div className='d-flex justify-content-center align-items-center' style={{border:'1px solid blue',
+         borderRadius:'5px',width:'90px',
+        
+        }}>
+         
+              <div className='m-2'>
+              {item.quantity}
+              </div>
+             
+              
+         </div>
+         
+         </div>
+        </td>
+        <td className='border'>
+          <div className='mt-4 text-primary'>
+          {formatAsNaira(calculateUpdatedPrice(item))}
+          </div>
+          
+        </td>
+       
+      </tr>
+    ))}
+  </tbody>
+</table>
           </div>
         </div>
       </div>
@@ -208,9 +277,9 @@ const ConfirmationPage = ({ cartItems, setCartItems }) => {
   <div className="card">
     <div className="card-body">
    
-      <p>Total Price:<span className='float-end'> NGN{calculateTotalPrice()}</span></p>
-      <p>Tax: <span className=' float-end '>1000</span> </p>
-      <p>Total:<span className='float-end'>{calculateTotal()} </span></p>
+      <p>Total Price:<span className='float-end'> {formatAsNaira(calculateTotalPrice())}</span></p>
+      <p>Tax: <span className=' float-end '>{formatAsNaira(1000)}</span> </p>
+      <p>Total:<span className='float-end'>{formatAsNaira(calculateTotal())} </span></p>
            <div className='border-bottom'></div>
       <div className="row">
         <div className="col-md-12">
