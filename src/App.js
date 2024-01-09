@@ -114,11 +114,8 @@ const handleFormDataChange = (newFormData) => {
          <Route path='/signup' element={<SignUp />} />
          {/* <Route path='/account' element={<Account />} /> */}
          <Route path='/resetpaasword' element={<ResetPassword />} />
-         {user ? (
-    <Route path='/cart' element={<Cart cartItems={cartItems} setCartItems={setCartItems} />} />
-  ) : (
-    <Route path='/cart' element={<Login/>} />
-  )}
+
+  <Route path='/cart' element={<Cart cartItems={cartItems} setCartItems={setCartItems} />} />
          <Route path='/checkout' element={<Checkout cartItems={cartItems}/>} />
          <Route path='/auto' element={<AutoPlay cartItems={cartItems} setCartItems={setCartItems}  />} />
          <Route path='/auto' element={<Recommend cartItems={cartItems} setCartItems={setCartItems}  />} />

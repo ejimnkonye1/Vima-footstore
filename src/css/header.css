@@ -6,6 +6,9 @@ body{
  
 
 }
+.text-whit{
+  color: #fff !important;
+}
 .nav-item{
 
 }
@@ -104,8 +107,8 @@ body{
     .search {
       width: 100%; /* Adjust the width for smaller screens */
     }
-    .text-white{
-      color: rgb(156, 150, 150) !important;
+    .text-whit{
+      color: red !important;
     }
   }
   

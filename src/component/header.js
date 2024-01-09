@@ -84,17 +84,17 @@ const Header = ({cartItems}) => {
             <div className='justify-content-center'>
             <ul className="navbar-nav " id="navbar-nav">
         <li className="nav-item">
-      <Link to="/" className="nav-link text-white"  onClick={closeOffcanvas}>Home</Link>
+      <Link to="/" className="nav-link text-whit"  onClick={closeOffcanvas}>Home</Link>
     </li>
     <li className="nav-item">
-            <Link to="/Man" className="nav-link  text-white" onClick={closeOffcanvas}>Men</Link>
+            <Link to="/Man" className="nav-link  text-whit" onClick={closeOffcanvas}>Men</Link>
           </li>
 
     <li className="nav-item">
-      <Link to="/Woman" className="nav-link  text-white"  onClick={closeOffcanvas}>Women</Link>
+      <Link to="/Woman" className="nav-link  text-whit"  onClick={closeOffcanvas}>Women</Link>
     </li>
     <li className="nav-item">
-      <Link to="/Cat" className="nav-link  text-white"  onClick={closeOffcanvas}>Catalog</Link>
+      <Link to="/Cat" className="nav-link  text-whit"  onClick={closeOffcanvas}>Catalog</Link>
     </li>
     
   </ul>
