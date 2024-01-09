@@ -5,8 +5,11 @@ import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 import { auth } from "../Firebase"; // Import Firebase auth object
+import formatAsNaira from '../currency/naira';
 
-
+import img1 from '../images/visa.png'
+import img2 from '../images/america.png'
+import img3 from '../images/paypal.png'
 function Cart({ cartItems, setCartItems }) {
   const [email, setEmail] = useState('');
   const [user, setUser] = useState(null); // Store user information
@@ -167,6 +170,10 @@ const updateQuantity = (item, increment) => {
           </div>
         ) : (
           <div>
+               <div className='row'>
+              <div className="col-md-8 ">
+             <div className="card">
+    <div className="card-body">
   <table className="table d-none d-md-table">
     <thead>
       <tr className=''>
@@ -201,7 +208,7 @@ const updateQuantity = (item, increment) => {
           </td>
           <td className=''>
             <div className='mt-4 text-primary'>
-            NGN{item.price}
+            {formatAsNaira(item.price)}
             </div>
           </td>
           <td className=''>
@@ -225,7 +232,8 @@ const updateQuantity = (item, increment) => {
           </td>
           <td className=''>
             <div className='mt-4 text-primary'>
-            NGN{calculateUpdatedPrice(item)}
+            {formatAsNaira(calculateUpdatedPrice(item))}
+
             </div>
           </td>
         
@@ -281,7 +289,7 @@ const updateQuantity = (item, increment) => {
         </td>
         <td className='border'>
           <div className='mt-4 text-primary'>
-          NGN{calculateUpdatedPrice(item)}
+          {formatAsNaira(calculateUpdatedPrice(item))}
           </div>
           
         </td>
@@ -290,16 +298,38 @@ const updateQuantity = (item, increment) => {
     ))}
   </tbody>
 </table>
+</div>
+</div>
+</div>
+  
+   
+   <div className="col-md-4 mt-3 ">
+  <div className="card">
+    <div className="card-body">
+   
+      <p>Total Price:<span className='float-end'>{formatAsNaira(calculateTotalPrice())}</span></p>
+      <p>Tax: <span className=' float-end '>{formatAsNaira(1000)}</span> </p>
+      <p>Total:<span className='float-end'>{formatAsNaira(calculateTotal())} </span></p>
+           <div className='border-bottom'></div>
+     
+        <div className="d-flex justify-content-center">
+          <img src={img1} alt="Logo 1" className="img-fluid america " />
+          <img src={img2} alt="Logo 1" className="img-fluid america" />
+          <img src={img3} alt="Logo 1" className="img-fluid america" />
+          {/* Add more images as needed */}
+        </div>
 
-  <div>
-  <p className='text-danger'>Total Price: NGN{calculateTotalPrice()}</p>
+        <div className="">
+        <button type='submit' onClick={handleCheckoutClick} className="btn btn-danger mt-3 payment" > Proceed to checkout </button>
+        </div>
+   
     </div>
-   <div className='d-flex justify-content-end'>
-   {/* <form onSubmit={payWithPaystack}> */}
- 
-    <button type='submit' onClick={handleCheckoutClick} className="btn btn-danger mt-3" > Proceed to checkout </button>
+  </div>
+</div>
+  
+  
 
- {/* </form> */}
+ 
    </div>
    </div>
       )}

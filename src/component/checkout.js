@@ -1,9 +1,11 @@
 // BillingAddressForm.js
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import ConfirmationPage from '../component/confirm.js'
-
-const BillingAddressForm = ({ onFormDataChange }) => {
+import img1 from '../images/visa.png'
+import img2 from '../images/america.png'
+import img3 from '../images/paypal.png'
+const BillingAddressForm = ({ onFormDataChange , cartItems, setCartItems}) => {
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -73,12 +75,37 @@ const BillingAddressForm = ({ onFormDataChange }) => {
    
 
   };
+  const handleshopping = () => {
+    
+     navigate('/Cat');
+    
+    
+   
+
+  };
+
+
+
+  const calculateSubtotal = () => {
+    let subtotal = 0;
+    for (const item of cartItems) {
+      subtotal += parseFloat(item.price) * item.quantity;
+    }
+    return subtotal.toFixed(2);
+  };
+
+  const calculateTotal = () => {
+    const subtotal = parseFloat(calculateSubtotal());
+    const shipping = 1000; // Change this to the actual shipping cost
+    return (subtotal + shipping).toFixed(2);
+  };
   return (
     <div className="container">
          <form onSubmit={handleSubmit}>
       <div className="row">
-        <div className="col-md-6 border p-3 mt-5">
-         
+        <div className="col-md-8  p-3 mt-5">
+        <div className="card">
+    <div className="card-body">
             <div className="mb-3 row">
               <div className="col-md-6">
                 <label htmlFor="firstName" className="form-label">
@@ -213,18 +240,33 @@ const BillingAddressForm = ({ onFormDataChange }) => {
               <div className="invalid-feedback">{formErrors.zip}</div>
             </div>
 
-            <button type="submit" className="btn btn-primary">
-              Pay Now
-            </button>
+           </div>
+           </div>
           
         </div>
-        <div className='col-md-6 border p-3 mt-5'>
-        
-        <button type="submit" className="btn btn-primary" >
-              Place order
-            </button>
-            
+         <div className="col-md-4 p-3 mt-5">
+  <div className="card">
+    <div className="card-body">
+   
+      
+     
+    
+
+        <div className="">
+          <button type="submit"  className="btn btn-primary payment float-right mt-3">
+            Palce Order
+          </button>
         </div>
+        <div className="">
+         
+          <button type="button" onClick={handleshopping}  className="btn btn-danger payment float-right mt-3">
+            Continue Shopping
+          </button>
+          
+        </div>
+    </div>
+  </div>
+</div>
         {/* Confirmation Modal */}
         {showConfirmation && (
           <div className="modal fade show" tabIndex="-1" role="dialog" style={{ display: 'block' }}>

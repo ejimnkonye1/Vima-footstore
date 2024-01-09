@@ -4,12 +4,13 @@ import { auth } from "../Firebase"; // Import Firebase auth object
 import img1 from '../images/pp.png'
 import img2 from '../images/america.png'
 import img3 from '../images/paypal.png'
+import { useNavigate } from 'react-router-dom';
 const ConfirmationPage = ({ cartItems, setCartItems }) => {
   const [user, setUser] = useState(null); // Store user information
 
   const location = useLocation();
   const formData = location.state?.formData;
-  
+  const navigate = useNavigate();
   useEffect(() => {
     // Add a Firebase authentication listener
     const unsubscribe = auth.onAuthStateChanged((authUser) => {
@@ -27,6 +28,17 @@ const ConfirmationPage = ({ cartItems, setCartItems }) => {
       unsubscribe();
     };
   }, []);
+
+  useEffect(() => {
+    // Retrieve cart items from localStorage when the component mounts
+    const storedCartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+    setCartItems(storedCartItems);
+  }, []);
+
+  useEffect(() => {
+    // Update localStorage whenever cartItems change
+    localStorage.setItem('cartItems', JSON.stringify(cartItems));
+  }, [cartItems]);
 
   useEffect(() => {
     // Retrieve cart items from localStorage when the component mounts
@@ -107,6 +119,7 @@ const ConfirmationPage = ({ cartItems, setCartItems }) => {
               
         setCartItems([]);
         localStorage.removeItem('cartItems');
+        navigate('/')
     
         },
       });
@@ -147,7 +160,7 @@ const ConfirmationPage = ({ cartItems, setCartItems }) => {
             <table className="table">
               <thead>
                 <tr>
-                  <th></th>
+                  <th>image</th>
                   <th>Product</th>
                   <th>Quantity</th>
                   <th>Total Price</th>
@@ -191,7 +204,7 @@ const ConfirmationPage = ({ cartItems, setCartItems }) => {
       </div>
     </div>
 
-    <div className="col-md-4">
+    <div className="col-md-4 mt-3">
   <div className="card">
     <div className="card-body">
    

@@ -3,6 +3,7 @@ import productdata from './productimg';
 import '../css/product.css'
 import { Link } from "react-router-dom";
 import AOS from 'aos';
+import formatAsNaira from "../currency/naira";
 import 'aos/dist/aos.css'; // You may need to import the AOS styles
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
@@ -44,7 +45,7 @@ return(
           </div>
           <div className="card-body mt-1"  >
             <p className="card-title text-truncate">{product.name}</p>
-            <p className="card-text text-danger mt-0">NGN{product.price}</p>
+            <p className="card-text text-danger mt-0">{formatAsNaira(product.price)}</p>
             <Link to={`/product/${index}`}>
             <button className="btn btn-sm btn-success" style={{width:'100%',textOverflow:'initial' }}>View details</button>
          </Link>

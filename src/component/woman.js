@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom'
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import CustomPagination from "./page";
+import formatAsNaira from "../currency/naira";
 const Woman = ({cartItems, setCartItems}) => {
     const [currentProducts, setCurrentProducts] = useState(Womandata);
   const [currentPage, setCurrentPage] = useState(1);
@@ -57,7 +58,28 @@ const Woman = ({cartItems, setCartItems}) => {
                 <h4 className="text-center text-danger">Women</h4>
                 <p className="text-center">Here we'll find beautiful design shoes, slippers and sandals for Woman... Happy Shopping</p>
             </div>
-            <h5 className="text-center mt-3 mb-2 border-bottom p-2 text-success"style={{fontSize:'100%', color:'grey', fontFamily:'initial'}}>{totalProducts} products</h5>
+            <div className="text-center mt-2 mb-4 p-2 border-bottom">
+      <div className="d-flex justify-content-between align-items-center">
+        {/* Filter Section (Right) */}
+        
+        <div>
+          {/* Add your filter content here */}
+          <span style={{ fontSize: '100%', color: 'grey', fontFamily: 'initial', padding:'30px' }}>Filter <i class="fa-solid fa-caret-down"></i></span>
+        
+        </div>
+
+        {/* Total Product Section (Center) */}
+        <div>
+          <h5 className="text-success" style={{ fontSize: '100%', color: 'grey', fontFamily: 'initial' }}>{totalProducts} products</h5>
+        </div>
+
+        {/* Sort Section (End) */}
+        <div>
+          {/* Add your sort content here */}
+          <span style={{ fontSize: '100%', color: 'grey', fontFamily: 'initial', padding:'30px' }}>Sort <i class="fa-solid fa-caret-down"></i></span>
+        </div>
+      </div>
+    </div>
         <div className="container mt-4">
    
    <div className="row mt-5 mb-4">
@@ -75,7 +97,7 @@ const Woman = ({cartItems, setCartItems}) => {
             <div className="card-body mt-0 " style={{ height: "90px", width:'100%' }}>
               <p className="card-title text-success">{product.name}</p>
               
-              <p className="card-text mt-1 text-danger">NGN{product.price}</p>
+              <p className="card-text mt-1 text-danger">{formatAsNaira(product.price)}</p>
             </div>
      
           </div>

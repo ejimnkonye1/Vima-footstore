@@ -12,6 +12,7 @@ import '../css/productdetails.css'
 import Testimonials from "./testmonial";
 import { useNavigate } from "react-router-dom";
 import ColorAlerts from "./alerts";
+import formatAsNaira from "../currency/naira";
 
 const ProductDetails = ({cartItems, setCartItems}) => {
     const { id } = useParams(); // Get the product ID from the route params
@@ -87,7 +88,7 @@ return(
      
           </p>
           <p className="text-primary">
-            <strong>NGN{product.price}</strong>
+            <strong>{formatAsNaira(product.price)}</strong>
           </p>
           {/* Add more product details here */}
           <p>{product.description}</p>

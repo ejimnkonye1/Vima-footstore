@@ -7,13 +7,15 @@ import { Link } from 'react-router-dom'
 import AOS from 'aos';
 import 'aos/dist/aos.css'; 
 import CustomPagination from "./page";
+import ColorAlerts from "./alerts";
+import formatAsNaira from "../currency/naira";
 const Catalog = ({cartItems, setCartItems}) => {
   const Allproduct = [...Mendata, ...Womandata, ...productdata]
     const [currentProducts, setCurrentProducts] = useState(Allproduct);
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 16; // Number of products to display per page
   const [totalProducts, setTotalProducts] = useState(Allproduct.length);
-
+  const [showToast, setShowToast] = useState(false);
   // Calculate the index range for the current page
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
@@ -33,18 +35,22 @@ const Catalog = ({cartItems, setCartItems}) => {
     
   };
   const handleAddToCart = (product) => {
-    // Check if the product is already in the cart
     const existingProduct = cartItems.find((item) => item.name === product.name);
-  
+
     if (existingProduct) {
-      // If the product exists in the cart, increase its quantity by 1
       existingProduct.quantity += 1;
       setCartItems([...cartItems]);
     } else {
-      // If the product is not in the cart, add it with a quantity of 1
       product.quantity = 1;
       setCartItems([...cartItems, product]);
     }
+    // navigate('./cart')
+    setShowToast(true);
+
+    // Hide the toast after a delay (adjust as needed)
+    setTimeout(() => {
+      setShowToast(false);
+    }, 5000);
   };
   useEffect(() => {
     AOS.init({
@@ -82,7 +88,12 @@ const Catalog = ({cartItems, setCartItems}) => {
       </div>
     </div>
         <div className="container mt-4">
-   
+        {showToast && (
+     <div className="custom-toast">
+      <ColorAlerts />
+
+   </div>
+  )} 
         <div className="row mt-5 mb-4">
     {currentProductsPage.map((product, id) => (
    <div key={id} className="col-6 col-md-4 col-lg-3">
@@ -97,9 +108,9 @@ const Catalog = ({cartItems, setCartItems}) => {
           
             <div className="card-body border-top ">
               <p className="card-title text-success ">{product.name}</p>
-              <button className="btn btn-sm btn-danger">Add to cart</button>
-              <p className="card-text mt-1 text-danger">NGN{product.price}</p>
               
+              <p className="card-text  text-danger">{formatAsNaira(product.price)}</p>
+
             </div>
      
           </div>

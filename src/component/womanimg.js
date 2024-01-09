@@ -53,7 +53,7 @@ const Womandata = [
     id: 29,
     name: 'Product 6',
     image: img6,
-    price: '19.99',
+    price: '5000',
     description:'These low-profile sllipers are your perfect casual wear companion. Featuring a durable rubber outer sole, they’ll withstand everything the weather can offer.',
 
   },
@@ -61,7 +61,7 @@ const Womandata = [
     id: 30,
     name: 'Product 7',
     image: img7,
-    price: '19.99',
+    price: '6000',
     description:'These low-profile sllipers are your perfect casual wear companion. Featuring a durable rubber outer sole, they’ll withstand everything the weather can offer.',
 
   },
@@ -69,7 +69,7 @@ const Womandata = [
     id: 31,
     name: 'Product 8',
     image: img8,
-    price: '$19.99',
+    price: '7000',
     description:'These low-profile sllipers are your perfect casual wear companion. Featuring a durable rubber outer sole, they’ll withstand everything the weather can offer.',
 
   },
@@ -77,7 +77,7 @@ const Womandata = [
     id: 32,
     name: 'Product 9',
     image: img9,
-    price: '19.99',
+    price: '8000',
     description:'These low-profile sllipers are your perfect casual wear companion. Featuring a durable rubber outer sole, they’ll withstand everything the weather can offer.',
 
   },
@@ -85,7 +85,7 @@ const Womandata = [
     id: 33,
     name: 'Product 10',
     image: img10,
-    price: '19.99',
+    price: '7000',
     description:'These low-profile sllipers are your perfect casual wear companion. Featuring a durable rubber outer sole, they’ll withstand everything the weather can offer.',
 
   },
@@ -93,7 +93,7 @@ const Womandata = [
     id: 34,
     name: 'Product 11',
     image: img11,
-    price: '19.99',
+    price: '9000',
     description:'These low-profile sllipers are your perfect casual wear companion. Featuring a durable rubber outer sole, they’ll withstand everything the weather can offer.',
 
   },
@@ -101,7 +101,7 @@ const Womandata = [
     id: 35,
     name: 'Product 11',
     image: img11,
-    price: '19.99',
+    price: '9000',
     description:'These low-profile sllipers are your perfect casual wear companion. Featuring a durable rubber outer sole, they’ll withstand everything the weather can offer.',
     
   },
