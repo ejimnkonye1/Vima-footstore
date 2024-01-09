@@ -29,11 +29,25 @@ function Cart({ cartItems, setCartItems }) {
         unsubscribe();
       };
     }, []);
-  useEffect(() => {
-    // Retrieve cart items from localStorage when the component mounts
-    const storedCartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
-    setCartItems(storedCartItems);
-  }, []);
+    useEffect(() => {
+      // Retrieve cart items from localStorage when the component mounts
+      const storedCartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+      setCartItems(storedCartItems);
+    
+      // Listen for changes to localStorage and update cartItems accordingly
+      const handleStorageChange = () => {
+        const updatedCartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+        setCartItems(updatedCartItems);
+      };
+    
+      window.addEventListener('storage', handleStorageChange);
+    
+      // Clean up the listener when the component unmounts
+      return () => {
+        window.removeEventListener('storage', handleStorageChange);
+      };
+    }, []);
+    
 
   useEffect(() => {
     // Update localStorage whenever cartItems change
