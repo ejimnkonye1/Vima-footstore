@@ -1,0 +1,27 @@
+.int{
+    width: 500px;
+    padding: 5px;
+
+}
+.log label{
+    margin-top: 20px;
+}
+.sign{
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+}
+.signup{
+
+}
+@media (max-width: 768px) {
+    .int{
+        width: 300px;
+    }
+    .signup label{
+        margin-top: 10px;
+    }
+    .sign{
+        
+    }
+}

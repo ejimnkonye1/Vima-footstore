@@ -1,0 +1,33 @@
+.pro img{
+
+}
+.pro{
+  
+}
+  @media (max-width: 768px) {
+    .container{
+     
+    }
+    .card {
+      width: 100%; 
+    
+    }
+  
+    .card img {
+      width: 100%; 
+      height: auto;
+    }
+  
+    .row {
+      width: 100%; 
+    }
+  
+    /* Add this to your CSS file */
+.truncate-text {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-wrap: nowrap;
+}
+
+  }

@@ -1,0 +1,72 @@
+/* YourStyles.css */
+.rev {
+    display: flex;
+    justify-content: center;
+    flex-direction: column; /* Adjust the direction to column */
+    align-items: center; /* Align items to the center */
+  }
+  
+  .testimonials {
+    display: flex;
+  
+  }
+  
+  .testimonial-item {
+    flex: 1;
+   
+    padding: 20px;
+    margin: 20px;
+    font-size: 1.10938em;
+  }
+  
+  .testimonial-name {
+    margin-top: 10px;
+    font-style: italic;
+  }
+  .rev h1{
+    font-size: 1.3125em;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+  }
+  @media (max-width: 767px) {
+    .testimonials{
+      display: grid;
+      grid-template-columns: 1fr;
+    }
+    .testimonial-item{
+      padding: 2px;
+      padding-left: -100px;
+   
+    }
+    .rev{
+      display: flex;
+      justify-content: center;
+    }
+  }
+  /* Common styles for both big and small screens */
+
+.testimonials {
+  /* Common styles go here */
+}
+
+/* Styles specific to big screens */
+@media (min-width: 768px) {
+  .big-screen {
+    /* Styles for big screens go here */
+  }
+
+  .small-screen {
+    display: none; /* Hide small-screen layout on big screens */
+  }
+}
+
+/* Styles specific to small screens */
+@media (max-width: 767px) {
+  .big-screen {
+    display: none; /* Hide big-screen layout on small screens */
+  }
+
+  .small-screen {
+    /* Styles for small screens go here */
+  }
+}
