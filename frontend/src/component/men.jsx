@@ -1,10 +1,10 @@
 import React, {useEffect} from "react";
 import { useState } from "react";
-import Mendata from "./menimg";
+import Mendata from "../array/menimg";
 import { Link } from 'react-router-dom'
 import AOS from 'aos';
 import 'aos/dist/aos.css';
-import CustomPagination from "./page";
+import CustomPagination from "../reuseable/page";
 import formatAsNaira from "../currency/naira";
 const Men = ({ cartItems, setCartItems }) => {
   const [currentProducts, setCurrentProducts] = useState(Mendata);

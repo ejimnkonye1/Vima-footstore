@@ -1,5 +1,5 @@
 import React,{useEffect} from "react";
-import productdata from './productimg';
+import productdata from '../array/productimg';
 import { Link } from "react-router-dom";
 import AOS from 'aos';
 import formatAsNaira from "../currency/naira";

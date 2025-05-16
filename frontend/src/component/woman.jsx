@@ -1,10 +1,10 @@
 import React, {useEffect} from "react";
 import { useState } from "react";
-import Womandata from "./womanimg";
+import Womandata from "../array/womanimg";
 import { Link } from 'react-router-dom'
 import AOS from 'aos';
 import 'aos/dist/aos.css';
-import CustomPagination from "./page";
+import CustomPagination from "../reuseable/page";
 import formatAsNaira from "../currency/naira";
 const Woman = ({cartItems, setCartItems}) => {
     const [currentProducts, setCurrentProducts] = useState(Womandata);

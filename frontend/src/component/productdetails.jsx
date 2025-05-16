@@ -1,7 +1,7 @@
 import React from "react";
-import productdata from "./productimg";
-import Mendata from "./menimg";
-import Womandata from "./womanimg";
+import productdata from "../array/productimg";
+import Mendata from "../array/menimg";
+import Womandata from "../array/womanimg";
 import { useParams } from "react-router-dom";
 import { useState } from "react";
 import Recommend from "./recommended";
@@ -9,9 +9,9 @@ import Alert from '@mui/material/Alert';
 
 import '../css/productdetails.css'
 
-import Testimonials from "./testmonial";
+import Testimonials from "../home/testmonial";
 import { useNavigate } from "react-router-dom";
-import ColorAlerts from "./alerts";
+import ColorAlerts from "../reuseable/alerts";
 import formatAsNaira from "../currency/naira";
 
 const ProductDetails = ({cartItems, setCartItems}) => {

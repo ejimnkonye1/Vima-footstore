@@ -1,13 +1,13 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import productdata from "./productimg";
-import Mendata from "./menimg";
-import Womandata from "./womanimg";
+import productdata from "../array/productimg";
+import Mendata from "../array/menimg";
+import Womandata from "../array/womanimg";
 import { Link } from 'react-router-dom'
 import AOS from 'aos';
 import 'aos/dist/aos.css'; 
-import CustomPagination from "./page";
-import ColorAlerts from "./alerts";
+import CustomPagination from "../reuseable/page";
+import ColorAlerts from "../reuseable/alerts";
 import formatAsNaira from "../currency/naira";
 const Catalog = ({cartItems, setCartItems}) => {
   const Allproduct = [...Mendata, ...Womandata, ...productdata]

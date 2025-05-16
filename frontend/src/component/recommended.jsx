@@ -8,7 +8,7 @@ import img5 from '../images/woman4.jpg';
 import img6 from '../images/woman5.jpg';
 import img7 from '../images/woman6.jpg';
 import { useNavigate } from "react-router-dom";
-import ColorAlerts from "./alerts";
+import ColorAlerts from "../reuseable/alerts";
 const Recommend = ({ cartItems, setCartItems }) => {
   const navigate = useNavigate()
   const [showToast, setShowToast] = useState(false);

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import Mendata from "./menimg";
+import Mendata from "../array/menimg";
 import { Link } from "react-router-dom";
 
 function SearchPage({ searchError }) {
