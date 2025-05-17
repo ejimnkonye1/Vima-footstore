@@ -1,0 +1,23 @@
+const jwt = require("jsonwebtoken")
+
+
+ const verifyJWT = (req, res, next) => {
+    const authHeader = req.headers.authorization || req.headers.Authorization
+    if (!authHeader?.startsWith("Bearer")) return res.sendStatus(401);
+    // console.log(authHeader) // bearer token
+
+    const token = authHeader.split(" ")[1]
+    jwt.verify(
+        token,
+        process.env.ACCESS_TOKEN_SECRET,
+        (err, dedcoded) => {
+            if(err) return res.sendStatus(403)// invalid or expired
+            req.user = dedcoded.UserInfo.email
+            req.roles = dedcoded.UserInfo.roles
+            next()
+        }
+    )
+
+ }
+
+ module.exports = verifyJWT
