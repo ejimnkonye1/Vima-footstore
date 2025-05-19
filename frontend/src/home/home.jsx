@@ -5,10 +5,10 @@ import img3 from '../images/29210__1_-removebg-preview.png';
 import img1 from '../images/brown-man-s-leather-derby-shoes-removebg-preview.png'
 import Proudcts from "../component/product";
 import { Link } from "react-router-dom";
-import AutoPlay from "../component/autoplayproduct";
+// import AutoPlay from "../component/autoplayproduct";
 import Testimonials from "./testmonial";
 import '../css/hero.css'
-import ProductCarousel from "../component/autoplayproduct";
+// import ProductCarousel from "../component/autoplayproduct";
 import { FiArrowRight } from "react-icons/fi";
 
 

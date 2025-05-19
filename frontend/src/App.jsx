@@ -20,14 +20,16 @@ import WhatsAppLink from './util/whatsapp.jsx';
 import SearchPage from './component/searchpg';
 
 import SimpleSlider from './home/home.jsx';
-import AutoPlay from './component/autoplayproduct';
-import { auth } from "./Firebase"; // Import Firebase auth object
+// import AutoPlay from './component/autoplayproduct';
+import { auth } from "./Firebase"; 
 import Recommend from './component/recommended';
 import BillingAddressForm from './payment/checkout.jsx';
 import ConfirmationPage from './payment/confirm.jsx';
 
 import OrderPage from './profile/order';
 import ContactInfo from './util/contactInfo.jsx';
+import ProductForm from './home/add.jsx';
+
 
 
 
@@ -95,7 +97,7 @@ const handleFormDataChange = (newFormData) => {
       <Route path='/cart/checkout' element={<BillingAddressForm cartItems={cartItems} setCartItems={setCartItems} onFormDataChange={handleFormDataChange} />} />
       <Route path='/confirm' element={<ConfirmationPage cartItems={cartItems} setCartItems={setCartItems} />} />
       <Route path='/order' element={<OrderPage formData={formData} />} />
-      <Route path='/product/:id' element={<ProductDetails cartItems={cartItems} setCartItems={setCartItems} />} />
+      <Route path='/product/:name' element={<ProductDetails cartItems={cartItems} setCartItems={setCartItems} />} />
       <Route path='/Man' element={<Men cartItems={cartItems} setCartItems={setCartItems} />} />
       <Route path='/Woman' element={<Woman cartItems={cartItems} setCartItems={setCartItems} />} />
       <Route path='/Cat' element={<Catalog cartItems={cartItems} setCartItems={setCartItems} />} />
@@ -114,9 +116,11 @@ const handleFormDataChange = (newFormData) => {
       )} 
 
       <Route path='/checkout' element={<Checkout cartItems={cartItems} />} />
-      <Route path='/auto' element={<AutoPlay cartItems={cartItems} setCartItems={setCartItems} />} />
+      {/* <Route path='/auto' element={<AutoPlay cartItems={cartItems} setCartItems={setCartItems} />} /> */}
       <Route path='/recommend' element={<Recommend cartItems={cartItems} setCartItems={setCartItems} />} />
       <Route path="/searchpg/:query" element={<SearchPage searchError={searchError} />} />
+
+            <Route path='/add' element={<ProductForm/>} />
     </Routes>
 
     <ContactInfo />

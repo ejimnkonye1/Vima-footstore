@@ -1,159 +1,173 @@
-import React from "react";
-import productdata from "../array/productimg";
-import Mendata from "../array/menimg";
-import Womandata from "../array/womanimg";
-import { useParams } from "react-router-dom";
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import { FiPlus, FiMinus, FiShoppingCart } from "react-icons/fi";
 import Recommend from "./recommended";
-import Alert from '@mui/material/Alert';
-
-import '../css/productdetails.css'
-
-import Testimonials from "../home/testmonial";
-import { useNavigate } from "react-router-dom";
-import ColorAlerts from "../reuseable/alerts";
+import toast, { Toaster } from "react-hot-toast";
 import formatAsNaira from "../currency/naira";
+import axios from "axios";
 
-const ProductDetails = ({cartItems, setCartItems}) => {
-    const { id } = useParams(); // Get the product ID from the route params
-    const allProducts = [...productdata,  ...Mendata,  ...Womandata];
-    const product = allProducts[Number(id)];
-    const [selectedSize, setSelectedSize] = useState("");
-  const [quantity, setQuantity] = useState(1); // Default quantity is 1
+const ProductDetails = ({ cartItems, setCartItems }) => {
+  const { name } = useParams(); // Get the product name from URL parameters
+  const [product, setProduct] = useState(null);
+  const [selectedSize, setSelectedSize] = useState("");
+  const [quantity, setQuantity] = useState(1);
   const navigate = useNavigate();
-  const [showToast, setShowToast] = useState(false);
 
-
-    if (!product) {
-      return <div>Product not found</div>;
-    }
-    const handleAddToCart = () => {
-      // Check if a size is selected
-      if (!selectedSize) {
-        alert("Please select a size");
-        
-      
-    
-        return;
-     
+  useEffect(() => {
+    const fetchProductDetails = async () => {
+      try {
+        const response = await axios.get(`http://localhost:4500/product/${name}`);
+        setProduct(response.data);
+        console.log(response.data);
+      } catch (error) {
+        console.error("Error fetching product details:", error);
+        toast.error("Failed to fetch product details", {
+          position: "bottom-right",
+        });
+        navigate("/"); // Redirect to home or another page if product not found
       }
-    
-      // Check if the product is already in the cart
-      const existingProduct = cartItems.find((item) => item.name === product.name && item.size === selectedSize);
-    
-      if (existingProduct) {
-        // If the product with the selected size exists in the cart, update its quantity
-        existingProduct.quantity += quantity;
-        setCartItems([...cartItems]);
-        
-      } else {
-        // If the product is not in the cart, add it with the selected size and quantity
-        const newItem = {
+    };
+
+    fetchProductDetails();
+  }, [name, navigate]);
+
+  if (!product) {
+    return (
+      <div className="flex items-center justify-center h-screen text-xl">
+        Loading product details...
+      </div>
+    );
+  }
+
+  const handleAddToCart = () => {
+    if (!selectedSize) {
+      toast.error("Please select a size", {
+        position: "bottom-right",
+      });
+      return;
+    }
+
+    const existingProduct = cartItems.find(
+      (item) => item.name === product.name && item.size === selectedSize
+    );
+
+    if (existingProduct) {
+      existingProduct.quantity += quantity;
+      setCartItems([...cartItems]);
+    } else {
+      setCartItems([
+        ...cartItems,
+        {
           ...product,
           size: selectedSize,
           quantity: quantity,
-        };
-        setCartItems([...cartItems, newItem]);
-      }
-      // navigate('/cart')
-      setShowToast(true);
+        },
+      ]);
+    }
 
-      // Hide the toast after a delay (adjust as needed)
-      setTimeout(() => {
-        setShowToast(false);
-      }, 1000);
-    };
-    
-return(
-    <div className="container mt-5">
-        {showToast && (
-     <div className="custom-toast">
-      <ColorAlerts />
+    toast.success(`${product.name} added to cart!`, {
+      position: "bottom-right",
+      style: {
+        background: '#10b981',
+        color: '#fff',
+      },
+    });
+  };
 
-   </div>
-  )} 
-    <div className="row " >
-      <div className="col-md-6 ">
-        <img
-          src={product.image}
-          alt={product.name}
-          className="img-fluid detials rounded"
-          style={{ height: "450px", width: "400px",  }}
-        />
-      </div>
-      <div className="col-md-6  ">
-        <div className="" style={{ marginLeft: "20px" }}>
-          <h2 className="mt-4 text-danger">{product.name}</h2>
-          <p>
-     
+  const sizeOptions = [39, 40, 41, 42, 43, 44, 45, 46, 47];
+
+  return (
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <Toaster />
+      <div className="flex flex-col md:flex-row gap-8">
+        {/* Product Image */}
+        <div className="md:w-1/2">
+          <div className="bg-white rounded-xl shadow-md overflow-hidden">
+            <img
+              src={product.image}
+              alt={product.name}
+              className="w-full h-auto object-cover"
+              style={{ maxHeight: "600px" }}
+            />
+          </div>
+        </div>
+
+        {/* Product Details */}
+        <div className="md:w-1/2">
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">
+            {product.name}
+          </h1>
+          <p className="text-2xl text-emerald-600 font-semibold mb-6">
+            {formatAsNaira(product.price)}
           </p>
-          <p className="text-primary">
-            <strong>{formatAsNaira(product.price)}</strong>
-          </p>
-          {/* Add more product details here */}
-          <p>{product.description}</p>
-          <p className="border-bottom"></p>
-          <p>
-            <strong>Select Size</strong>
-          </p>
-          <div class="container mt-4">
-  <div class="row size">
-  <ul className="list-inline">
-                  <li className={`list-inline-item size-item ${selectedSize === '39' ? 'selected' : ''}`} onClick={() => setSelectedSize('39')}>39</li>
-                  <li className={`list-inline-item size-item ${selectedSize === '40' ? 'selected' : ''}`} onClick={() => setSelectedSize('40')}>40</li>
-                  <li className={`list-inline-item size-item ${selectedSize === '41' ? 'selected' : ''}`} onClick={() => setSelectedSize('41')}>41</li>
-                  <li className={`list-inline-item size-item ${selectedSize === '42' ? 'selected' : ''}`} onClick={() => setSelectedSize('42')}>42</li>
-                  <li className={`list-inline-item size-item ${selectedSize === '43' ? 'selected' : ''}`} onClick={() => setSelectedSize('43')}>43</li>
-                  <li className={`list-inline-item size-item ${selectedSize === '44' ? 'selected' : ''}`} onClick={() => setSelectedSize('44')}>44</li>
-                  <li className={`list-inline-item size-item ${selectedSize === '45' ? 'selected' : ''}`} onClick={() => setSelectedSize('45')}>45</li>
-                  <li className={`list-inline-item size-item ${selectedSize === '46' ? 'selected' : ''}`} onClick={() => setSelectedSize('46')}>46</li>
-                  <li className={`list-inline-item size-item ${selectedSize === '47' ? 'selected' : ''}`} onClick={() => setSelectedSize('47')}>47</li>
-                </ul>
-  </div>
-</div>
 
-          <p className="border-bottom mt-3"></p>
+          <div className="mb-6">
+            <p className="text-gray-700 mb-4">{product.description}</p>
+          </div>
 
-          <div className="d-flex p-2">
-            {/* <p>
-              <strong>Quantity</strong>
-            </p> */}
-            <div className='d-flex justify-content-center align-items-center' style={{border:'1px solid blue',
-         borderRadius:'5px',width:'90px',
-        
-        }}>
-         <div className='' style={{marginRight:'10px', cursor:'pointer'}}     onClick={() => setQuantity(quantity + 1)}>
-          
-         -
-         </div>
-              <div className='m-2'>
-              {quantity}
-              </div>
-              <div className='' style={{marginLeft:'10px', cursor:'pointer'}}    onClick={() => setQuantity(quantity + 1)}>
-            
-              +
-              </div>
-         </div>
-         <div className="oga">
-         <button className="btn btn-danger cart mb-3" id="liveToastBtn" onClick={() => handleAddToCart(product)} >
-            Add to Cart
+          <div className="border-t border-b border-gray-200 py-6 mb-6">
+            <h3 className="text-lg font-medium text-gray-900 mb-4">
+              Select Size
+            </h3>
+            <div className="flex flex-wrap gap-3">
+              {sizeOptions.map((size) => (
+                <button
+                  key={size}
+                  onClick={() => setSelectedSize(size.toString())}
+                  className={`px-4 py-2 border rounded-full text-sm font-medium transition-colors ${
+                    selectedSize === size.toString()
+                      ? "bg-emerald-600 text-white border-emerald-600"
+                      : "border-gray-300 hover:bg-gray-50"
+                  }`}
+                >
+                  {size}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className="flex items-center gap-6 mb-8">
+            <div className="flex items-center border border-gray-300 rounded-full">
+              <button
+                onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                className="px-3 py-2 text-gray-600 hover:text-emerald-600"
+                disabled={quantity <= 1}
+              >
+                <FiMinus />
+              </button>
+              <span className="px-4 py-1">{quantity}</span>
+              <button
+                onClick={() => setQuantity(quantity + 1)}
+                className="px-3 py-2 text-gray-600 hover:text-emerald-600"
+              >
+                <FiPlus />
+              </button>
+            </div>
+
+            <button
+              onClick={handleAddToCart}
+              className="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white py-3 px-6 rounded-full flex items-center justify-center gap-2 transition-colors shadow-md hover:shadow-lg"
+            >
+              <FiShoppingCart className="text-lg" />
+              Add to Cart
+            </button>
+          </div>
+
+          <button className="w-full bg-gray-900 hover:bg-gray-800 text-white py-3 px-6 rounded-full transition-colors">
+            Buy It Now
           </button>
-          </div>
-          </div>
-          
-
-          {/* <div className="now p-1">
-            <button className="text-center buy  ">Buy It Now</button>
-          </div> */}
         </div>
       </div>
-    </div>
 
-
-    < div className="mt-5">
-    <Recommend cartItems={cartItems} setCartItems={setCartItems}/>
+      {/* Recommended Products */}
+      <div className="mt-16">
+        <h2 className="text-2xl font-bold text-gray-900 mb-8">
+          You May Also Like
+        </h2>
+        <Recommend cartItems={cartItems} setCartItems={setCartItems} />
+      </div>
     </div>
-  </div>
-)
-}
+  );
+};
+
 export default ProductDetails;

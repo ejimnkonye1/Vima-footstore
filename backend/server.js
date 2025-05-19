@@ -34,7 +34,8 @@ app.use("/register", require("./routes/register"))
 app.use("/refresh", require("./routes/refresh"))
 
 // free routes
-app.use("/product", require("./routes/product"))
+app.use("/products", require("./routes/product"))
+app.use('/product', require('./routes/productdetails'));
 // verify token
 app.use(verifyJWT)
 app.use("/addproduct", require("./routes/addproduct"))
