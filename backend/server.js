@@ -39,6 +39,7 @@ app.use('/product', require('./routes/productdetails'));
 app.use('/user', require('./routes/userprofile'));
 app.use('/updateuser', require('./routes/userupdate'));
 app.use('/updateproduct', require('./routes/updateproduct'));
+app.use('/deleteproduct', require('./routes/deleteproduct'));
 // verify token
 app.use(verifyJWT)
 app.use("/addproduct", require("./routes/addproduct"))
