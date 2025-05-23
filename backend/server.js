@@ -28,6 +28,7 @@ app.use(cookieParser())
  app.get("/",(req, res) => {
   res.send("Hello world")
 })
+
 // routes
 app.use("/login", require("./routes/login"))
 app.use("/register", require("./routes/register"))
