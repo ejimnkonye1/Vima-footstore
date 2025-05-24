@@ -37,6 +37,7 @@ app.use("/refresh", require("./routes/refresh"))
 // free routes
 app.use("/products", require("./routes/product"))
 app.use('/product', require('./routes/productdetails'));
+app.use('/search', require('./routes/searchproduct'));
 app.use('/user', require('./routes/userprofile'));
 app.use('/updateuser', require('./routes/userupdate'));
 app.use('/updateproduct', require('./routes/updateproduct'));
