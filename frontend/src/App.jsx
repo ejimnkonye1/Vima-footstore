@@ -9,7 +9,7 @@ import ProductDetails from './component/productdetails';
 import Men from './component/men';
 import Woman from './component/woman';
 import Catalog from './component/catalog';
-import Footer from './home/footer.jsx';
+
 import Login from './auth/login.jsx';
 
 import Cart from './component/cart';
@@ -29,6 +29,12 @@ import ConfirmationPage from './payment/confirm.jsx';
 import OrderPage from './profile/order';
 import ContactInfo from './util/contactInfo.jsx';
 import ProductForm from './home/add.jsx';
+import ECommerceStore from './test.jsx';
+import Footer from './util/footer.jsx';
+import ProductDetailsNew from './new/det.jsx';
+import CartPage from './new/ca.jsx';
+import CheckoutPage from './new/checkout.jsx';
+import UserDashboard from './new/ac.jsx';
 
 
 
@@ -121,11 +127,16 @@ const handleFormDataChange = (newFormData) => {
       <Route path="/searchpg/:query" element={<SearchPage searchError={searchError} />} />
 
             <Route path='/add' element={<ProductForm/>} />
+               <Route path='/test' element={<ECommerceStore />} />
+                              <Route path='/de/:id' element={<ProductDetailsNew />} />
+                                                            <Route path='/ca' element={<CartPage />} />
+                                                           <Route path='/che' element={<CheckoutPage />} />
+                                                         <Route path='/us' element={<UserDashboard />} />
     </Routes>
 
     <ContactInfo />
     <WhatsAppLink />
-    <Footer />
+    <Footer/>
   </Layout>
 </BrowserRouter>
 
