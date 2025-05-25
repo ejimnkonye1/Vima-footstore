@@ -33,7 +33,7 @@ const uploadToSupabase = async (files, uid) => {
 }
 
 const createNewProduct = async (req, res) => {
-  if (!req?.body?.name || !req?.file || !req?.body?.price || !req?.body?.description) {
+  if (!req?.body?.name || !req?.file || !req?.body?.price || !req?.body?.description || !req?.body?.category) {
     return res.status(400).json({ message: "All fields including image are required" });
   }
 
@@ -47,6 +47,7 @@ const createNewProduct = async (req, res) => {
       image: imageUrl[0], // Take the first (and only) URL
       price: req.body.price,
       description: req.body.description,
+      category: req.body.category
     });
 
     return res.status(201).json(result);

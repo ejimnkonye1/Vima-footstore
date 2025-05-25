@@ -1,16 +1,9 @@
-const express = require("express")
+const express = require("express");
+const router = express.Router();
+const productsController = require('../controllers/productcontroller');
 
-const router = express.Router()
- 
-const productsController = require('../controllers/productcontroller')
+router.get("/", productsController.getAllProducts);
+router.get("/men", productsController.getAllMen);
+router.get("/women", productsController.getAllWomen);
 
-
-
-router.route("/",)
-      .get(productsController.getAllProducts)
-
-
-    //   router.route("/:id")
-    //   .get(verifyRoles(ROLES_LIST.User,),employeeController.getEmployee)
-
-module.exports = router
+module.exports = router;

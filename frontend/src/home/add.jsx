@@ -5,7 +5,8 @@ const ProductForm = () => {
   const [formData, setFormData] = useState({
     name: '',
     price: '',
-    description: ''
+    description: '',
+     category: '' 
   });
   const [image, setImage] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -35,11 +36,11 @@ const ProductForm = () => {
       formDataToSend.append('price', formData.price);
       formDataToSend.append('description', formData.description);
       formDataToSend.append('image', image);
-
+      formDataToSend.append('category', formData.category);
       const response = await axios.post('http://localhost:4500/addproduct', formDataToSend, {
         headers: {
           'Content-Type': 'multipart/form-data',
-          'Authorization': `Bearer ${'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySW5mbyI6eyJlbWFpbCI6ImVqaW1AZ21haWwuY29tIiwicm9sZXMiOlsidXNlciIsImFkbWluIl19LCJpYXQiOjE3NDc0NDI1OTMsImV4cCI6MTc0NzQ0MjgzM30.voCIbzuEFaxMiu0v4ys7dL4CBa9wf94Nc23-3kWk8d0'}` // Add if using auth
+          'Authorization': `Bearer ${'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySW5mbyI6eyJlbWFpbCI6ImVqaW1AZ21haWwuY29tIiwicm9sZXMiOlsidXNlciIsImFkbWluIl19LCJpYXQiOjE3NDgxMzIwOTIsImV4cCI6MTc0ODIxODQ5Mn0.I076umEFcTnP_HOUqZ-UlWB_MNoa_QDZC0-EJr6Pet4'}` // Add if using auth
         }
       });
 
@@ -100,7 +101,24 @@ const ProductForm = () => {
             required
           />
         </div>
-
+   <div className="mb-4">
+          <label className="block text-gray-700 mb-2" htmlFor="category">
+            Category
+          </label>
+          <select
+            id="category"
+            name="category"
+            value={formData.category}
+            onChange={handleChange}
+            className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            required
+          >
+            <option value="">Select a category</option>
+            <option value="men">Men</option>
+            <option value="women">Women</option>
+            <option value="kids">Kids</option>
+          </select>
+        </div>
         <div className="mb-4">
           <label className="block text-gray-700 mb-2" htmlFor="description">
             Description

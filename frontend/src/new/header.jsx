@@ -1,0 +1,146 @@
+import { useState, useEffect } from 'react';
+import { FiSearch, FiHeart, FiShoppingBag, FiUser, FiMenu, FiX, FiChevronDown, FiStar, FiFilter } from 'react-icons/fi';
+import { motion, AnimatePresence } from 'framer-motion';
+const Header = ({setActiveCategory,searchQuery, setSearchQuery,activeCategory, cartItems}) => {
+      const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+    return(
+        <div>
+              <header className="bg-white shadow-sm sticky top-0 z-50">
+        <div className="container mx-auto px-4 py-4">
+          <div className="flex items-center justify-between">
+            {/* Logo and Mobile Menu */}
+            <div className="flex items-center">
+              <button 
+                className="md:hidden mr-4 text-gray-700"
+                onClick={() => setMobileMenuOpen(true)}
+              >
+                <FiMenu size={24} />
+              </button>
+              <h1 className="text-2xl font-bold text-indigo-600">FashionHub</h1>
+            </div>
+            
+            {/* Desktop Navigation */}
+            <nav className="hidden md:flex space-x-8">
+              <button 
+                className={`py-2 font-medium ${activeCategory === 'all' ? 'text-indigo-600 border-b-2 border-indigo-600' : 'text-gray-700 hover:text-indigo-500'}`}
+                onClick={() => setActiveCategory('all')}
+              >
+                All Products
+              </button>
+              <button 
+                className={`py-2 font-medium ${activeCategory === 'men' ? 'text-indigo-600 border-b-2 border-indigo-600' : 'text-gray-700 hover:text-indigo-500'}`}
+                onClick={() => setActiveCategory('men')}
+              >
+                Men
+              </button>
+              <button 
+                className={`py-2 font-medium ${activeCategory === 'women' ? 'text-indigo-600 border-b-2 border-indigo-600' : 'text-gray-700 hover:text-indigo-500'}`}
+                onClick={() => setActiveCategory('women')}
+              >
+                Women
+              </button>
+              <button 
+                className={`py-2 font-medium ${activeCategory === 'kids' ? 'text-indigo-600 border-b-2 border-indigo-600' : 'text-gray-700 hover:text-indigo-500'}`}
+                onClick={() => setActiveCategory('kids')}
+              >
+                Kids
+              </button>
+            </nav>
+            
+            {/* Search and Icons */}
+            <div className="flex items-center space-x-4">
+              <div className="relative hidden md:block">
+                <input
+                  type="text"
+                  placeholder="Search products..."
+                  className="pl-10 pr-4 py-2 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                />
+                <FiSearch className="absolute left-3 top-3 text-gray-400" />
+              </div>
+              <button className="p-2 text-gray-700 hover:text-indigo-600 relative">
+                <FiHeart size={20} />
+                <span className="sr-only">Wishlist</span>
+              </button>
+              <button className="p-2 text-gray-700 hover:text-indigo-600 relative">
+                <FiShoppingBag size={20} />
+                {cartItems.length > 0 && (
+                  <span className="absolute -top-1 -right-1 bg-indigo-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                    {cartItems?.length}
+                  </span>
+                )}
+              </button>
+              <button className="p-2 text-gray-700 hover:text-indigo-600">
+                <FiUser size={20} />
+                <span className="sr-only">Account</span>
+              </button>
+            </div>
+          </div>
+          
+          {/* Mobile Search */}
+          <div className="mt-4 md:hidden">
+            <div className="relative">
+              <input
+                type="text"
+                placeholder="Search products..."
+                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+              <FiSearch className="absolute left-3 top-3 text-gray-400" />
+            </div>
+          </div>
+        </div>
+      </header>
+
+      {/* Mobile Menu */}
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <motion.div 
+            initial={{ x: '-100%' }}
+            animate={{ x: 0 }}
+            exit={{ x: '-100%' }}
+            transition={{ type: 'tween' }}
+            className="fixed inset-y-0 left-0 w-64 bg-white shadow-lg z-50"
+          >
+            <div className="p-4 border-b border-gray-200 flex justify-between items-center">
+              <h2 className="text-xl font-bold text-indigo-600">Menu</h2>
+              <button onClick={() => setMobileMenuOpen(false)}>
+                <FiX size={24} className="text-gray-500" />
+              </button>
+            </div>
+            <nav className="p-4 space-y-4">
+              <button 
+                className={`block w-full text-left py-2 px-4 rounded-lg ${activeCategory === 'all' ? 'bg-indigo-50 text-indigo-600' : 'text-gray-700 hover:bg-gray-100'}`}
+                onClick={() => { setActiveCategory('all'); setMobileMenuOpen(false); }}
+              >
+                All Products
+              </button>
+              <button 
+                className={`block w-full text-left py-2 px-4 rounded-lg ${activeCategory === 'men' ? 'bg-indigo-50 text-indigo-600' : 'text-gray-700 hover:bg-gray-100'}`}
+                onClick={() => { setActiveCategory('men'); setMobileMenuOpen(false); }}
+              >
+                Men
+              </button>
+              <button 
+                className={`block w-full text-left py-2 px-4 rounded-lg ${activeCategory === 'women' ? 'bg-indigo-50 text-indigo-600' : 'text-gray-700 hover:bg-gray-100'}`}
+                onClick={() => { setActiveCategory('women'); setMobileMenuOpen(false); }}
+              >
+                Women
+              </button>
+              <button 
+                className={`block w-full text-left py-2 px-4 rounded-lg ${activeCategory === 'kids' ? 'bg-indigo-50 text-indigo-600' : 'text-gray-700 hover:bg-gray-100'}`}
+                onClick={() => { setActiveCategory('kids'); setMobileMenuOpen(false); }}
+              >
+                Kids
+              </button>
+            </nav>
+          </motion.div>
+        )}
+      </AnimatePresence>
+        </div>
+    )
+}
+
+export default Header
