@@ -1,12 +1,12 @@
 import { motion, AnimatePresence } from 'framer-motion';
-import { FiSearch, FiHeart, FiShoppingBag, FiUser, FiMenu, FiX, FiChevronDown, FiStar, FiFilter } from 'react-icons/fi';
+import { FiHeart,  FiX,  } from 'react-icons/fi';
 const Quickview = ({quickViewProduct,setQuickViewProduct,addToCart}) => {
     return(
         <>
    
              <AnimatePresence>
                 {quickViewProduct && (
-                  <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+                  <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center p-4 z-50">
                     <motion.div 
                       initial={{ opacity: 0, scale: 0.9 }}
                       animate={{ opacity: 1, scale: 1 }}

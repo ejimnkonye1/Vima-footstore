@@ -96,24 +96,12 @@ const handleFormDataChange = (newFormData) => {
        
  <BrowserRouter>
   <Layout>
-    <Header cartItems={cartItems} />
 
     <Routes>
-      <Route path='/' element={<SimpleSlider cartItems={cartItems} setCartItems={setCartItems} />} />
+      <Route path='/sli' element={<SimpleSlider cartItems={cartItems} setCartItems={setCartItems} />} />
       <Route path='/cart/checkout' element={<BillingAddressForm cartItems={cartItems} setCartItems={setCartItems} onFormDataChange={handleFormDataChange} />} />
       <Route path='/confirm' element={<ConfirmationPage cartItems={cartItems} setCartItems={setCartItems} />} />
       <Route path='/order' element={<OrderPage formData={formData} />} />
-      <Route path='/product/:name' element={<ProductDetails cartItems={cartItems} setCartItems={setCartItems} />} />
-      <Route path='/Man' element={<Men cartItems={cartItems} setCartItems={setCartItems} />} />
-      <Route path='/Woman' element={<Woman cartItems={cartItems} setCartItems={setCartItems} />} />
-      <Route path='/Cat' element={<Catalog cartItems={cartItems} setCartItems={setCartItems} />} />
-      
-      {/* <Route path="/account">
-        <Route path="/account" element={user ? <Dashboard /> : <Login />} />
-      </Route> */}
-
-      {/* <Route path='/signup' element={<SignUp />} /> */}
-      {/* <Route path='/resetpassword' element={<ResetPassword />} /> */}
 
        {user ? (
         <Route path='/cart' element={<Cart cartItems={cartItems} setCartItems={setCartItems} />} />
@@ -127,8 +115,8 @@ const handleFormDataChange = (newFormData) => {
       <Route path="/searchpg/:query" element={<SearchPage searchError={searchError} />} />
 
             <Route path='/add' element={<ProductForm/>} />
-               <Route path='/test' element={<ECommerceStore />} />
-                              <Route path='/de/:id' element={<ProductDetailsNew />} />
+               <Route path='/' element={<ECommerceStore />} />
+                              <Route path='/product/:name' element={<ProductDetailsNew />} />
                                                             <Route path='/ca' element={<CartPage />} />
                                                            <Route path='/che' element={<CheckoutPage />} />
                                                          <Route path='/us' element={<UserDashboard />} />

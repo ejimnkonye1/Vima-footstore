@@ -1,6 +1,7 @@
 import { motion, AnimatePresence } from 'framer-motion';
-import { FiSearch, FiHeart, FiShoppingBag, FiUser, FiMenu, FiX, FiChevronDown, FiStar, FiFilter } from 'react-icons/fi';
-const Products = ({filteredProducts, resetFilters,addToCart}) => {
+import {  FiShoppingBag, } from 'react-icons/fi';
+import { Link } from "react-router-dom";
+const Products = ({filteredProducts, resetFilters,addToCart,setQuickViewProduct}) => {
     return (
         <>
             {filteredProducts.length === 0 ? (
@@ -50,7 +51,10 @@ const Products = ({filteredProducts, resetFilters,addToCart}) => {
                       </div>
                       
                       <div className="p-4">
-                        <h3 className="font-medium text-gray-900 mb-1">{product.name}</h3>
+                         <Link to={`/product/${product.name}`}>
+                                                 <h3 className="font-medium text-gray-900 mb-1">{product.name}</h3>
+                         </Link>
+
                         <div className="flex items-center justify-between">
                           <span className="font-bold text-gray-900">${product.price.toFixed(2)}</span>
                           <button

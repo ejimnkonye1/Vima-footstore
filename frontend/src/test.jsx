@@ -20,6 +20,16 @@ const ECommerceStore = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
+ const [currentPage, setCurrentPage] = useState(1);
+  const [productsPerPage] = useState(8); // Items per page
+
+  // Calculate pagination
+  const indexOfLastProduct = currentPage * productsPerPage;
+  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+  const currentProducts = filteredProducts.slice(indexOfFirstProduct, indexOfLastProduct);
+  const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
+
+
   // Fetch products based on active category
   useEffect(() => {
     const fetchProducts = async () => {
@@ -82,14 +92,6 @@ const ECommerceStore = () => {
     setSearchQuery('');
     setPriceFilter([0, 50000]);
   };
- const [currentPage, setCurrentPage] = useState(1);
-  const [productsPerPage] = useState(8); // Items per page
-
-  // Calculate pagination
-  const indexOfLastProduct = currentPage * productsPerPage;
-  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-  const currentProducts = filteredProducts.slice(indexOfFirstProduct, indexOfLastProduct);
-  const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
 
   // Change page
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
@@ -144,6 +146,7 @@ const ECommerceStore = () => {
             addToCart={addToCart}
             resetFilters={resetFilters}
          filteredProducts={currentProducts}
+         setQuickViewProduct={setQuickViewProduct}
              />
                    <div className="flex justify-center mt-8">
               <Pagination
