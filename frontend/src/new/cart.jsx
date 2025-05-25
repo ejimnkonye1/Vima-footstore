@@ -2,42 +2,12 @@ import { useState } from 'react';
 import { FiShoppingBag, FiX, FiChevronDown, FiChevronUp, FiTrash2, FiArrowLeft } from 'react-icons/fi';
 import { FaFacebook, FaTwitter, FaPinterest } from 'react-icons/fa';
 import { BiLeaf } from 'react-icons/bi';
+import { useCart } from '../context/cartcontext';
+import { useNavigate } from 'react-router-dom';
 
 const CartPage = () => {
-  const [cartItems, setCartItems] = useState([
-    {
-      id: '1',
-      name: 'Premium Eco-Tech Running Shoes',
-      price: 129.99,
-      color: 'black',
-      size: 'US 10',
-      quantity: 1,
-      image: '/shoe-front.jpg',
-      stock: 15,
-      isSustainable: true
-    },
-    {
-      id: '2',
-      name: 'Organic Cotton T-Shirt',
-      price: 29.99,
-      color: 'white',
-      size: 'M',
-      quantity: 2,
-      image: '/tshirt.jpg',
-      stock: 42
-    },
-    {
-      id: '3',
-      name: 'Performance Running Shorts',
-      price: 49.99,
-      color: 'navy',
-      size: 'L',
-      quantity: 1,
-      image: '/shorts.jpg',
-      stock: 8,
-      isNew: true
-    }
-  ]);
+    const { cart, updateQuantity, removeFromCart } = useCart();
+const navigate = useNavigate()
 
   const [couponCode, setCouponCode] = useState('');
   const [isCouponApplied, setIsCouponApplied] = useState(false);
@@ -57,22 +27,13 @@ const CartPage = () => {
     }
   ]);
 
-  const subtotal = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+  const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
   const shipping = subtotal > 50 ? 0 : 5.99;
   const tax = subtotal * 0.08;
   const discount = isCouponApplied ? subtotal * 0.1 : 0; // 10% discount for demo
   const total = subtotal + shipping + tax - discount;
 
-  const updateQuantity = (id, newQuantity) => {
-    if (newQuantity < 1) return;
-    setCartItems(cartItems.map(item => 
-      item.id === id ? { ...item, quantity: newQuantity } : item
-    ));
-  };
 
-  const removeItem = (id) => {
-    setCartItems(cartItems.filter(item => item.id !== id));
-  };
 
   const applyCoupon = () => {
     if (couponCode.trim()) {
@@ -80,25 +41,11 @@ const CartPage = () => {
       setShowCouponInput(false);
     }
   };
-
+const handlechekout =  () => {
+  navigate("/checkout")
+}
   return (
     <div className="bg-gray-50 min-h-screen">
-      {/* Header */}
-      <header className="bg-white shadow-sm sticky top-0 z-10">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <a href="/" className="text-2xl font-bold text-indigo-600">FashionHub</a>
-            <div className="flex items-center space-x-4">
-              <a href="/cart" className="p-2 text-indigo-600 relative">
-                <FiShoppingBag size={20} />
-                <span className="absolute -top-1 -right-1 bg-indigo-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
-                  {cartItems.reduce((sum, item) => sum + item.quantity, 0)}
-                </span>
-              </a>
-            </div>
-          </div>
-        </div>
-      </header>
 
       {/* Main Content */}
       <main className="container mx-auto px-4 py-8">
@@ -107,13 +54,13 @@ const CartPage = () => {
           <div className="lg:w-2/3">
             <div className="bg-white rounded-lg shadow-sm p-6">
               <div className="flex items-center justify-between mb-6">
-                <h1 className="text-2xl font-bold text-gray-900">Your Cart ({cartItems.length})</h1>
+                <h1 className="text-2xl font-bold text-gray-900">Your Cart ({cart.length})</h1>
                 <a href="/" className="text-indigo-600 hover:text-indigo-800 flex items-center">
                   <FiArrowLeft className="mr-1" /> Continue Shopping
                 </a>
               </div>
 
-              {cartItems.length === 0 ? (
+              {cart.length === 0 ? (
                 <div className="text-center py-12">
                   <FiShoppingBag className="mx-auto h-12 w-12 text-gray-400" />
                   <h3 className="mt-4 text-lg font-medium text-gray-900">Your cart is empty</h3>
@@ -129,7 +76,7 @@ const CartPage = () => {
                 <>
                   {/* Cart Items List */}
                   <ul className="divide-y divide-gray-200">
-                    {cartItems.map((item) => (
+                    {cart.map((item) => (
                       <li key={item.id} className="py-6 flex flex-col sm:flex-row">
                         {/* Product Image */}
                         <div className="flex-shrink-0 w-full sm:w-32 h-32 bg-gray-100 rounded-md overflow-hidden">
@@ -145,7 +92,7 @@ const CartPage = () => {
                           <div className="flex justify-between">
                             <div>
                               <h3 className="text-base font-medium text-gray-900">
-                                <a href={`/product/${item.id}`}>{item.name}</a>
+                                <a href={`/product/${item.name}`}>{item.name}</a>
                               </h3>
                               <p className="mt-1 text-sm text-gray-500 capitalize">
                                 {item.color} | {item.size}
@@ -168,7 +115,7 @@ const CartPage = () => {
                           <div className="mt-4 flex items-center justify-between">
                             <div className="flex items-center border border-gray-300 rounded-md">
                               <button
-                                onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                                onClick={() => updateQuantity(item._id, item.quantity - 1)}
                                 className="px-3 py-1 text-gray-600 hover:bg-gray-100"
                                 disabled={item.quantity <= 1}
                               >
@@ -178,7 +125,7 @@ const CartPage = () => {
                                 {item.quantity}
                               </span>
                               <button
-                                onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                                onClick={() => updateQuantity(item._id, item.quantity + 1)}
                                 className="px-3 py-1 text-gray-600 hover:bg-gray-100"
                                 disabled={item.quantity >= item.stock}
                               >
@@ -186,7 +133,7 @@ const CartPage = () => {
                               </button>
                             </div>
                             <button
-                              onClick={() => removeItem(item.id)}
+                              onClick={() => removeFromCart(item._id)}
                               className="flex items-center text-sm text-gray-500 hover:text-red-600"
                             >
                               <FiTrash2 className="mr-1" /> Remove
@@ -229,7 +176,7 @@ const CartPage = () => {
             </div>
 
             {/* Suggested Products */}
-            {cartItems.length > 0 && (
+            {cart.length > 0 && (
               <div className="mt-8">
                 <h2 className="text-lg font-medium text-gray-900 mb-4">Frequently bought together</h2>
                 <div className="grid grid-cols-2 gap-4">
@@ -251,7 +198,7 @@ const CartPage = () => {
           </div>
 
           {/* Order Summary */}
-          {cartItems.length > 0 && (
+          {cart.length > 0 && (
             <div className="lg:w-1/3">
               <div className="bg-white rounded-lg shadow-sm p-6 sticky top-24">
                 <h2 className="text-lg font-medium text-gray-900 mb-4">Order Summary</h2>
@@ -282,24 +229,11 @@ const CartPage = () => {
                   </div>
                 </div>
 
-                <button className="mt-6 w-full bg-indigo-600 text-white py-3 px-6 rounded-md hover:bg-indigo-700 font-medium">
+                <button onClick={handlechekout} className="mt-6 w-full bg-indigo-600 text-white py-3 px-6 rounded-md hover:bg-indigo-700 font-medium">
                   Proceed to Checkout
                 </button>
 
-                <div className="mt-6 border-t border-gray-200 pt-6">
-                  <h3 className="text-sm font-medium text-gray-900 mb-3">Share your cart</h3>
-                  <div className="flex justify-center space-x-4">
-                    <a href="#" className="text-gray-500 hover:text-blue-600">
-                      <FaFacebook size={20} />
-                    </a>
-                    <a href="#" className="text-gray-500 hover:text-blue-400">
-                      <FaTwitter size={20} />
-                    </a>
-                    <a href="#" className="text-gray-500 hover:text-red-600">
-                      <FaPinterest size={20} />
-                    </a>
-                  </div>
-                </div>
+           
 
                 <div className="mt-6 border-t border-gray-200 pt-6">
                   <div className="flex items-center">
@@ -315,56 +249,7 @@ const CartPage = () => {
         </div>
       </main>
 
-      {/* Footer */}
-      <footer className="bg-gray-900 text-white py-12">
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-            <div>
-              <h3 className="text-lg font-semibold mb-4">FashionHub</h3>
-              <p className="text-gray-400 text-sm">
-                The future of fashion shopping. Curated collections for the modern consumer.
-              </p>
-            </div>
-            <div>
-              <h3 className="text-sm font-semibold uppercase tracking-wider mb-4">Shop</h3>
-              <ul className="space-y-2">
-                <li><a href="#" className="text-gray-400 hover:text-white text-sm">Men</a></li>
-                <li><a href="#" className="text-gray-400 hover:text-white text-sm">Women</a></li>
-                <li><a href="#" className="text-gray-400 hover:text-white text-sm">Kids</a></li>
-                <li><a href="#" className="text-gray-400 hover:text-white text-sm">New Arrivals</a></li>
-              </ul>
-            </div>
-            <div>
-              <h3 className="text-sm font-semibold uppercase tracking-wider mb-4">Help</h3>
-              <ul className="space-y-2">
-                <li><a href="#" className="text-gray-400 hover:text-white text-sm">Customer Service</a></li>
-                <li><a href="#" className="text-gray-400 hover:text-white text-sm">Track Order</a></li>
-                <li><a href="#" className="text-gray-400 hover:text-white text-sm">Returns & Exchanges</a></li>
-                <li><a href="#" className="text-gray-400 hover:text-white text-sm">Shipping Info</a></li>
-              </ul>
-            </div>
-            <div>
-              <h3 className="text-sm font-semibold uppercase tracking-wider mb-4">Sustainability</h3>
-              <ul className="space-y-2">
-                <li><a href="#" className="text-gray-400 hover:text-white text-sm">Our Commitment</a></li>
-                <li><a href="#" className="text-gray-400 hover:text-white text-sm">Carbon Neutral</a></li>
-                <li><a href="#" className="text-gray-400 hover:text-white text-sm">Recycling Program</a></li>
-                <li><a href="#" className="text-gray-400 hover:text-white text-sm">Ethical Sourcing</a></li>
-              </ul>
-            </div>
-          </div>
-          <div className="border-t border-gray-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
-            <p className="text-gray-500 text-sm mb-4 md:mb-0">
-              &copy; {new Date().getFullYear()} FashionHub. All rights reserved.
-            </p>
-            <div className="flex space-x-6">
-              <a href="#" className="text-gray-500 hover:text-white text-sm">Privacy Policy</a>
-              <a href="#" className="text-gray-500 hover:text-white text-sm">Terms of Service</a>
-              <a href="#" className="text-gray-500 hover:text-white text-sm">Accessibility</a>
-            </div>
-          </div>
-        </div>
-      </footer>
+ 
     </div>
   );
 };

@@ -4,6 +4,7 @@ import { BiLeaf } from 'react-icons/bi';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
+import { useCart } from '../context/cartcontext';
 
 const ProductDetailsNew = () => {
   const { name } = useParams();
@@ -13,8 +14,7 @@ const ProductDetailsNew = () => {
   const [selectedSize, setSelectedSize] = useState('M');
   const [quantity, setQuantity] = useState(1);
   const [isWishlisted, setIsWishlisted] = useState(false);
-
-  // Static data for missing product properties
+  const { addToCart } = useCart();
   const staticProductData = {
     discountPrice: 1799.98,
     stock: 15,
@@ -44,15 +44,48 @@ const ProductDetailsNew = () => {
     fetchProductDetails();
   }, [name]);
 
-  const addToCart = () => {
-    if (!product || !selectedSize || !selectedColor) return;
-    
-    console.log(`Added to cart: ${product.name} - ${selectedSize} - ${selectedColor} - Qty: ${quantity}`);
-    toast.success("Added to cart");
+  const addtoCart = () => {
+    try {
+      if (!product || !selectedSize || !selectedColor) {
+        toast.error("Please select color and size");
+        return;
+      }
+      
+      const cartItem = {
+        _id: product._id,
+        name: product.name,
+        price: product.price,
+        image: product.image,
+        color: selectedColor,
+        size: selectedSize,
+        quantity: quantity,
+        category: product.category,
+        description: product.description
+      };
+
+      addToCart(cartItem);
+      toast.success(`${quantity} × ${product.name} added to cart`);
+    } catch (error) {
+      console.error("Error adding to cart:", error);
+      toast.error("Failed to add to cart");
+    }
+  };
+    const increaseQuantity = () => {
+    if (quantity < product.stock) {
+      setQuantity(quantity + 1);
+    } else {
+      toast.error(`Only ${product.stock} available in stock`);
+    }
+  };
+
+  const decreaseQuantity = () => {
+    if (quantity > 1) {
+      setQuantity(quantity - 1);
+    }
   };
 
   const buyNow = () => {
-    addToCart();
+    addtoCart();
     navigate('/checkout');
   };
 
@@ -220,7 +253,7 @@ const ProductDetailsNew = () => {
               <h3 className="text-sm font-medium text-gray-900 mb-3">Quantity</h3>
               <div className="flex w-32">
                 <button 
-                  onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                   onClick={decreaseQuantity}
                   className="px-3 py-2 border border-gray-300 rounded-l-md bg-gray-50 text-gray-600 hover:bg-gray-100 transition-colors"
                 >
                   -
@@ -229,7 +262,8 @@ const ProductDetailsNew = () => {
                   {quantity}
                 </div>
                 <button 
-                  onClick={() => setQuantity(quantity + 1)}
+    onClick={increaseQuantity}
+    disabled={quantity >= product.stock}
                   className="px-3 py-2 border border-gray-300 rounded-r-md bg-gray-50 text-gray-600 hover:bg-gray-100 transition-colors"
                 >
                   +
@@ -243,7 +277,7 @@ const ProductDetailsNew = () => {
             {/* Action Buttons */}
             <div className="flex flex-col space-y-3 pt-2">
               <button
-                onClick={addToCart}
+                onClick={addtoCart}
                 className="bg-indigo-600 text-white py-3 px-6 rounded-md hover:bg-indigo-700 font-medium flex items-center justify-center transition-colors"
               >
                 Add to Cart

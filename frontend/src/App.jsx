@@ -31,8 +31,8 @@ import ContactInfo from './util/contactInfo.jsx';
 import ProductForm from './home/add.jsx';
 import ECommerceStore from './test.jsx';
 import Footer from './util/footer.jsx';
-import ProductDetailsNew from './new/det.jsx';
-import CartPage from './new/ca.jsx';
+import ProductDetailsNew from './new/productdetails.jsx';
+import CartPage from './new/cart.jsx';
 import CheckoutPage from './new/checkout.jsx';
 import UserDashboard from './new/ac.jsx';
 
@@ -75,20 +75,7 @@ const handleFormDataChange = (newFormData) => {
   const [cartItems, setCartItems] = useState([]); // Define cart state
   const [searchError, setSearchError] = useState(false); // State for search error
   // Add this line at the beginning of your component
-  const [user, setUser] = useState(null);
-  useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((authUser) => {
-      if (authUser) {
-        setUser(authUser);
-      } else {
-        setUser(null);
-      }
-    });
-  
-    return () => {
-      unsubscribe();
-    };
-  }, []);
+
 
   return (
     <div className="">
@@ -99,17 +86,12 @@ const handleFormDataChange = (newFormData) => {
 
     <Routes>
       <Route path='/sli' element={<SimpleSlider cartItems={cartItems} setCartItems={setCartItems} />} />
-      <Route path='/cart/checkout' element={<BillingAddressForm cartItems={cartItems} setCartItems={setCartItems} onFormDataChange={handleFormDataChange} />} />
+
       <Route path='/confirm' element={<ConfirmationPage cartItems={cartItems} setCartItems={setCartItems} />} />
       <Route path='/order' element={<OrderPage formData={formData} />} />
 
-       {user ? (
-        <Route path='/cart' element={<Cart cartItems={cartItems} setCartItems={setCartItems} />} />
-      ) : (
-        <Route path='/cart' element={<Login />} />
-      )} 
 
-      <Route path='/checkout' element={<Checkout cartItems={cartItems} />} />
+  
       {/* <Route path='/auto' element={<AutoPlay cartItems={cartItems} setCartItems={setCartItems} />} /> */}
       <Route path='/recommend' element={<Recommend cartItems={cartItems} setCartItems={setCartItems} />} />
       <Route path="/searchpg/:query" element={<SearchPage searchError={searchError} />} />
@@ -117,8 +99,8 @@ const handleFormDataChange = (newFormData) => {
             <Route path='/add' element={<ProductForm/>} />
                <Route path='/' element={<ECommerceStore />} />
                               <Route path='/product/:name' element={<ProductDetailsNew />} />
-                                                            <Route path='/ca' element={<CartPage />} />
-                                                           <Route path='/che' element={<CheckoutPage />} />
+                                                            <Route path='/cart' element={<CartPage />} />
+                                                           <Route path='/checkout' element={<CheckoutPage />} />
                                                          <Route path='/us' element={<UserDashboard />} />
     </Routes>
 

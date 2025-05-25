@@ -1,7 +1,10 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import {  FiShoppingBag, } from 'react-icons/fi';
 import { Link } from "react-router-dom";
-const Products = ({filteredProducts, resetFilters,addToCart,setQuickViewProduct}) => {
+import { useCart } from '../context/cartcontext';
+
+const Products = ({filteredProducts, resetFilters,setQuickViewProduct}) => {
+      const { addToCart } = useCart();
     return (
         <>
             {filteredProducts.length === 0 ? (

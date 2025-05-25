@@ -16,7 +16,6 @@ const ECommerceStore = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [priceFilter, setPriceFilter] = useState([0, 100000]); // Increased max price
   const [quickViewProduct, setQuickViewProduct] = useState(null);
-  const [cartItems, setCartItems] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
@@ -83,9 +82,7 @@ const ECommerceStore = () => {
     setFilteredProducts(result);
   }, [products, searchQuery, priceFilter]);
 
-  const addToCart = (product) => {
-    setCartItems([...cartItems, product]);
-  };
+
 
   const resetFilters = () => {
     setActiveCategory('all');
@@ -107,7 +104,7 @@ const ECommerceStore = () => {
         searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}
         activeCategory={activeCategory}
-        cartItems={cartItems}
+      
       />
 
       {loading && (
@@ -143,7 +140,7 @@ const ECommerceStore = () => {
             
             <div className="flex-1">
             <Products
-            addToCart={addToCart}
+         
             resetFilters={resetFilters}
          filteredProducts={currentProducts}
          setQuickViewProduct={setQuickViewProduct}
