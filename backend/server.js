@@ -42,6 +42,14 @@ app.use('/user', require('./routes/userprofile'));
 app.use('/updateuser', require('./routes/userupdate'));
 app.use('/updateproduct', require('./routes/updateproduct'));
 app.use('/deleteproduct', require('./routes/deleteproduct'));
+app.use('/api/orders', require('./routes/order'));
+
+// Paystack webhook needs raw body for signature verification
+app.post('/api/orders/webhook', 
+  bodyParser.raw({ type: 'application/json' }), 
+  handlePaystackWebhook
+);
+
 // verify token
 app.use(verifyJWT)
 app.use("/addproduct", require("./routes/addproduct"))
