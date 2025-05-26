@@ -54,6 +54,9 @@ app.post('/api/orders/webhook',
   bodyParser.raw({ type: 'application/json' }), 
   handlePaystackWebhook
 );
+//admin
+app.use('/api/admin/getallusers', require('./routes/admin/getallusers'));
+app.use('/api/admin/getallorders', require('./routes/admin/getallorders'));
 
 // verify token
 app.use(verifyJWT)
