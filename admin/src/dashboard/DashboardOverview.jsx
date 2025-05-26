@@ -1,12 +1,46 @@
+import { useState } from "react";
+import { useEffect } from "react";
+import axios from 'axios';
+
 const DashboardOverview = () => {
+const [loading, setLoading] = useState(false)
+const [totalUser, setTotalUser] = useState('')
+const [totalproducts, setTotalProducts] = useState('')
+const [totalorders, setTotalOrders] = useState('')
+const [totalrevenue, setTotalRevenue] = useState('')
+ const [error, setError] = useState(null)
+        useEffect(() => {
+      const getproduct = async () => {
+        setLoading(true);
+        try {
+          const response = await axios.get('http://localhost:4500/api/admin/getallorders');
+          const userres = await axios.get('http://localhost:4500/api/admin/getallusers');
+       
+          setTotalUser(userres.data.total)
+          setTotalOrders(response.data.totalorder);
+           setTotalProducts(response.data.totalproducts);
+            setTotalRevenue(response.data.totalRevenue);
+        } catch (err) {
+          setError(err.response?.data?.message || 'Failed to fetch products');
+          console.error('Error:', err);
+        } finally {
+          setLoading(false);
+        }
+      };
+      getproduct();
+    }, []);
   return (
     <div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+              
+        {loading && <p>Loading products...</p>}
+        {error && <p className="text-red-500">{error}</p>}
+
         <div className="bg-white p-6 rounded-lg shadow">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-gray-500">Total Revenue</p>
-              <p className="text-2xl font-bold">$24,780</p>
+              <p className="text-2xl font-bold">${totalrevenue}</p>
             </div>
             <div className="p-3 rounded-full bg-indigo-100 text-indigo-600">
               <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -19,7 +53,7 @@ const DashboardOverview = () => {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-gray-500">Total Orders</p>
-              <p className="text-2xl font-bold">1,245</p>
+              <p className="text-2xl font-bold">{totalorders}</p>
             </div>
             <div className="p-3 rounded-full bg-green-100 text-green-600">
               <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -32,7 +66,7 @@ const DashboardOverview = () => {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-gray-500">Total Products</p>
-              <p className="text-2xl font-bold">187</p>
+              <p className="text-2xl font-bold">{totalproducts}</p>
             </div>
             <div className="p-3 rounded-full bg-blue-100 text-blue-600">
               <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -45,7 +79,7 @@ const DashboardOverview = () => {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-gray-500">Active Users</p>
-              <p className="text-2xl font-bold">3,452</p>
+              <p className="text-2xl font-bold">{totalUser}</p>
             </div>
             <div className="p-3 rounded-full bg-purple-100 text-purple-600">
               <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
