@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+const mongoose = require("mongoose");
 
 const orderItemSchema = new mongoose.Schema({
   productId: {
@@ -9,10 +9,12 @@ const orderItemSchema = new mongoose.Schema({
   name: { type: String, required: true },
   price: { type: Number, required: true },
   quantity: { type: Number, required: true },
-  image: { type: String }
+  image: { type: String } // Stores URL only, not actual image files
 });
 
 const orderSchema = new mongoose.Schema({
+ 
+  userEmail: { type: String, required: true },
   // Customer Info
   firstName: { type: String, required: true },
   lastName: { type: String, required: true },
@@ -33,13 +35,13 @@ const orderSchema = new mongoose.Schema({
   paymentReference: { type: String, required: true, unique: true },
   paymentMethod: { type: String, default: 'paystack' },
   
-  // Financials (recalculated on backend)
+  // Financials
   subtotal: { type: Number, required: true },
-  tax: { type: Number, default: 0.075 },
+  tax: { type: Number, default: 0.075 }, // 7.5% VAT
   shipping: { type: Number, default: 0 },
   total: { type: Number, required: true },
 
-  // Status (only backend can set this)
+  // Status
   status: {
     type: String,
     enum: ['pending', 'paid', 'shipped', 'delivered', 'cancelled'],
@@ -47,4 +49,4 @@ const orderSchema = new mongoose.Schema({
   }
 }, { timestamps: true });
 
-export default mongoose.model('Order', orderSchema);
+module.exports = mongoose.model('Order', orderSchema);

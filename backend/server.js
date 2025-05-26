@@ -9,7 +9,11 @@ const verifyJWT = require('./middleware/verifyjwt')
 const cookieParser = require("cookie-parser")
 const mongoose = require("mongoose")
 const connectDB = require('./config/dbConn')
+const bodyParser = require('body-parser');
+const { handlePaystackWebhook } = require('./controllers/ordercontroller')
+
 const PORT = process.env.PORT || 4500
+
 
 // connectDB
 
@@ -24,6 +28,7 @@ app.use(express.json());
 
 // middlewRE FOR COOKIES
 app.use(cookieParser())
+app.use(bodyParser.json());
 
  app.get("/",(req, res) => {
   res.send("Hello world")

@@ -1,20 +1,16 @@
-import express from 'express';
-import {
-  createOrder,
-  handlePaystackWebhook,
-  getOrderDetails
-} from '../controllers/ordercontroller.js';
+const express = require("express")
 
+const OrderController = require("../controllers/ordercontroller")
 
 const router = express.Router();
 
 // Public route (called from frontend after Paystack payment)
-router.post('/', createOrder);
+router.post('/', OrderController.createOrder);
 
 // Paystack webhook (must be public for Paystack to access)
-router.post('/webhook', handlePaystackWebhook);
+router.post('/webhook', OrderController.handlePaystackWebhook);
 
 // Protected route (for order lookup)
-// router.get('/:orderId',  getOrderDetails);
+router.get('/send-confirmation',  OrderController.getOrderDetails);
 
-export default router;
+module.exports = router

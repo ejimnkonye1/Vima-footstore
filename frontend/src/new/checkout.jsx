@@ -1,27 +1,27 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useCart } from '../context/cartcontext';
 import { usePaystackPayment } from 'react-paystack';
 import axios from 'axios';
 import toast, { Toaster } from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
+
 import ShippingForm from '../checkout/ShippingForm ';
 import OrderSummary from '../checkout/orderSummary';
 import CheckoutProgress from '../checkout/checkoutprogress';
 import OrderConfirmation from '../checkout/orderconfirm';
 import PaymentMethod from '../checkout/paymentmethod';
 import OrderReview from '../checkout/orderreview';
-
 const CheckoutPage = () => {
   const [activeStep, setActiveStep] = useState('shipping');
   const [saveShippingInfo, setSaveShippingInfo] = useState(true);
-  const [paymentMethod, setPaymentMethod] = useState('paystack'); // Default to Paystack
+  const [paymentMethod, setPaymentMethod] = useState('paystack');
   const [orderPlaced, setOrderPlaced] = useState(false);
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
     address: '',
     city: '',
-    country: 'Nigeria', // Default for Paystack
+    country: 'Nigeria',
     state: '',
     zip: '',
     phone: '',
@@ -30,19 +30,20 @@ const CheckoutPage = () => {
   const [loading, setLoading] = useState(false);
   const { cart, clearCart } = useCart();
   const navigate = useNavigate();
+ const [createdOrder, setCreatedOrder] = useState(null); // Add this line
 
   // Calculate order totals
   const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
   const shipping = 0; // Free shipping
-  const tax = subtotal * 0.075; // 7.5% VAT for Nigeria
+  const tax = subtotal * 0.075; // 7.5% VAT
   const total = subtotal + shipping + tax;
 
-  // Paystack config
-  const config = {
+  // Paystack config with useMemo to prevent unnecessary re-renders
+  const paystackConfig = useMemo(() => ({
     reference: (new Date()).getTime().toString(),
     email: formData.email || 'customer@example.com',
-    amount: total * 100, // Paystack uses kobo (multiply by 100)
-    publicKey: 'pk_test_9f04ff1cdc541872fbbdb8816c9057d2b6c883a5',
+    amount: total * 100, // Paystack uses kobo
+    publicKey:  'pk_test_9f04ff1cdc541872fbbdb8816c9057d2b6c883a5',
     currency: 'NGN',
     channels: ['card', 'bank', 'ussd', 'qr', 'mobile_money'],
     metadata: {
@@ -59,9 +60,10 @@ const CheckoutPage = () => {
         }
       ]
     }
-  };
+  }), [formData, total]);
 
-  const initializePayment = usePaystackPayment(config);
+  // Initialize Paystack payment
+  const initializePayment = usePaystackPayment(paystackConfig);
 
   // Handle form input changes
   const handleInputChange = (e) => {
@@ -86,31 +88,48 @@ const CheckoutPage = () => {
 
   // Handle payment success
   const onSuccess = async (reference) => {
+    console.log('Payment successful, reference:', reference);
     try {
       setLoading(true);
-      // Send order to your backend
+      
+   
+      // Prepare order data
       const orderData = {
         ...formData,
-        items: cart,
+        //   userId: user._id  || "6834d109e0f179138ed2fa50",         // Keep user ID for reference
+        //  userEmail: user.email || "don@gmail.com", 
+        userId: "6834d109e0f179138ed2fa50",         // Keep user ID for reference
+         userEmail: "don@gmail.com", 
+        items: cart.map(item => ({
+          productId: item._id,
+          name: item.name,
+          price: item.price,
+          quantity: item.quantity,
+          image: item.image
+        })),
         paymentReference: reference.reference,
         paymentMethod,
+        subtotal,
+        tax,
+        shipping,
+        total
       };
 
-      const response = await axios.post('http://localhost:4500/api/orders', orderData);
+      console.log('Submitting order to backend:', orderData);
       
+      // Submit order to backend
+      const response = await axios.post('http://localhost:4500/api/orders', orderData);
+      console.log('Order created:', response.data);
+          const order = response.data;
+      setCreatedOrder(order);
       // Clear cart and show success
       clearCart();
       setOrderPlaced(true);
       
-      // Optional: Send confirmation email
-      await axios.post('/api/send-confirmation', {
-        email: formData.email,
-        orderId: response.data.orderId
-      });
 
     } catch (error) {
-      console.error("Order processing error:", error);
-      toast.error("Order processing failed. Please contact support.");
+      console.error('Order processing failed:', error);
+      toast.error(`Order failed: ${error.response?.data?.message || error.message}`);
     } finally {
       setLoading(false);
     }
@@ -118,20 +137,37 @@ const CheckoutPage = () => {
 
   // Handle payment close
   const onClose = () => {
+    console.log('Payment window closed');
     toast.error("Payment was cancelled");
   };
 
   // Handle place order
-  const handlePlaceOrder = () => {
-    if (!validateForm()) return;
-    
-    if (paymentMethod === 'paystack') {
-      initializePayment(onSuccess, onClose);
-    } else {
-      // Handle other payment methods
-      toast.error("Only Paystack payments are currently supported");
+const handlePlaceOrder = () => {
+  if (!validateForm()) return;
+  
+  console.log('Initiating payment with method:', paymentMethod);
+  
+  if (paymentMethod === 'paystack') {
+    try {
+      // Initialize Paystack payment with callbacks
+      initializePayment({
+        onSuccess: (reference) => {
+          console.log('Payment successful, reference:', reference);
+          onSuccess(reference); // Call your onSuccess function with the reference
+        },
+        onClose: () => {
+          console.log('Payment window closed');
+          onClose(); // Call your onClose function
+        }
+      });
+    } catch (err) {
+      console.error('Payment initialization error:', err);
+      toast.error("Failed to initialize payment");
     }
-  };
+  } else {
+    toast.error("Only Paystack payments are currently supported");
+  }
+};
 
   // Redirect if cart is empty
   useEffect(() => {
@@ -144,8 +180,8 @@ const CheckoutPage = () => {
   if (orderPlaced) {
     return (
       <OrderConfirmation
-        orderNumber={`ORD-${Math.floor(Math.random() * 1000000)}`} 
-        email={formData.email}
+            orderNumber={`ORD-${createdOrder?._id}`} 
+        email={createdOrder?.userEmail || formData.email}
       />
     );
   }
@@ -204,18 +240,8 @@ const CheckoutPage = () => {
           />
         </div>
       </main>
-
-      
     </div>
   );
 };
 
-
-
-
-
-
 export default CheckoutPage;
-
-
-
