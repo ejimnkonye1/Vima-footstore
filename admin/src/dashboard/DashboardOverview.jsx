@@ -8,6 +8,7 @@ const [totalUser, setTotalUser] = useState('')
 const [totalproducts, setTotalProducts] = useState('')
 const [totalorders, setTotalOrders] = useState('')
 const [totalrevenue, setTotalRevenue] = useState('')
+const [orders, setOrders] = useState([])
  const [error, setError] = useState(null)
         useEffect(() => {
       const getproduct = async () => {
@@ -20,8 +21,10 @@ const [totalrevenue, setTotalRevenue] = useState('')
           setTotalOrders(response.data.totalorder);
            setTotalProducts(response.data.totalproducts);
             setTotalRevenue(response.data.totalRevenue);
+            setOrders(response.data.orders)
+            console.log("order", response.data.orders)
         } catch (err) {
-          setError(err.response?.data?.message || 'Failed to fetch products');
+          setError(err.response?.data?.message || 'Failed to fetch');
           console.error('Error:', err);
         } finally {
           setLoading(false);
@@ -96,6 +99,7 @@ const [totalrevenue, setTotalRevenue] = useState('')
           <div className="overflow-x-auto">
             <table className="min-w-full divide-y divide-gray-200">
               <thead className="bg-gray-50">
+
                 <tr>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Order ID</th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Customer</th>
@@ -103,32 +107,31 @@ const [totalrevenue, setTotalRevenue] = useState('')
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Amount</th>
                 </tr>
               </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
-                <tr>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">#ORD-2025-001</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">John Smith</td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Delivered</span>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">$129.99</td>
-                </tr>
-                <tr>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">#ORD-2025-002</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Sarah Johnson</td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">Processing</span>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">$89.99</td>
-                </tr>
-                <tr>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">#ORD-2025-003</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Michael Brown</td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">Shipped</span>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">$245.50</td>
-                </tr>
-              </tbody>
+             <tbody className="bg-white divide-y divide-gray-200">
+  {orders.map((order) => (
+    <tr key={order._id}>
+      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+        ORD-{order.paymentReference.slice(-4)}
+      </td>
+      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+      {order.lastName}
+      </td>
+      <td className="px-6 py-4 whitespace-nowrap">
+        <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
+          order.status === 'paid' ? 'bg-green-100 text-green-800' :
+          order.status === 'processing' ? 'bg-yellow-100 text-yellow-800' :
+          order.status === 'shipped' ? 'bg-blue-100 text-blue-800' :
+          'bg-gray-100 text-gray-800'
+        }`}>
+          {order.status.charAt(0).toUpperCase() + order.status.slice(1)}
+        </span>
+      </td>
+      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+        ${order.total.toFixed(2)}
+      </td>
+    </tr>
+  ))}
+</tbody>
             </table>
           </div>
         </div>

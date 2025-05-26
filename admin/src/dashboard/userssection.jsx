@@ -1,46 +1,75 @@
+import { useState, useEffect } from "react";
+import axios from 'axios';
+
 const UsersSection = () => {
-  const users = [
-    { id: 1, name: 'John Smith', email: 'john@example.com', role: 'Customer', joined: '2025-01-15' },
-    { id: 2, name: 'Sarah Johnson', email: 'sarah@example.com', role: 'Customer', joined: '2025-02-20' },
-    { id: 3, name: 'Michael Brown', email: 'michael@example.com', role: 'Admin', joined: '2024-11-05' },
-    { id: 4, name: 'Emily Davis', email: 'emily@example.com', role: 'Customer', joined: '2025-03-10' },
-  ];
+  const [loading, setLoading] = useState(false);
+  const [users, setUsers] = useState([]);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const getUsers = async () => {
+      setLoading(true);
+      try {
+        const response = await axios.get('http://localhost:4500/api/admin/getallusers');
+        setUsers(response.data.users); // Changed from response.data.Users to response.data.users
+        console.log("Users", response.data);
+      } catch (err) {
+        setError(err.response?.data?.message || 'Failed to fetch Users');
+        console.error('Error:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    getUsers();
+  }, []);
+
+  // Format date function
+  const formatDate = (dateString) => {
+    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+    return new Date(dateString).toLocaleDateString(undefined, options);
+  };
 
   return (
     <div className="bg-white shadow rounded-lg overflow-hidden">
       <div className="overflow-x-auto">
         <table className="min-w-full divide-y divide-gray-200">
+          {loading && <p>Loading users...</p>}
+          {error && <p className="text-red-500">{error}</p>}
+
           <thead className="bg-gray-50">
             <tr>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Role</th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Joined</th>
-              <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
             {users.map((user) => (
-              <tr key={user.id}>
+              <tr key={user._id}>
                 <td className="px-6 py-4 whitespace-nowrap">
                   <div className="flex items-center">
-                    <div className="flex-shrink-0 h-10 w-10 rounded-full bg-gray-200"></div>
+                    <div className="flex-shrink-0 h-10 w-10 rounded-full bg-gray-200 flex items-center justify-center">
+                      {user.username?.charAt(0).toUpperCase()}
+                    </div>
                     <div className="ml-4">
-                      <div className="text-sm font-medium text-gray-900">{user.name}</div>
+                      <div className="text-sm font-medium text-gray-900">{user.username}</div>
                     </div>
                   </div>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{user.email}</td>
                 <td className="px-6 py-4 whitespace-nowrap">
-                  <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${user.role === 'Admin' ? 'bg-purple-100 text-purple-800' : 'bg-blue-100 text-blue-800'}`}>
-                    {user.role}
+                  <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
+                    user.roles?.includes('Admin') ? 'bg-purple-100 text-purple-800' : 
+                    'bg-blue-100 text-blue-800'
+                  }`}>
+                    {user.roles?.includes('Admin') ? 'Admin' : 'User'}
                   </span>
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{user.joined}</td>
-                <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                  <button className="text-indigo-600 hover:text-indigo-900 mr-3">Edit</button>
-                  <button className="text-red-600 hover:text-red-900">Delete</button>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                  {user.createdAt ? formatDate(user.createdAt) : 'N/A'}
                 </td>
+       
               </tr>
             ))}
           </tbody>
@@ -50,4 +79,4 @@ const UsersSection = () => {
   );
 };
 
-export default UsersSection
+export default UsersSection;
