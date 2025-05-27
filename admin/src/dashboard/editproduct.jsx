@@ -1,7 +1,7 @@
-import { useState, } from "react";
+import { useState, useEffect } from "react";
 import axios from 'axios';
 
-const AddProductForm = ({ onAddProduct, }) => {
+const EditProductForm = ({ product, onUpdateProduct, onCancel }) => {
   const [formData, setFormData] = useState({
     name: '',
     price: '',
@@ -13,8 +13,20 @@ const AddProductForm = ({ onAddProduct, }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
-
-  // Initialize form when editing
+console.log("p",product.name)
+console.log(formData.name)
+  // Initialize form with product data
+  useEffect(() => {
+    if (product) {
+      setFormData({
+        name: product.name || '',
+        price: product.price?.toString() || '', // Convert numbers to strings
+        description: product.description || '',
+        category: product.category || '',
+        stock: product.stock?.toString() || '' // Convert numbers to strings
+      });
+    }
+  }, [product]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -33,32 +45,28 @@ const AddProductForm = ({ onAddProduct, }) => {
 
     try {
       const formDataToSend = new FormData();
-      formDataToSend.append('name', formData.name);
+      formDataToSend.append('oldName', product.name);
+      formDataToSend.append('newName', formData.name);
       formDataToSend.append('price', formData.price);
       formDataToSend.append('description', formData.description);
       formDataToSend.append('category', formData.category);
-      formDataToSend.append('stock', formData.stock);
-      if (image) {
-        formDataToSend.append('image', image);
-      }
-
-        // Create new product
-           
-        const response = await axios.post(
-          'http://localhost:4500/addproduct',
-          formDataToSend,
-          {
-            headers: {
-              'Content-Type': 'multipart/form-data',
-              'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
-            }
-          }
-        );
-        onAddProduct(response.data);
-        setSuccess('Product created successfully!');
       
+
+      const response = await axios.put(
+        'http://localhost:4500/updateproduct',
+        formDataToSend,
+        {
+          headers: {
+          "Content-Type": "application/json",
+            'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
+          }
+        }
+      );
+      
+      onUpdateProduct(response.data);
+      setSuccess('Product updated successfully!');
     } catch (err) {
-      setError(err.response?.data?.message || 'Failed to process product');
+      setError(err.response?.data?.message || 'Failed to update product');
       console.error('Error:', err);
     } finally {
       setLoading(false);
@@ -67,9 +75,7 @@ const AddProductForm = ({ onAddProduct, }) => {
 
   return (
     <div className="bg-white shadow rounded-lg p-6">
-      <h2 className=" hidden md:text-lg font-medium mb-6">
-         Add New Produc
-      </h2>
+      <h2 className="text-lg font-medium mb-6">Edit Product</h2>
       
       {error && <div className="mb-4 p-3 bg-red-100 text-red-700 rounded">{error}</div>}
       {success && <div className="mb-4 p-3 bg-green-100 text-green-700 rounded">{success}</div>}
@@ -180,20 +186,32 @@ const AddProductForm = ({ onAddProduct, }) => {
             <label className="block text-sm font-medium text-gray-700">Product Image</label>
             <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
               <div className="space-y-1 text-center">
-                <svg
-                  className="mx-auto h-12 w-12 text-gray-400"
-                  stroke="currentColor"
-                  fill="none"
-                  viewBox="0 0 48 48"
-                  aria-hidden="true"
-                >
-                  <path
-                    d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
-                    strokeWidth={2}
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
+                {/* Show current image if exists and no new image selected */}
+                {product?.image && !image && (
+                  <div className="mx-auto h-24 w-24 rounded-md overflow-hidden">
+                    <img 
+                      src={product.image} 
+                      alt={product.name}
+                      className="h-full w-full object-cover"
+                    />
+                  </div>
+                )}
+                {(!product?.image || image) && (
+                  <svg
+                    className="mx-auto h-12 w-12 text-gray-400"
+                    stroke="currentColor"
+                    fill="none"
+                    viewBox="0 0 48 48"
+                    aria-hidden="true"
+                  >
+                    <path
+                      d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
+                      strokeWidth={2}
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                )}
                 <div className="flex text-sm text-gray-600">
                   <label
                     htmlFor="file-upload"
@@ -225,18 +243,7 @@ const AddProductForm = ({ onAddProduct, }) => {
         <div className="mt-6 flex justify-end">
           <button
             type="button"
-            onClick={() => {
-              setFormData({
-                name: '',
-                price: '',
-                description: '',
-                category: '',
-                stock: ''
-              });
-              setImage(null);
-              setError('');
-              setSuccess('');
-            }}
+            onClick={onCancel}  
             className="bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
           >
             Cancel
@@ -246,7 +253,7 @@ const AddProductForm = ({ onAddProduct, }) => {
             disabled={loading}
             className="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {loading ? 'Processing...' : 'Add Product'}
+            {loading ? 'Updating...' : 'Update Product'}
           </button>
         </div>
       </form>
@@ -254,4 +261,4 @@ const AddProductForm = ({ onAddProduct, }) => {
   );
 };
 
-export default AddProductForm;
+export default EditProductForm;

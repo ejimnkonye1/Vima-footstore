@@ -9,62 +9,94 @@ import OrdersSection from '../dashboard/orderssection';
 import DashboardOverview from '../dashboard/DashboardOverview';
 import Sidebar from '../dashboard/sidebar';
 import HeaderDashboard from '../dashboard/header';
+import { useEffect } from 'react';
+import axios from 'axios';
+import EditProductForm from '../dashboard/editproduct';
+import toast, { Toaster } from 'react-hot-toast';
+
 const AdminDashboard = () => {
-    // useEffect(() => {
-    //   const getproduct = async () => {
-    //     setLoading(true);
-    //     try {
-    //       const response = await axios.get('http://localhost:4500/products');
-    //       console.log('Products:', response.data);
-    //       setproD(response.data || []);
-    //     } catch (err) {
-    //       setError(err.response?.data?.message || 'Failed to fetch products');
-    //       console.error('Error:', err);
-    //     } finally {
-    //       setLoading(false);
-    //     }
-    //   };
-    //   getproduct();
-    // }, []);
+    
   const [activeTab, setActiveTab] = useState('dashboard');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [products, setProducts] = useState([
-    { id: 1, name: 'Premium Headphones', price: 199.99, stock: 45, category: 'Electronics' },
-    { id: 2, name: 'Wireless Mouse', price: 29.99, stock: 120, category: 'Electronics' },
-    { id: 3, name: 'Organic Cotton T-Shirt', price: 24.99, stock: 78, category: 'Apparel' },
   ]);
   const [editingProduct, setEditingProduct] = useState(null);
-
+  const [loading, setLoading] = useState(false);
+ console.log(editingProduct,";;")
+  const [error, setError] = useState(null);
   const renderContent = () => {
     switch (activeTab) {
       case 'products':
-        return <ProductsSection products={products} onEdit={setEditingProduct} onDelete={handleDeleteProduct} />;
+        return <ProductsSection products={products}       onEdit={(product) => {
+                setEditingProduct(product);
+                setActiveTab('editProduct'); // Add this line
+              }} 
+               onDelete={handleDeleteProduct} loading={loading} error={error} />;
       case 'addProduct':
-        return <AddProductForm onAddProduct={handleAddProduct} editingProduct={editingProduct} onUpdateProduct={handleUpdateProduct} />;
+        return <AddProductForm onAddProduct={handleAddProduct}   />;
       case 'users':
         return <UsersSection />;
       case 'orders':
         return <OrdersSection />;
+            case 'editProduct':
+      return <EditProductForm
+          product={editingProduct}
+          onUpdateProduct={handleUpdateProduct}
+          onCancel={() => setActiveTab('products')}
+        />
       default:
         return <DashboardOverview />;
     }
   };
+        const getProducts = async () => {
+        setLoading(true);
+        try {
+          const response = await axios.get('http://localhost:4500/products');
+          console.log('Products:', response.data);
+          setProducts(response.data || []);
+        } catch (err) {
+          setError(err.response?.data?.message || 'Failed to fetch products');
+          console.error('Error:', err);
+        } finally {
+          setLoading(false);
+        }
+      };
+    useEffect(() => {
+
+      getProducts();
+    }, []);
+  
 
   const handleAddProduct = (newProduct) => {
-    setProducts([...products, { ...newProduct, id: products.length + 1 }]);
+    setProducts([...products, { ...newProduct, _id: products.length + 1 }]);
     setActiveTab('products');
   };
 
-  const handleUpdateProduct = (updatedProduct) => {
-    setProducts(products.map(p => p.id === updatedProduct.id ? updatedProduct : p));
-    setEditingProduct(null);
-    setActiveTab('products');
-  };
 
-  const handleDeleteProduct = (productId) => {
-    setProducts(products.filter(p => p.id !== productId));
+  const handleUpdateProduct = async () => {
+    try {
+      setLoading(true);
+      await getProducts(); // Refresh the product list
+      setActiveTab('products');
+    } catch (err) {
+      setError('Failed to refresh products after update');
+      console.error('Error:', err);
+    } finally {
+      setLoading(false);
+    }
   };
-
+const handleDeleteProduct = async (deletedProductId) => {
+  setProducts(products.filter(product => product._id !== deletedProductId));
+  
+  try {
+    setLoading(true);
+    await getProducts();
+  } catch (err) {
+    toast.error(err,'Failed to refresh products');
+  } finally {
+    setLoading(false);
+  }
+};
   return (
     <div className="flex h-screen bg-gray-50">
       {/* Mobile menu button */}
@@ -95,7 +127,7 @@ const AdminDashboard = () => {
           {activeTab === 'products' && (
             <div className="mb-4 flex justify-end">
               <button
-                onClick={() => { setActiveTab('addProduct'); setEditingProduct(null); }}
+                onClick={() => { setActiveTab('addProduct');  }}
                 className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 flex items-center"
               >
                 <FiBox className="mr-2" />

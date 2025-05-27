@@ -5,8 +5,7 @@ const Sidebar = ({mobileMenuOpen, setActiveTab, setMobileMenuOpen, activeTab}) =
     return (
         <div className={`${mobileMenuOpen ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0 transform fixed md:static inset-y-0 left-0 w-64 bg-indigo-800 text-white transition-transform duration-300 ease-in-out z-40`}>
                <div className="flex items-center justify-center h-16 px-4 border-b border-indigo-700">
-                 <h1 className="text-xl font-bold">StoreAdmin</h1>
-                 <span className="ml-2 px-2 py-1 text-xs bg-indigo-600 rounded-full">v3.5</span>
+                 <h1 className="text-xl font-bold">NIQUEWARE</h1>
                </div>
                <div className="flex flex-col flex-grow px-4 py-4 overflow-y-auto">
                  <nav className="space-y-1">

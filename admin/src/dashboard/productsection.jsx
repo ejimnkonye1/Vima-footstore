@@ -1,35 +1,101 @@
-import { useState, useEffect } from "react";
+import { useState } from 'react';
 import axios from 'axios';
+import toast, { Toaster } from 'react-hot-toast';
 
-const ProductsSection = ({ onEdit, onDelete }) => {
-  const [loading, setLoading] = useState(false);
-  const [products, setProducts] = useState([]);
-  const [error, setError] = useState(null);
+const ProductsSection = ({ products, onEdit, onDelete, loading, error }) => {
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [productToDelete, setProductToDelete] = useState(null);
+  const [deleteError, setDeleteError] = useState(null);
+  const [deleteLoading, setDeleteLoading] = useState(false);
 
-  useEffect(() => {
-    const getProducts = async () => {
-      setLoading(true);
-      try {
-        const response = await axios.get('http://localhost:4500/products');
-        console.log('Products:', response.data);
-        setProducts(response.data || []);
-      } catch (err) {
-        setError(err.response?.data?.message || 'Failed to fetch products');
-        console.error('Error:', err);
-      } finally {
-        setLoading(false);
+  const handleDeleteClick = (product) => {
+    setProductToDelete(product);
+    setShowDeleteModal(true);
+    setDeleteError(null); // Reset error when opening modal
+  };
+
+const confirmDelete = async () => {
+  setDeleteLoading(true);
+  try {
+    const response = await axios.delete(
+      `http://localhost:4500/deleteproduct/${encodeURIComponent(productToDelete.name)}`,
+      {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
+        }
       }
-    };
-    getProducts();
-  }, []);
+    );
+
+    // Check for successful response (Axios uses response.status)
+    if (response.status >= 200 && response.status < 300) {
+      toast.success('Product deleted successfully');
+          onDelete(productToDelete._id);// Pass the ID to update state
+      setShowDeleteModal(false);
+      setProductToDelete(null);
+    } else {
+      setDeleteError(response.data.message || 'Failed to delete product');
+      toast.error(response.data.message || 'Failed to delete product');
+    }
+  } catch (err) {
+    const errorMsg = err.response?.data?.message || 'Error deleting product';
+    setDeleteError(errorMsg);
+    toast.error(errorMsg);
+    console.error('Delete error:', err);
+  } finally {
+    setDeleteLoading(false);
+  }
+};
+
+  const cancelDelete = () => {
+    setShowDeleteModal(false);
+    setProductToDelete(null);
+    setDeleteError(null);
+  };
+
 
   return (
     <div className="bg-white shadow rounded-lg overflow-hidden">
       {loading && <p className="p-4">Loading products...</p>}
       {error && <p className="text-red-500 p-4">{error}</p>}
 
+      {/* Delete Confirmation Modal */}
+        {showDeleteModal && (
+        <div className="fixed inset-0  bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white shadow-2xl rounded-lg p-6 max-w-sm w-full">
+            <h3 className="text-lg font-medium mb-4">Confirm Delete</h3>
+            <p className="mb-6">
+              Are you sure you want to delete <span className="font-semibold">{productToDelete?.name}</span>?
+              This action cannot be undone.
+            </p>
+            
+            {deleteError && (
+              <p className="text-red-500 mb-4 text-sm">{deleteError}</p>
+            )}
+            
+            <div className="flex justify-end space-x-3">
+              <button
+                onClick={cancelDelete}
+                disabled={deleteLoading}
+                className="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={confirmDelete}
+                disabled={deleteLoading}
+                className="px-4 py-2 bg-red-600 text-white rounded-md text-sm font-medium hover:bg-red-700 disabled:opacity-50"
+              >
+                {deleteLoading ? 'Deleting...' : 'Delete'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+
       <div className="overflow-x-auto">
         <table className="min-w-full divide-y divide-gray-200">
+          {/* Table Head */}
           <thead className="bg-gray-50">
             <tr>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Product</th>
@@ -39,6 +105,8 @@ const ProductsSection = ({ onEdit, onDelete }) => {
               <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
             </tr>
           </thead>
+          
+          {/* Table Body */}
           <tbody className="bg-white divide-y divide-gray-200">
             {products.map((product) => (
               <tr key={product.id || product._id}>
@@ -84,7 +152,7 @@ const ProductsSection = ({ onEdit, onDelete }) => {
                     Edit
                   </button>
                   <button
-                    onClick={() => onDelete(product.id || product._id)}
+                    onClick={() => handleDeleteClick(product)}
                     className="text-red-600 hover:text-red-900"
                   >
                     Delete
