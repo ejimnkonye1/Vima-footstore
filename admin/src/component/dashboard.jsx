@@ -51,7 +51,11 @@ const AdminDashboard = () => {
         const getProducts = async () => {
         setLoading(true);
         try {
-          const response = await axios.get('http://localhost:4500/products');
+          const response = await axios.get('https://nique-backend.vercel.app/products',{
+                  headers: {
+            'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
+          }
+          });
           console.log('Products:', response.data);
           setProducts(response.data || []);
         } catch (err) {

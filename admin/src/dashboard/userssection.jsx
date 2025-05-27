@@ -11,7 +11,11 @@ const UsersSection = () => {
     const getUsers = async () => {
       setLoading(true);
       try {
-        const response = await axios.get('http://localhost:4500/api/admin/getallusers');
+        const response = await axios.get('https://nique-backend.vercel.app/api/admin/getallusers',{
+              headers: {
+            'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
+          }
+        });
         setUsers(response.data.users); // Changed from response.data.Users to response.data.users
         console.log("Users", response.data);
       } catch (err) {

@@ -45,7 +45,7 @@ const AddProductForm = ({ onAddProduct, }) => {
         // Create new product
            
         const response = await axios.post(
-          'http://localhost:4500/addproduct',
+          'https://nique-backend.vercel.app/api/admin/products/addproduct',
           formDataToSend,
           {
             headers: {
@@ -68,7 +68,7 @@ const AddProductForm = ({ onAddProduct, }) => {
   return (
     <div className="bg-white shadow rounded-lg p-6">
       <h2 className=" hidden md:text-lg font-medium mb-6">
-         Add New Produc
+         Add New Product
       </h2>
       
       {error && <div className="mb-4 p-3 bg-red-100 text-red-700 rounded">{error}</div>}
