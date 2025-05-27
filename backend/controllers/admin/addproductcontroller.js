@@ -1,6 +1,6 @@
 const path = require('path');
-const Products = require("../models/Products");
-const { supabase, supabaseBucket } = require('../supabase');
+const Products = require("../../models/Products");
+const { supabase, supabaseBucket } = require('../../supabase');
 
 const uploadToSupabase = async (files, uid) => {
     const urls = [];
