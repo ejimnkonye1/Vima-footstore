@@ -1,9 +1,10 @@
-const Products = require("../models/Products");
+const Products = require("../../models/Products");
 
 const deleteProduct = async (req, res) => {
-  const { name } = req.body; // Extract the product name from the request body
-  
+
   try {
+       const { name } = req.params;
+        console.log("name",name)
     // Find the product by name
     const foundProduct = await Products.findOne({ name });
     

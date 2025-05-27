@@ -20,7 +20,7 @@ const handlegetOrders = async (req, res) => {
             });
              totalRevenue += order.total
         });
-    
+      totalRevenue = parseFloat(totalRevenue.toFixed(2))
      const totalorder = orders.length
       const totalproducts = totalItems
       
