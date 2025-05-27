@@ -53,7 +53,7 @@ console.log(formData.name)
       
 
       const response = await axios.put(
-        'http://localhost:4500/updateproduct',
+        'https://nique-backend.vercel.app/api/admin/products/updateproduct',
         formDataToSend,
         {
           headers: {

@@ -18,7 +18,7 @@ const confirmDelete = async () => {
   setDeleteLoading(true);
   try {
     const response = await axios.delete(
-      `http://localhost:4500/deleteproduct/${encodeURIComponent(productToDelete.name)}`,
+      `https://nique-backend.vercel.app/api/admin/products/deleteproduct/${encodeURIComponent(productToDelete.name)}`,
       {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('accessToken')}`

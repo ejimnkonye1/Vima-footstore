@@ -3,6 +3,7 @@ const wishList = [
     "http://localhost:3000",
      "http://localhost:5173",
       "http://localhost:5174",
+      "https://vima-footstore-admin.vercel.app",
    
 ]
 
