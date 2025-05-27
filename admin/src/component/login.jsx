@@ -1,40 +1,67 @@
 import { useState } from 'react';
 import { FiLock, FiMail } from 'react-icons/fi';
 import { useNavigate } from 'react-router-dom';
+import toast, { Toaster } from 'react-hot-toast';
 
 const LoginPage = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
+
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
   const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError('');
-    setLoading(true);
-
-    // Simulate API call
-    try {
-      // Replace with actual authentication logic
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      if (email === 'admin@example.com' && password === 'password123') {
-        // On successful login
-        navigate('/dashboard');
-      } else {
-        setError('Invalid email or password');
-      }
-    } catch (err) {
-      setError('An error occurred. Please try again.', err);
-    } finally {
-      setLoading(false);
-    }
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
   };
+
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  setError('');
+  setLoading(true);
+
+  try {
+    const response = await fetch("http://localhost:4500/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        email: formData.email,
+        pwd: formData.password  // Changed from formData.pwd to formData.password
+      }),
+      credentials: 'include'  // Added for cookie handling
+    });
+    
+    const data = await response.json();
+    
+    if (!response.ok) {
+      const errorMessage = data.message || "Login failed";
+      setError(errorMessage);
+      toast.error(errorMessage);
+      return;
+    }
+    
+    // Updated to match backend response structure
+    localStorage.setItem("accessToken", data.acccessToken);  // Note the 3 'c's
+    navigate("/dashboard");
+  } catch (err) {
+    const errorMessage = err.message || "An error occurred. Please try again.";
+    setError(errorMessage);
+    toast.error(errorMessage);
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+      <Toaster position="bottom-right" />
       <div className="max-w-md w-full space-y-8">
         <div className="text-center">
           <h2 className="mt-6 text-3xl font-extrabold text-gray-900">
@@ -75,8 +102,8 @@ const LoginPage = () => {
                   type="email"
                   autoComplete="email"
                   required
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  value={formData.email}
+                  onChange={handleChange}
                   className="appearance-none block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                   placeholder="Email address"
                 />
@@ -95,8 +122,8 @@ const LoginPage = () => {
                   type="password"
                   autoComplete="current-password"
                   required
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  value={formData.password}
+                  onChange={handleChange}
                   className="appearance-none block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                   placeholder="Password"
                 />
