@@ -47,7 +47,7 @@ const handleLogin = async (req, res) => {
   // Set access token as HTTP-only cookie (instead of sending in response body)
   res.cookie("accessToken", accessToken, {
     httpOnly: true,
-    secure: false, // Enable in production
+    secure: true, // Enable in production
     sameSite: 'None', // Needed if frontend/backend are on different domains
     maxAge: 24 * 60 * 60 * 1000 // 1 day
   });// add secure true in pro
