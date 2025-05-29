@@ -41,7 +41,7 @@ const handleLogin = async (req, res) => {
 
      console.log(result)
     // while testing refresh token with thunder client remove secure true
-    res.cookie("jwt", refreshToken, {httpOnly: true,sameSite:'None',  maxAge: 24 * 60 * 60 * 1000}) // add secure true in pro
+    res.cookie("jwt", refreshToken, {httpOnly: true,sameSite:'None', secure:true,  maxAge: 24 * 60 * 60 * 1000}) // add secure true in pro
     res.json({
         "email":foundUser.email,
          "roles":foundUser.roles,

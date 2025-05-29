@@ -40,12 +40,13 @@ const createNewProduct = async (req, res) => {
   try {
     // Upload single image (req.file instead of req.files)
     const imageUrl = await uploadToSupabase([req.file], req.user?.uid || 'guest');
-    
+     
+    const roundedPrice = Math.round(req.body.price);
     // Create product with single image URL (not array)
     const result = await Products.create({
       name: req.body.name,
       image: imageUrl[0], // Take the first (and only) URL
-      price: req.body.price,
+      price: roundedPrice,
       description: req.body.description,
       category: req.body.category
     });

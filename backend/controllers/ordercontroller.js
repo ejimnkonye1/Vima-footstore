@@ -119,7 +119,6 @@ const getOrderDetails = async (req, res) => {
     const { email } = req.query;
     console.log("useremail", email)
     const orders = await Order.find({ userEmail: email })
-      .sort({ createdAt: -1 });
     res.json(orders);
   } catch (error) {
     res.status(500).json({ error: 'Failed to fetch orders' });

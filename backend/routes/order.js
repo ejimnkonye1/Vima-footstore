@@ -11,6 +11,6 @@ router.post('/', OrderController.createOrder);
 router.post('/webhook', OrderController.handlePaystackWebhook);
 
 // Protected route (for order lookup)
-router.get('/send-confirmation',  OrderController.getOrderDetails);
+router.get('/:email',  OrderController.getOrderDetails);
 
 module.exports = router

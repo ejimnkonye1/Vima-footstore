@@ -10,6 +10,8 @@ import ProductDetailsNew from './new/productdetails.jsx';
 import CartPage from './new/cart.jsx';
 import CheckoutPage from './new/checkout.jsx';
 import UserDashboard from './new/ac.jsx';
+import LoginPage from './auth/login.jsx';
+import RegisterPage from './auth/register.jsx';
 
 
 
@@ -54,11 +56,13 @@ function App() {
   <Layout>
 
     <Routes>
+      <Route path="/login" element={<LoginPage/>} />
+<Route path="/register" element={<RegisterPage />} />
                <Route path='/' element={<ECommerceStore />} />
                               <Route path='/product/:name' element={<ProductDetailsNew />} />
                                                             <Route path='/cart' element={<CartPage />} />
                                                            <Route path='/checkout' element={<CheckoutPage />} />
-                                                         <Route path='/us' element={<UserDashboard />} />
+                                                     <Route path='/userdashboard' element={<UserDashboard />} />
     </Routes>
 
     <ContactInfo />
