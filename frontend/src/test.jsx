@@ -44,6 +44,7 @@ const ECommerceStore = () => {
         }
 
         const response = await axios.get(endpoint);
+        console.log("res", response)
         // Ensure price is treated as number
         const formattedProducts = response.data.map(p => ({
           ...p,

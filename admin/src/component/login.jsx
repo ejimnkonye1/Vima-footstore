@@ -47,8 +47,6 @@ const handleSubmit = async (e) => {
       return;
     }
     
-    // Updated to match backend response structure
-    localStorage.setItem("accessToken", data.acccessToken);  // Note the 3 'c's
     navigate("/dashboard");
   } catch (err) {
     const errorMessage = err.message || "An error occurred. Please try again.";

@@ -16,14 +16,10 @@ const [orders, setOrders] = useState([])
         setLoading(true);
         try {
           const response = await axios.get('https://nique-backend.vercel.app/api/admin/getallorders',{
-                  headers: {
-            'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
-          }
+        credentials: 'include'  
           });
           const userres = await axios.get('https://nique-backend.vercel.app/api/admin/getallusers',{
-                  headers: {
-            'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
-          }
+       credentials: 'include'  
           });
        
           setTotalUser(userres.data.total)

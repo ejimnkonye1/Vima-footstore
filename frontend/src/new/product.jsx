@@ -2,6 +2,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {  FiShoppingBag, } from 'react-icons/fi';
 import { Link } from "react-router-dom";
 import { useCart } from '../context/cartcontext';
+import formatAsNaira from '../currency/naira';
 
 const Products = ({filteredProducts, resetFilters,setQuickViewProduct}) => {
       const { addToCart } = useCart();
@@ -59,7 +60,8 @@ const Products = ({filteredProducts, resetFilters,setQuickViewProduct}) => {
                          </Link>
 
                         <div className="flex items-center justify-between">
-                          <span className="font-bold text-gray-900">${product.price.toFixed(2)}</span>
+
+                          <span className="font-bold text-gray-900">                            {formatAsNaira(product.price.toFixed(0))}</span>
                           <button
                             onClick={() => addToCart(product)}
                             className="p-2 bg-indigo-50 text-indigo-600 rounded-full hover:bg-indigo-100"

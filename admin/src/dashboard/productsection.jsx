@@ -20,9 +20,7 @@ const confirmDelete = async () => {
     const response = await axios.delete(
       `https://nique-backend.vercel.app/api/admin/products/deleteproduct/${encodeURIComponent(productToDelete.name)}`,
       {
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
-        }
+    credentials: 'include'  
       }
     );
 

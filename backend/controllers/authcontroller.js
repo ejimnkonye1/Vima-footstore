@@ -21,7 +21,7 @@ const handleLogin = async (req, res) => {
     if (match){
         const roles = Object.values(foundUser.roles)
     // crete JWT
-    const acccessToken = jwt.sign(
+    const accessToken = jwt.sign(
         {
             "UserInfo": {          
             "email": foundUser.email,
@@ -31,21 +31,32 @@ const handleLogin = async (req, res) => {
         process.env.ACCESS_TOKEN_SECRET,
         {expiresIn: "1d"}
     )
+    console.log("Access Token Cookie Set:", accessToken);
     const refreshToken = jwt.sign(
         {"email": foundUser.email},
         process.env.REFRESH_TOKEN_SECRET,
         {expiresIn: "1d"}
     )
     foundUser.refreshToken = refreshToken
+    console.log("Access Token Cookie Set:", accessToken);
+    console.log("next");
      const result = await foundUser.save()
 
      console.log(result)
     // while testing refresh token with thunder client remove secure true
-    res.cookie("jwt", refreshToken, {httpOnly: true,sameSite:'None',  maxAge: 24 * 60 * 60 * 1000}) // add secure true in pro
-    res.json({
-        "email":foundUser.email,
-         "roles":foundUser.roles,
-        acccessToken});
+  // Set access token as HTTP-only cookie (instead of sending in response body)
+  res.cookie("accessToken", accessToken, {
+    httpOnly: true,
+    secure: false, // Enable in production
+    sameSite: 'None', // Needed if frontend/backend are on different domains
+    maxAge: 24 * 60 * 60 * 1000 // 1 day
+  });// add secure true in pro
+
+  
+      res.json({
+    email: foundUser.email,
+    roles: foundUser.roles
+  });
 // res.json({"message":`user ${user} is logged in`})
     } else{
         res.status(401).json({"message":"invalid email and password"})

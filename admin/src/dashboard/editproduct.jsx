@@ -56,10 +56,7 @@ console.log(formData.name)
         'https://nique-backend.vercel.app/api/admin/products/updateproduct',
         formDataToSend,
         {
-          headers: {
-          "Content-Type": "application/json",
-            'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
-          }
+    credentials: 'include'  
         }
       );
       
