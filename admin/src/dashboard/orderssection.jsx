@@ -11,8 +11,8 @@ const OrdersSection = () => {
       const getproduct = async () => {
         setLoading(true);
         try {
-          const response = await axios.get('http://localhost:4500/api/admin/getallorders',{
-       credentials: 'include'  
+          const response = await axios.get('https://nique-backend.vercel.app/api/admin/getallorders',{
+          withCredentials: true, 
           });
             setOrders(response.data.orders)
             console.log("order", response.data.orders)

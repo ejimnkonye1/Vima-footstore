@@ -31,12 +31,15 @@ const handleLogin = async (req, res) => {
         process.env.ACCESS_TOKEN_SECRET,
         {expiresIn: "1d"}
     )
+    console.log("Access Token Cookie Set:", accessToken);
     const refreshToken = jwt.sign(
         {"email": foundUser.email},
         process.env.REFRESH_TOKEN_SECRET,
         {expiresIn: "1d"}
     )
     foundUser.refreshToken = refreshToken
+    console.log("Access Token Cookie Set:", accessToken);
+    console.log("next");
      const result = await foundUser.save()
 
      console.log(result)
@@ -44,7 +47,7 @@ const handleLogin = async (req, res) => {
   // Set access token as HTTP-only cookie (instead of sending in response body)
   res.cookie("accessToken", accessToken, {
     httpOnly: true,
-    secure: true, // Enable in production
+    secure: false, // Enable in production
     sameSite: 'None', // Needed if frontend/backend are on different domains
     maxAge: 24 * 60 * 60 * 1000 // 1 day
   });// add secure true in pro
