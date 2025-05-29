@@ -52,9 +52,7 @@ const AdminDashboard = () => {
         setLoading(true);
         try {
           const response = await axios.get('https://nique-backend.vercel.app/products',{
-                  headers: {
-            'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
-          }
+       credentials: 'include'  
           });
           console.log('Products:', response.data);
           setProducts(response.data || []);

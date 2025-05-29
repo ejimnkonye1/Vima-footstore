@@ -50,8 +50,9 @@ const AddProductForm = ({ onAddProduct, }) => {
           {
             headers: {
               'Content-Type': 'multipart/form-data',
-              'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
-            }
+
+            },
+            credentials: 'include'  
           }
         );
         onAddProduct(response.data);

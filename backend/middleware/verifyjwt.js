@@ -1,23 +1,20 @@
-const jwt = require("jsonwebtoken")
+const jwt = require("jsonwebtoken");
 
+const verifyJWT = (req, res, next) => {
+    const token = req.cookies.accessToken; // Access the token from cookies
 
- const verifyJWT = (req, res, next) => {
-    const authHeader = req.headers.authorization || req.headers.Authorization
-    if (!authHeader?.startsWith("Bearer")) return res.status(401).json({"message":"jwt required"});
-    // console.log(authHeader) // bearer token
+    if (!token) {
+        return res.status(401).json({"message": "JWT required"});
+    }
 
-    const token = authHeader.split(" ")[1]
-    jwt.verify(
-        token,
-        process.env.ACCESS_TOKEN_SECRET,
-        (err, dedcoded) => {
-            if(err) return res.status(403).json({"message":"jwt exipred"})// invalid or expired
-            req.user = dedcoded.UserInfo.email
-            req.roles = dedcoded.UserInfo.roles
-            next()
+    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, decoded) => {
+        if (err) {
+            return res.status(403).json({"message": "JWT expired or invalid"}); // invalid or expired
         }
-    )
+        req.user = decoded.UserInfo.email;
+        req.roles = decoded.UserInfo.roles;
+        next();
+    });
+};
 
- }
-
- module.exports = verifyJWT
+module.exports = verifyJWT;

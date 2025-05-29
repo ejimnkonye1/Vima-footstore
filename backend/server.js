@@ -58,8 +58,7 @@ app.post('/api/orders/webhook',
 
 // verify token
 app.use(verifyJWT)
-// app.use("/addproduct", require("./routes/addproduct"))
-//admin
+//admin route
 app.use('/api/admin/getallusers', require('./routes/admin/getallusers'));
 app.use('/api/admin/getallorders', require('./routes/admin/getallorders'));
 app.use('/api/admin/products', require('./routes/admin/products'));
