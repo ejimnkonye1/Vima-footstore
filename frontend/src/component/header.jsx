@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { FiSearch, FiHeart, FiShoppingBag, FiUser, FiMenu, FiX, FiChevronDown, FiStar, FiFilter } from 'react-icons/fi';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useCart } from '../context/cartcontext';
+import { Link } from 'react-router-dom';
 
 
 const Header = ({setActiveCategory,searchQuery, setSearchQuery,activeCategory, }) => {
@@ -20,7 +21,9 @@ const Header = ({setActiveCategory,searchQuery, setSearchQuery,activeCategory, }
               >
                 <FiMenu size={24} />
               </button>
-              <h1 className="text-2xl font-bold text-indigo-600">FashionHub</h1>
+              <Link to={'/'}>
+                            <h1 className="text-2xl font-bold text-indigo-600">NiqueWear</h1>
+              </Link>
             </div>
             
             {/* Desktop Navigation */}
@@ -63,10 +66,12 @@ const Header = ({setActiveCategory,searchQuery, setSearchQuery,activeCategory, }
                 />
                 <FiSearch className="absolute left-3 top-3 text-gray-400" />
               </div>
-              <button className="p-2 text-gray-700 hover:text-indigo-600 relative">
+              {/* <button className="p-2 text-gray-700 hover:text-indigo-600 relative">
                 <FiHeart size={20} />
                 <span className="sr-only">Wishlist</span>
-              </button>
+              </button> */}
+                  <Link to={'/cart'}>
+             
               <button className="p-2 text-gray-700 hover:text-indigo-600 relative">
                 <FiShoppingBag size={20} />
                   {cartCount > 0 && (
@@ -75,10 +80,13 @@ const Header = ({setActiveCategory,searchQuery, setSearchQuery,activeCategory, }
             </span>
           )}
               </button>
-              <button className="p-2 text-gray-700 hover:text-indigo-600">
+                   </Link>
+              <Link to={'/login'}>
+               <button className="p-2 text-gray-700 hover:text-indigo-600">
                 <FiUser size={20} />
                 <span className="sr-only">Account</span>
               </button>
+              </Link>
             </div>
           </div>
           

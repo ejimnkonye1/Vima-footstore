@@ -1,19 +1,15 @@
 import { useState, useEffect } from 'react';
-import { FiSearch, FiHeart, FiShoppingBag, FiUser, FiMenu, FiX, FiChevronDown, FiStar, FiFilter } from 'react-icons/fi';
 import { motion, AnimatePresence } from 'framer-motion';
 import axios from 'axios';
-import Header from './new/header';
-import CategoryHeader from './new/categoryheader';
-import FilterSidebar from './new/filtersidebar';
-import Quickview from './new/quickview';
-import Products from './new/product';
-import Pagination from './new/pagination';
+import CategoryHeader from '../home/categoryheader';
+import FilterSidebar from '../home/filtersidebar';
+import Quickview from '../home/quickview';
+import Products from '../home/product';
+import Pagination from '../reuseable/pagination';
 
-const ECommerceStore = () => {
+const HomePage = ({activeCategory, setActiveCategory, searchQuery, setSearchQuery}) => {
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
-  const [activeCategory, setActiveCategory] = useState('all');
-  const [searchQuery, setSearchQuery] = useState('');
   const [priceFilter, setPriceFilter] = useState([0, 100000]); // Increased max price
   const [quickViewProduct, setQuickViewProduct] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -100,13 +96,6 @@ const ECommerceStore = () => {
   }, [activeCategory, searchQuery, priceFilter]);
   return (
     <div className="min-h-screen bg-gray-50">
-      <Header 
-        setActiveCategory={setActiveCategory}
-        searchQuery={searchQuery}
-        setSearchQuery={setSearchQuery}
-        activeCategory={activeCategory}
-      
-      />
 
       {loading && (
         <div className="text-center py-8">
@@ -170,4 +159,4 @@ const ECommerceStore = () => {
   );
 };
 
-export default ECommerceStore;
+export default HomePage;

@@ -34,9 +34,8 @@ const CheckoutPage = () => {
 
   // Calculate order totals
   const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-  const shipping = 0; // Free shipping
-  const tax = subtotal * 0.075; // 7.5% VAT
-  const total = subtotal + shipping + tax;
+  const shipping = 1000; 
+  const total = subtotal + shipping ;
 
   // Paystack config with useMemo to prevent unnecessary re-renders
   const paystackConfig = useMemo(() => ({
@@ -191,8 +190,8 @@ const handlePlaceOrder = () => {
       <Toaster position="bottom-right" />
       
       {/* Progress Steps */}
-      <CheckoutProgress activeStep={activeStep} setActiveStep={setActiveStep} />
-      
+      {/* <CheckoutProgress activeStep={activeStep} setActiveStep={setActiveStep} />
+       */}
       {/* Main Content */}
       <main className="container mx-auto px-4 py-8">
         <div className="flex flex-col lg:flex-row gap-8">
@@ -234,7 +233,6 @@ const handlePlaceOrder = () => {
             cart={cart}
             subtotal={subtotal}
             shipping={shipping}
-            tax={tax}
             total={total}
             activeStep={activeStep}
           />

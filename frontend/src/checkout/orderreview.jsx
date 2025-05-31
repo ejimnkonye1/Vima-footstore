@@ -1,11 +1,13 @@
-import {  FiCreditCard, FiTruck, FiUser, } from 'react-icons/fi';
+import { FiCreditCard, FiTruck, FiUser  } from 'react-icons/fi';
+import formatAsNaira from '../currency/naira';
+
 const OrderReview = ({ formData, paymentMethod, cart, prevStep, placeOrder, loading }) => (
   <div className="bg-white rounded-lg shadow-sm p-6">
     <h2 className="text-xl font-bold text-gray-900 mb-6">Review Your Order</h2>
     
     <div className="border-b border-gray-200 pb-6">
       <h3 className="text-lg font-medium text-gray-900 mb-4 flex items-center">
-        <FiUser className="mr-2" />
+        <FiUser  className="mr-2" />
         Contact Information
       </h3>
       <p className="text-gray-600">{formData.email}</p>
@@ -36,11 +38,11 @@ const OrderReview = ({ formData, paymentMethod, cart, prevStep, placeOrder, load
       <ul className="divide-y divide-gray-200">
         {cart.map((item) => (
           <li key={item._id} className="py-4 flex">
-            <div className="flex-shrink-0 w-20 h-20 bg-gray-100 rounded-md overflow-hidden">
+            <div className="flex-shrink-0 w-20 h-20 sm:w-24 sm:h-24 bg-gray-100 rounded-md overflow-hidden">
               <img
                 src={item.image}
                 alt={item.name}
-                className="w-full h-full object-contain"
+                className="w-full h-full object-cover" // Changed to object-cover for better responsiveness
               />
             </div>
             <div className="ml-4 flex-1">
@@ -49,12 +51,14 @@ const OrderReview = ({ formData, paymentMethod, cart, prevStep, placeOrder, load
                   {item.name}
                 </h4>
                 <p className="text-base font-medium text-gray-900">
-                  ₦{(item.price * item.quantity).toFixed(2)}
+                  {formatAsNaira((item.price * item.quantity).toFixed(0))}
                 </p>
               </div>
-              <p className="mt-1 text-sm text-gray-500 capitalize">
-                {item.color} | {item.size}
-              </p>
+              {item.color && (
+                <p className="mt-1 text-sm text-gray-500 capitalize">
+                  {item.color} | {item.size}
+                </p>
+              )}
               <p className="mt-1 text-sm text-gray-500">
                 Qty: {item.quantity}
               </p>
@@ -86,4 +90,4 @@ const OrderReview = ({ formData, paymentMethod, cart, prevStep, placeOrder, load
   </div>
 );
 
-export default OrderReview
+export default OrderReview;
