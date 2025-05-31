@@ -31,12 +31,12 @@ const HomePage = ({activeCategory, setActiveCategory, searchQuery, setSearchQuer
       setLoading(true);
       setError('');
       try {
-        let endpoint = 'http://localhost:4500/products';
+        let endpoint = 'https://nique-backend.vercel.app/products';
         
         if (activeCategory === 'men') {
-          endpoint = 'http://localhost:4500/products/men';
+          endpoint = 'https://nique-backend.vercel.app/products/men';
         } else if (activeCategory === 'women') {
-          endpoint = 'http://localhost:4500/products/women';
+          endpoint = 'https://nique-backend.vercel.app/products/women';
         }
 
         const response = await axios.get(endpoint);
