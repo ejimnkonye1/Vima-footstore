@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react';
 import { FiHeart, FiStar, FiCheck, FiTruck, FiRefreshCw, FiShield } from 'react-icons/fi';
 import { BiLeaf } from 'react-icons/bi';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
 import { useCart } from '../context/cartcontext';
 
-const ProductDetailsNew = () => {
+const ProductDetails = () => {
   const { name } = useParams();
   const navigate = useNavigate();
   const [product, setProduct] = useState(null);
@@ -29,7 +29,7 @@ const ProductDetailsNew = () => {
   useEffect(() => {
     const fetchProductDetails = async () => {
       try {
-        const response = await axios.get(`http://localhost:4500/product/${name}`);
+        const response = await axios.get(`https://nique-backend.vercel.app/product/${name}`);
         setProduct({
           ...response.data,
           ...staticProductData,
@@ -119,7 +119,7 @@ const ProductDetailsNew = () => {
         <nav className="flex" aria-label="Breadcrumb">
           <ol className="inline-flex items-center space-x-1 md:space-x-3">
             <li className="inline-flex items-center">
-              <a href="#" className="text-gray-700 hover:text-indigo-600 text-sm">Home</a>
+              <Link to="/" className="text-gray-700 hover:text-indigo-600 text-sm">Home</Link>
             </li>
             <li>
               <div className="flex items-center">
@@ -329,4 +329,4 @@ const ProductDetailsNew = () => {
   );
 };
 
-export default ProductDetailsNew;
+export default ProductDetails;

@@ -105,22 +105,7 @@ const UserDashboard = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <header className="bg-white shadow-sm">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <h1 className="text-2xl font-bold text-indigo-600">FashionHub</h1>
-            <div className="flex items-center space-x-4">
-              <a href="/cart" className="p-2 text-gray-700 hover:text-indigo-600 relative">
-                <FiShoppingBag size={20} />
-                <span className="sr-only">Cart</span>
-              </a>
-              <div className="flex items-center">
-                <img className="h-8 w-8 rounded-full" src={userData.avatar} alt="User avatar" />
-              </div>
-            </div>
-          </div>
-        </div>
-      </header>
+
 
       {/* Main Content */}
       <main className="container mx-auto px-4 py-8">

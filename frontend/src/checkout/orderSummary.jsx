@@ -1,6 +1,7 @@
 import { FiLock,  FiCheck,  FiShield } from 'react-icons/fi';
 import { BiLeaf } from 'react-icons/bi';
-const OrderSummary = ({ cart, subtotal, shipping, tax, total, activeStep }) => (
+import formatAsNaira from '../currency/naira';
+const OrderSummary = ({ cart, subtotal, shipping,  total, activeStep }) => (
   <div className="lg:w-1/3">
     <div className="bg-white rounded-lg shadow-sm p-6 sticky top-8">
       <h2 className="text-lg font-medium text-gray-900 mb-4">Order Summary</h2>
@@ -8,19 +9,15 @@ const OrderSummary = ({ cart, subtotal, shipping, tax, total, activeStep }) => (
       <div className="space-y-4">
         <div className="flex justify-between">
           <span className="text-gray-600">Subtotal ({cart.reduce((sum, item) => sum + item.quantity, 0)} items)</span>
-          <span className="text-gray-900">₦{subtotal.toFixed(2)}</span>
+          <span className="text-gray-900">{formatAsNaira(subtotal.toFixed(0))}</span>
         </div>
         <div className="flex justify-between">
           <span className="text-gray-600">Shipping</span>
-          <span className="text-gray-900">{shipping === 0 ? 'FREE' : `₦${shipping.toFixed(2)}`}</span>
-        </div>
-        <div className="flex justify-between">
-          <span className="text-gray-600">Tax</span>
-          <span className="text-gray-900">₦{tax.toFixed(2)}</span>
+          <span className="text-gray-900">{formatAsNaira(shipping)}</span>
         </div>
         <div className="border-t border-gray-200 pt-4 flex justify-between">
           <span className="font-medium text-gray-900">Total</span>
-          <span className="font-bold text-gray-900">₦{total.toFixed(2)}</span>
+          <span className="font-bold text-gray-900">{formatAsNaira(total.toFixed(0))}</span>
         </div>
       </div>
 
