@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 import axios from 'axios';
 import { ErrorDisplay, LoadingSpinner } from "../component/reuse";
+import formatAsNaira from "../util/naira";
 const OrdersSection = () => {
     const [loading, setLoading] = useState(false)
     const [orders, setOrders] = useState([])
@@ -58,7 +59,7 @@ const OrdersSection = () => {
                     {order.status}
                   </span>
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500"> ${order.total.toFixed(0)}</td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500"> {formatAsNaira(order.total.toFixed(0))}</td>
                 <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                   <button className="text-indigo-600 hover:text-indigo-900 mr-3">View</button>
                 </td>

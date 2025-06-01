@@ -56,7 +56,7 @@ console.log(formData.name)
         'https://nique-backend.vercel.app/api/admin/products/updateproduct',
         formDataToSend,
         {
-    credentials: 'include'  
+      withCredentials: true, 
         }
       );
       

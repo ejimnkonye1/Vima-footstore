@@ -52,7 +52,7 @@ const AdminDashboard = () => {
         setLoading(true);
         try {
           const response = await axios.get('https://nique-backend.vercel.app/products',{
-       credentials: 'include'  
+      withCredentials: true, 
           });
           console.log('Products:', response.data);
           setProducts(response.data || []);

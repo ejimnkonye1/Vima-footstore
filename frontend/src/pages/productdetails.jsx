@@ -5,6 +5,8 @@ import { useParams, useNavigate, Link } from 'react-router-dom';
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
 import { useCart } from '../context/cartcontext';
+import formatAsNaira from '../currency/naira';
+import capitalizeFirstLetter from '../util/cap';
 
 const ProductDetails = () => {
   const { name } = useParams();
@@ -141,26 +143,21 @@ const ProductDetails = () => {
       <div className="container mx-auto px-4 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           {/* Product Image */}
-          <div className="space-y-4 ">
-            <div className="relative aspect-square bg-gray-50  rounded-lg overflow-hidden shadow-sm">
-        <div className='w-full '>
-                  <img 
-                src={product.image} 
-                alt={product.name}
-                className="w-full  relative aspect-square h-full object-contain"
-                onError={(e) => {
-                  e.target.src = "https://via.placeholder.com/500x500?text=Product+Image";
-                }}
-              />
-        </div>
-              <button 
-                onClick={() => setIsWishlisted(!isWishlisted)}
-                className={`absolute top-4 right-4 p-2 rounded-full ${isWishlisted ? 'text-red-500 bg-white' : 'text-gray-500 bg-white/80'} shadow-md hover:bg-white`}
-              >
-                <FiHeart className={`w-5 h-5 ${isWishlisted ? 'fill-current' : ''}`} />
-              </button>
-            </div>
-          </div>
+      <div className="space-y-4">
+  <div className="relative aspect-square bg-gray-50 rounded-lg overflow-hidden shadow-sm">
+    <div className="w-full h-full flex items-center justify-center">
+      <img 
+        src={product.image} 
+        alt={product.name}
+        className="w-full h-full object-cover" // Changed to object-cover for better fitting
+        onError={(e) => {
+          e.target.src = "https://via.placeholder.com/500x500?text=Product+Image";
+        }}
+      />
+    </div>
+  </div>
+</div>
+
 
           {/* Product Info */}
           <div className="space-y-6">
@@ -174,7 +171,7 @@ const ProductDetails = () => {
                   <BiLeaf className="mr-1" /> Sustainable
                 </span>
               </div>
-              <h1 className="text-3xl font-bold text-gray-900">{product.name}</h1>
+              <h1 className="text-3xl font-bold text-gray-900">{capitalizeFirstLetter(product.name)}</h1>
               <div className="flex items-center mt-2">
                 <div className="flex text-yellow-400 mr-2">
                   {[...Array(5)].map((_, i) => (
@@ -194,11 +191,7 @@ const ProductDetails = () => {
             {/* Price */}
             <div className="py-4 border-t border-b border-gray-100">
               <div className="flex items-center">
-                <span className="text-3xl font-bold text-gray-900">${product.discountPrice.toFixed(2)}</span>
-                <span className="ml-3 text-lg text-gray-500 line-through">${product.price.toFixed(2)}</span>
-                <span className="ml-3 px-2.5 py-1 bg-red-100 text-red-800 text-xs font-medium rounded-full">
-                  Save ${(product.price - product.discountPrice).toFixed(2)}
-                </span>
+                <span className="text-3xl font-bold text-gray-900">{formatAsNaira(product.price.toFixed(0))}</span>
               </div>
             </div>
 
@@ -303,7 +296,7 @@ const ProductDetails = () => {
                   <FiTruck className="flex-shrink-0 h-5 w-5 text-gray-500 mr-3" />
                   <div>
                     <h4 className="text-sm font-medium text-gray-900">Free Shipping</h4>
-                    <p className="text-xs text-gray-500">On orders over $50</p>
+                    <p className="text-xs text-gray-500">On orders over {formatAsNaira(50000)}</p>
                   </div>
                 </div>
                 <div className="flex items-center">

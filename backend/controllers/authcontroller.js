@@ -23,8 +23,10 @@ const handleLogin = async (req, res) => {
     // crete JWT
     const accessToken = jwt.sign(
         {
-            "UserInfo": {          
+            "UserInfo": { 
+             "_id": foundUser._id ,           
             "email": foundUser.email,
+             "username":foundUser.username,
              "roles": roles,  
         }
         },
@@ -54,6 +56,8 @@ const handleLogin = async (req, res) => {
 
   
       res.json({
+    _id: foundUser._id,
+    user:foundUser.username,    
     email: foundUser.email,
     roles: foundUser.roles
   });

@@ -52,7 +52,7 @@ const AddProductForm = ({ onAddProduct, }) => {
               'Content-Type': 'multipart/form-data',
 
             },
-            credentials: 'include'  
+         withCredentials: true, 
           }
         );
         onAddProduct(response.data);

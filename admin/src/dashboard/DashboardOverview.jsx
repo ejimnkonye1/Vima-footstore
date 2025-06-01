@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 import axios from 'axios';
 import { ErrorDisplay, LoadingSpinner } from "../component/reuse";
+import formatAsNaira from "../util/naira";
 
 const DashboardOverview = () => {
 const [loading, setLoading] = useState(false)
@@ -16,10 +17,10 @@ const [orders, setOrders] = useState([])
         setLoading(true);
         try {
           const response = await axios.get('https://nique-backend.vercel.app/api/admin/getallorders',{
-        credentials: 'include'  
+       withCredentials: true, 
           });
           const userres = await axios.get('https://nique-backend.vercel.app/api/admin/getallusers',{
-       credentials: 'include'  
+       withCredentials: true,   
           });
        
           setTotalUser(userres.data.total)
@@ -51,7 +52,7 @@ const [orders, setOrders] = useState([])
           <div className="flex items-center justify-between">
             <div>
               <p className="text-gray-500">Total Revenue</p>
-              <p className="text-2xl font-bold">${totalrevenue}</p>
+              <p className="text-2xl font-bold">{formatAsNaira(totalrevenue)}</p>
             </div>
             <div className="p-3 rounded-full bg-indigo-100 text-indigo-600">
               <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -135,7 +136,7 @@ const [orders, setOrders] = useState([])
         </span>
       </td>
       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-        ${order.total.toFixed(2)}
+        {formatAsNaira(order.total.toFixed(0))}
       </td>
     </tr>
   ))}

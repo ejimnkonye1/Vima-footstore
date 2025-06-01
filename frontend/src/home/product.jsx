@@ -3,6 +3,7 @@ import {  FiShoppingBag, } from 'react-icons/fi';
 import { Link } from "react-router-dom";
 import { useCart } from '../context/cartcontext';
 import formatAsNaira from '../currency/naira';
+import capitalizeFirstLetter from '../util/cap';
 
 const Products = ({filteredProducts, resetFilters,setQuickViewProduct}) => {
       const { addToCart } = useCart();
@@ -20,7 +21,7 @@ const Products = ({filteredProducts, resetFilters,setQuickViewProduct}) => {
                   </button>
                 </div>
               ) : (
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                   {filteredProducts.map(product => (
                     <motion.div 
                       key={product._id}
@@ -56,7 +57,7 @@ const Products = ({filteredProducts, resetFilters,setQuickViewProduct}) => {
                       
                       <div className="p-4">
                          <Link to={`/product/${product.name}`}>
-                                                 <h3 className="font-medium text-gray-900 mb-1">{product.name}</h3>
+                                                 <h3 className="font-medium text-gray-900 mb-1">{capitalizeFirstLetter(product.name)}</h3>
                          </Link>
 
                         <div className="flex items-center justify-between">

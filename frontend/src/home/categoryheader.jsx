@@ -5,7 +5,7 @@ const CategoryHeader = ({activeCategory, filteredProducts, sortOption, setSortOp
   return (
     <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8">
       <div>
-        <h2 className="text-3xl font-bold text-gray-900 capitalize">
+        <h2 className="md:text-3xl text-lg font-bold text-gray-900 capitalize">
           {activeCategory === 'all' ? 'All Products' : activeCategory}
         </h2>
         <p className="text-gray-500 mt-2">
@@ -13,7 +13,7 @@ const CategoryHeader = ({activeCategory, filteredProducts, sortOption, setSortOp
         </p>
       </div>
       
-      <div className="mt-4 md:mt-0">
+      <div className="mt-4 md:mt-0 md:block hidden">
         <div className="relative">
           <select
             className="appearance-none bg-white border border-gray-300 rounded-md pl-4 pr-10 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"

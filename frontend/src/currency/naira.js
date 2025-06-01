@@ -4,7 +4,7 @@ const formatAsNaira = (amount) => {
     const formatter = new Intl.NumberFormat('en-NG', {
       style: 'currency',
       currency: 'NGN',
-      minimumFractionDigits: 2,
+      minimumFractionDigits: 0,
     });
   
     // Use the formatter to format the amount

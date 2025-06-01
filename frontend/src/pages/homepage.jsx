@@ -84,7 +84,7 @@ const HomePage = ({activeCategory, setActiveCategory, searchQuery, setSearchQuer
   const resetFilters = () => {
     setActiveCategory('all');
     setSearchQuery('');
-    setPriceFilter([0, 50000]);
+    setPriceFilter([2000, 100000]);
   };
 
   // Change page

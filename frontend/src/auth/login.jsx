@@ -3,6 +3,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Toaster, toast } from 'react-hot-toast';
 import { FiLock, FiMail } from 'react-icons/fi';
+import { useDispatch } from 'react-redux';
+import { setUser } from '../action';
 
 const LoginPage = () => {
   const [formData, setFormData] = useState({
@@ -10,34 +12,61 @@ const LoginPage = () => {
     password: ''
   });
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+    
   const navigate = useNavigate();
-
+ const dispatch = useDispatch()
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    
-    try {
-      const response = await axios.post('https://nique-backend.vercel.app/login', {
-        email: formData.email,
-        pwd: formData.password
-      });
-      
-      // Save token to localStorage or context
-      localStorage.setItem('token', response.data.token);
-      toast.success('Login successful!');
-      navigate('/userdashboard');
-    } catch (err) {
-      toast.error(err.response?.data?.message || 'Login failed');
-    } finally {
-      setLoading(false);
-    }
-  };
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  setError('');
+  setLoading(true);
 
+  try {
+    const response = await fetch("http://localhost:4500/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        email: formData.email,
+        pwd: formData.password  // Changed from formData.pwd to formData.password
+      }),
+      credentials: 'include'  // Added for cookie handling
+    });
+    
+    const data = await response.json();
+    
+    if (!response.ok) {
+      const errorMessage = data.message || "Login failed";
+      setError(errorMessage);
+      toast.error(errorMessage);
+      return;
+    }
+    toast.success("Login success")
+    console.log(data)
+         const user = data; // Already available!
+     
+    dispatch(
+      setUser({
+     _id: user._id,
+     email: user.email,
+      username: user.user,
+      _roles: user.roles
+      })
+    );
+    
+    navigate("/userdashboard");
+  } catch (err) {
+    const errorMessage = err.message || "An error occurred. Please try again.";
+    setError(errorMessage);
+    toast.error(errorMessage);
+  } finally {
+    setLoading(false);
+  }
+};
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
       <Toaster position="top-center" />

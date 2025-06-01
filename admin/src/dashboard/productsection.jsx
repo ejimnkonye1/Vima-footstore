@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import axios from 'axios';
 import toast, { Toaster } from 'react-hot-toast';
+import formatAsNaira from '../util/naira';
+import capitalizeFirstLetter from '../util/cap';
 
 const ProductsSection = ({ products, onEdit, onDelete, loading, error }) => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -20,7 +22,7 @@ const confirmDelete = async () => {
     const response = await axios.delete(
       `https://nique-backend.vercel.app/api/admin/products/deleteproduct/${encodeURIComponent(productToDelete.name)}`,
       {
-    credentials: 'include'  
+  withCredentials: true, 
       }
     );
 
@@ -127,12 +129,12 @@ const confirmDelete = async () => {
                       )}
                     </div>
                     <div className="ml-4">
-                      <div className="text-sm font-medium text-gray-900">{product.name}</div>
+                      <div className="text-sm font-medium text-gray-900">{ capitalizeFirstLetter(product.name)}</div>
                     </div>
                   </div>
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{product.category}</td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${product.price?.toFixed(2)}</td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{capitalizeFirstLetter(product.category)}</td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{formatAsNaira(product.price?.toFixed(0))}</td>
                 <td className="px-6 py-4 whitespace-nowrap">
                   <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
                     product.stock > 50 ? 'bg-green-100 text-green-800' : 

@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from 'axios';
 import { ErrorDisplay, LoadingSpinner } from "../component/reuse";
+import capitalizeFirstLetter from "../util/cap";
 
 const UsersSection = () => {
   const [loading, setLoading] = useState(false);
@@ -61,7 +62,7 @@ const UsersSection = () => {
                       {user.username?.charAt(0).toUpperCase()}
                     </div>
                     <div className="ml-4">
-                      <div className="text-sm font-medium text-gray-900">{user.username}</div>
+                      <div className="text-sm font-medium text-gray-900">{ capitalizeFirstLetter(user.username)}</div>
                     </div>
                   </div>
                 </td>

@@ -116,9 +116,14 @@ const createOrder = async (req, res) => {
 
 const getOrderDetails = async (req, res) => {
  try {
-    const { email } = req.query;
+    const { email } = req.params;
     console.log("useremail", email)
     const orders = await Order.find({ userEmail: email })
+    
+       if(!orders|| orders.length === 0) {
+            return res.status(204).json({"message": "No order found"});
+        }
+
     res.json(orders);
   } catch (error) {
     res.status(500).json({ error: 'Failed to fetch orders' });

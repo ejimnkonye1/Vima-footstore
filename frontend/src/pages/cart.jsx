@@ -5,6 +5,7 @@ import { BiLeaf } from 'react-icons/bi';
 import { useCart } from '../context/cartcontext';
 import { Link, useNavigate } from 'react-router-dom';
 import formatAsNaira from '../currency/naira';
+import capitalizeFirstLetter from '../util/cap';
 
 const CartPage = () => {
     const { cart, updateQuantity, removeFromCart } = useCart();
@@ -65,7 +66,7 @@ if(cart.length === 0 ){
           <div className="lg:w-2/3">
             <div className="bg-white rounded-lg shadow-sm p-6">
               <div className="flex items-center justify-between mb-6">
-                <h1 className="text-2xl font-bold text-gray-900">Your Cart ({cart.length})</h1>
+                <h1 className="md:text-2xl text-lg font-bold text-gray-900">Your Cart ({cart.length})</h1>
                 <Link to="/" className="text-indigo-600 hover:text-indigo-800 flex items-center">
                   <FiArrowLeft className="mr-1" /> Continue Shopping
                 </Link>
@@ -92,7 +93,7 @@ if(cart.length === 0 ){
                           <div className="flex justify-between">
                             <div>
                               <h3 className="text-base font-medium text-gray-900">
-                                <a href={`/product/${item.name}`}>{item.name}</a>
+                                <a href={`/product/${item.name}`}>{capitalizeFirstLetter(item.name)}</a>
                               </h3>
                               {item.color &&
                                    <p className="mt-1 text-sm text-gray-500 capitalize">
