@@ -1,6 +1,7 @@
 import { BiPurchaseTagAlt } from "react-icons/bi"
 import {  FiLogOut,  FiSettings, FiShoppingBag, FiUser } from "react-icons/fi"
 import { useSelector } from "react-redux";
+import capitalizeFirstLetter from "../util/cap";
 
 
 const UserSidebar = ({setActiveTab,orders, activeTab}) => {
@@ -19,8 +20,10 @@ const UserSidebar = ({setActiveTab,orders, activeTab}) => {
     </div>
 
                               <div>
-                                <h2 className="font-medium text-gray-900">{user.username}</h2>
-                                <p className="text-sm text-gray-500">Member since 2024</p>
+                                <h2 className="font-medium text-gray-900">{capitalizeFirstLetter(user.username)}</h2>
+<p className="text-sm text-gray-500">
+  Member since {user?.joinDate ? new Date(user.joinDate).getFullYear() : '----'}
+</p>
                               </div>
                             </div>
                           </div>

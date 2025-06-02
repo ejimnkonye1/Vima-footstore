@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FiShoppingBag, FiX, FiChevronDown, FiChevronUp, FiTrash2, FiArrowLeft } from 'react-icons/fi';
 import { FaFacebook, FaTwitter, FaPinterest } from 'react-icons/fa';
 import { BiLeaf } from 'react-icons/bi';
@@ -6,7 +6,7 @@ import { useCart } from '../context/cartcontext';
 import { Link, useNavigate } from 'react-router-dom';
 import formatAsNaira from '../currency/naira';
 import capitalizeFirstLetter from '../util/cap';
-
+import { Helmet } from 'react-helmet';
 const CartPage = () => {
     const { cart, updateQuantity, removeFromCart } = useCart();
 const navigate = useNavigate()
@@ -23,11 +23,15 @@ const handlechekout =  () => {
   navigate("/checkout")
 }
 
+
 if(cart.length === 0 ){
   return(
     <div className='container mx-auto px-4 py-8'>
 
-  
+     <Helmet>
+                    <title>Your Cart | Nique Wear</title>
+                    <meta name="description" content="View your shopping cart" />
+                </Helmet>
       <div className="flex flex-col lg:flex-row gap-8">
 
   
@@ -61,6 +65,12 @@ if(cart.length === 0 ){
 
       {/* Main Content */}
       <main className="container mx-auto px-4 py-8">
+          <Helmet>
+  <title>{`Your Cart ${cart.length > 0 ? `(${cart.length})` : ''} | Nique Wear`}</title>
+  <meta name="description" content={cart.length > 0 
+    ? `You have ${cart.length} items in your cart` 
+    : "Your shopping cart is empty"} />
+</Helmet>
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Cart Items */}
           <div className="lg:w-2/3">

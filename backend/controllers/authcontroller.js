@@ -59,7 +59,9 @@ const handleLogin = async (req, res) => {
     _id: foundUser._id,
     user:foundUser.username,    
     email: foundUser.email,
-    roles: foundUser.roles
+    roles: foundUser.roles,
+    phoneNumber:foundUser.phoneNumber,
+    createdAt: foundUser.createdAt
   });
 // res.json({"message":`user ${user} is logged in`})
     } else{

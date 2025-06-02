@@ -19,7 +19,13 @@
         type: String,
         required: true
     },
+      phoneNumber: {
+        type: String,
+        required: false,
+    },
     refreshToken : String
- });
+ },
+{  timestamps: true}
+);
 
  module.exports = mongoose.model("User", userSchema)

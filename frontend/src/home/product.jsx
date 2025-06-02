@@ -4,12 +4,18 @@ import { Link } from "react-router-dom";
 import { useCart } from '../context/cartcontext';
 import formatAsNaira from '../currency/naira';
 import capitalizeFirstLetter from '../util/cap';
-
+import { Toaster, toast } from 'react-hot-toast';
 const Products = ({filteredProducts, resetFilters,setQuickViewProduct}) => {
       const { addToCart } = useCart();
+        const addtoCart = (product) => {
+          addToCart(product);
+         toast.success(`${product.name} added to cart`);
+      }
+
     return (
         <>
             {filteredProducts.length === 0 ? (
+              
                 <div className="bg-white p-12 rounded-lg shadow-sm text-center">
                   <h3 className="text-xl font-medium text-gray-700 mb-2">No products found</h3>
                   <p className="text-gray-500 mb-6">Try adjusting your filters or search query</p>
@@ -22,6 +28,7 @@ const Products = ({filteredProducts, resetFilters,setQuickViewProduct}) => {
                 </div>
               ) : (
                 <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                     <Toaster position="bottom-right" />
                   {filteredProducts.map(product => (
                     <motion.div 
                       key={product._id}
@@ -64,7 +71,7 @@ const Products = ({filteredProducts, resetFilters,setQuickViewProduct}) => {
 
                           <span className="font-bold text-gray-900">                            {formatAsNaira(product.price.toFixed(0))}</span>
                           <button
-                            onClick={() => addToCart(product)}
+                            onClick={() => addtoCart(product)}
                             className="p-2 bg-indigo-50 text-indigo-600 rounded-full hover:bg-indigo-100"
                           >
                             <FiShoppingBag size={18} />

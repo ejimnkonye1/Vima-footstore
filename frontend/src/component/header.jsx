@@ -5,7 +5,7 @@ import { useCart } from '../context/cartcontext';
 import { Link } from 'react-router-dom';
 
 const Header = ({ setActiveCategory, searchQuery, setSearchQuery, activeCategory }) => {
-  const { cartCount } = useCart();
+  const { cartCount, cart } = useCart();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
@@ -63,9 +63,9 @@ const Header = ({ setActiveCategory, searchQuery, setSearchQuery, activeCategory
               <Link to={'/cart'}>
                 <button className="p-2 text-gray-700 hover:text-indigo-600 relative">
                   <FiShoppingBag size={20} />
-                  {cartCount > 0 && (
+                  {cart.length > 0 && (
                     <span className="absolute -top-1 -right-1 bg-indigo-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
-                      {cartCount}
+                      {cart.length}
                     </span>
                   )}
                 </button>

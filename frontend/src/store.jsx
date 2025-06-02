@@ -3,40 +3,35 @@ import { configureStore } from "@reduxjs/toolkit";
 import { persistReducer, persistStore } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 
-// Proper initial state
 const initialState = {
-  
   user: null,
-
-
- 
 };
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-
     case "SET_USER":
       return {
         ...state,
         user: action.payload,
       };
-
-    case "CLEAR_USER":
+    case "UPDATE_USER":
       return {
-        ...initialState, // Reset to initial state
+        ...state,
+        user: {
+          ...state.user,
+          ...action.payload, // Merge existing user with updated fields
+        },
       };
-
-     
+    case "CLEAR_USER":
+      return initialState;
     default:
       return state;
   }
-  
 };
 
 const persistConfig = {
   key: "root",
   storage,
-
 };
 
 const persistedReducer = persistReducer(persistConfig, reducer);

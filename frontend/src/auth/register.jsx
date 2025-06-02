@@ -18,30 +18,77 @@ const RegisterPage = () => {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    
-    if (formData.password !== formData.confirmPassword) {
-      toast.error('Passwords do not match');
-      return;
-    }
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  
+  // Client-side validation
+  if (!formData.name || !formData.email || !formData.password) {
+    toast.error('All fields are required');
+    return;
+  }
 
-    setLoading(true);
-    try {
-      const response = await axios.post('http://localhost:4500/api/users/register', {
-        name: formData.name,
-        email: formData.email,
+  if (formData.password !== formData.confirmPassword) {
+    toast.error('Passwords do not match');
+    return;
+  }
+
+  if (formData.password.length < 6) {
+    toast.error('Password must be at least 6 characters');
+    return;
+  }
+
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+    toast.error('Please enter a valid email address');
+    return;
+  }
+
+  setLoading(true);
+  
+  try {
+    const response = await axios.post(
+      // `${process.env.REACT_APP_API_URL}/api/users/register`,
+         `http://localhost:4500/register`,
+      {
+        username: formData.name.trim(),
+        email: formData.email.trim().toLowerCase(),
         password: formData.password
+      },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        timeout: 10000 // 10 second timeout
+      }
+    );
+
+    if (response.status === 201) {
+      toast.success('Registration successful! Redirecting to login...');
+      // Clear form on success
+      setFormData({
+        name: '',
+        email: '',
+        password: '',
+        confirmPassword: ''
       });
-      
-      toast.success('Registration successful!');
-      navigate('/login');
-    } catch (err) {
-      toast.error(err.response?.data?.message || 'Registration failed');
-    } finally {
-      setLoading(false);
+      setTimeout(() => navigate('/login'), 1500);
     }
-  };
+  } catch (err) {
+    const errorMessage = err.response?.data?.message || 
+                       err.message || 
+                       'Registration failed. Please try again.';
+    toast.error(errorMessage);
+    
+    // Log detailed error for debugging
+    console.error('Registration error:', {
+      error: err.response?.data,
+      status: err.response?.status,
+      config: err.config
+    });
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">

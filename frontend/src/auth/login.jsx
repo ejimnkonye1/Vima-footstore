@@ -1,9 +1,9 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Toaster, toast } from 'react-hot-toast';
 import { FiLock, FiMail } from 'react-icons/fi';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setUser } from '../action';
 
 const LoginPage = () => {
@@ -14,8 +14,18 @@ const LoginPage = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
     
-  const navigate = useNavigate();
+const navigate = useNavigate();
  const dispatch = useDispatch()
+  const user = useSelector((state) => state.user); // Get current user from Redux store
+
+  // Redirect if user is already logged in
+  useEffect(() => {
+    if (user) {
+      navigate('/userdashboard');
+    }
+  }, [user, navigate]);
+
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
@@ -54,7 +64,9 @@ const handleSubmit = async (e) => {
      _id: user._id,
      email: user.email,
       username: user.user,
-      _roles: user.roles
+      roles: user.roles,
+      phoneNumber:user.phoneNumber,
+      joinDate: user.createdAt
       })
     );
     

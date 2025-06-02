@@ -1,9 +1,7 @@
 import { useState } from 'react';
-import { FiUser, FiMapPin, FiPhone, FiMail, FiShoppingBag, FiHeart, FiSettings, FiLogOut, FiEdit, FiChevronRight } from 'react-icons/fi';
-import { BiPurchaseTagAlt } from 'react-icons/bi';
-import { useSelector } from 'react-redux';
+import {  FiEdit, } from 'react-icons/fi';
+import { useDispatch, useSelector } from 'react-redux';
 import SettingsSection from '../dashboard/setting';
-import WishlistSection from '../dashboard/whislistsection';
 import AddressesSection from '../dashboard/addressesection';
 import OrdersSection from '../dashboard/ordersection';
 import UserSidebar from '../dashboard/sidebar';
@@ -11,48 +9,84 @@ import Recentorders from '../dashboard/recentorders';
 import ProfileSection from '../dashboard/profilesection';
 import { ErrorDisplay, LoadingSpinner } from '../util/loader';
 import { useEffect } from 'react';
+import { Toaster, toast } from 'react-hot-toast';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 const UserDashboard = () => {
   const [activeTab, setActiveTab] = useState('overview');
   const [editMode, setEditMode] = useState(false);
-  const [userData, setUserData] = useState({
-    name: 'Alex Johnson',
-    email: 'alex.johnson@example.com',
-    phone: '+1 (555) 123-4567',
-    joinDate: 'January 2024',
-    avatar: '/user-avatar.jpg'
-  });
+  const [userData, setUserData] = useState({ });
   const user = useSelector((state) => state.user);
-  const [wishlist] = useState([
-    {
-      id: '4',
-      name: 'Breathable Running Socks',
-      price: 14.99,
-      image: '/socks.jpg',
-      isOnSale: true
-    },
-    {
-      id: '5',
-      name: 'Lightweight Running Cap',
-      price: 24.99,
-      image: '/cap.jpg',
-      isOnSale: false
+  const dispatch = useDispatch();
+      
+  const navigate = useNavigate();
+  const [saving, setSaving] = useState(false)
+  const [savingerror, setSavingError] = useState(null)
+  const [orders, setOrders] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+    useEffect(() => {
+    if (!user) {
+      toast.error('Please login to access dashboard');
+      navigate('/login');
+    } else {
+      // Initialize user data if user exists
+      setUserData({
+        username: user.username || '',
+        email: user.email || '',
+        phoneNumber: user.phoneNumber || '',
+        joinDate: user.joinDate || ''
+      });
     }
-  ]);
+  }, [user, navigate]);
+
+  // If no user, return null (will redirect from useEffect)
+  if (!user) {
+    return null;
+  }
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setUserData({ ...userData, [name]: value });
   };
-  console.log("u", user)
 
-  const saveProfileChanges = () => {
-    setEditMode(false);
-    // In a real app, you would save to your backend here
+ const saveProfileChanges = async () => {
+    try {
+      setSaving(true);
+      const response = await axios.put(
+        `http://localhost:4500/api/updateuser/${user._id}`,
+        {
+          username: userData.username,
+          phoneNumber: userData?.phoneNumber, 
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        }
+      );
+      
+      
+      setUserData(response.data.updatedUser);
+      toast.success("User updated successfully!")
+   dispatch({
+        type: 'UPDATE_USER',
+        payload: {
+          username: userData.username,
+          phoneNumber: userData.phoneNumber,
+        }
+      });
+      setEditMode(false);
+    } catch (err) {
+      setSavingError(err.response?.data?.message || 'Failed to update profile');
+      toast.error(savingerror);
+      console.error("Update error:", err);
+    } finally {
+      setSaving(false);
+    }
   };
-      const [orders, setOrders] = useState([]);
-          const [loading, setLoading] = useState(false);
-             const [error, setError] = useState(null);
+
     useEffect(() => {
         const getOrders = async () => {
             setLoading(true);
@@ -76,8 +110,6 @@ const UserDashboard = () => {
         return <OrdersSection orders={orders} />;
       case 'addresses':
         return <AddressesSection orders={orders} />;
-      case 'wishlist':
-        return <WishlistSection wishlist={wishlist} />;
       case 'settings':
         return <SettingsSection />;
       default:
@@ -91,7 +123,7 @@ const UserDashboard = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
-
+   <Toaster position="top-center" />
 
       {/* Main Content */}
       <main className="container mx-auto px-4 py-8">
@@ -101,7 +133,6 @@ const UserDashboard = () => {
      setActiveTab={setActiveTab}
      userData={userData}
      orders={orders}
-     wishlist={wishlist}
      activeTab={activeTab}
      />
 
@@ -121,9 +152,21 @@ const UserDashboard = () => {
                       </button>
                       <button
                         onClick={saveProfileChanges}
+                        disabled={saving}
                         className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 text-sm font-medium"
                       >
-                        Save Changes
+                          {saving ? (
+    <>
+      <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+      </svg>
+      Saving...
+    </>
+  ) : (
+    " Save Changes"
+  )}
+                       
                       </button>
                     </div>
                   ) : (
