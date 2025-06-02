@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const AddressesSection = ({ addresses }) => {
+const AddressesSection = ({ orders }) => {
   const [editingAddress, setEditingAddress] = useState(null);
   
   return (
@@ -12,7 +12,7 @@ const AddressesSection = ({ addresses }) => {
         </button>
       </div>
       
-      {addresses.length === 0 ? (
+      {orders.length === 0 ? (
         <div className="text-center py-12">
           <FiMapPin className="mx-auto h-12 w-12 text-gray-400" />
           <h3 className="mt-4 text-lg font-medium text-gray-900">No saved addresses</h3>
@@ -20,15 +20,15 @@ const AddressesSection = ({ addresses }) => {
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {addresses.map((address) => (
-            <div key={address.id} className="border border-gray-200 rounded-lg p-6 relative">
+          {orders.map((address) => (
+            <div key={address._id} className="border border-gray-200 rounded-lg p-6 relative">
               {address.isDefault && (
                 <span className="absolute top-4 right-4 bg-indigo-100 text-indigo-800 text-xs font-medium px-2 py-0.5 rounded">
                   Default
                 </span>
               )}
               <h3 className="font-medium text-gray-900 mb-2">{address.type}</h3>
-              <p className="text-gray-600">{address.street}</p>
+              <p className="text-gray-600">{address.state}</p>
               <p className="text-gray-600">{address.city}, {address.state} {address.zip}</p>
               <p className="text-gray-600">{address.country}</p>
               <div className="mt-4 flex space-x-3">

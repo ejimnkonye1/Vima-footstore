@@ -19,50 +19,6 @@ const SettingsSection = () => {
       
       <div className="space-y-8">
         {/* Notification Preferences */}
-        <div>
-          <h3 className="text-lg font-medium text-gray-900 mb-4">Notification Preferences</h3>
-          <div className="space-y-3">
-            <div className="flex items-center">
-              <input
-                id="email-notifications"
-                name="email"
-                type="checkbox"
-                checked={notifications.email}
-                onChange={handleNotificationChange}
-                className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
-              />
-              <label htmlFor="email-notifications" className="ml-2 block text-sm text-gray-700">
-                Email Notifications
-              </label>
-            </div>
-            <div className="flex items-center">
-              <input
-                id="sms-notifications"
-                name="sms"
-                type="checkbox"
-                checked={notifications.sms}
-                onChange={handleNotificationChange}
-                className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
-              />
-              <label htmlFor="sms-notifications" className="ml-2 block text-sm text-gray-700">
-                SMS Notifications
-              </label>
-            </div>
-            <div className="flex items-center">
-              <input
-                id="promotion-notifications"
-                name="promotions"
-                type="checkbox"
-                checked={notifications.promotions}
-                onChange={handleNotificationChange}
-                className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
-              />
-              <label htmlFor="promotion-notifications" className="ml-2 block text-sm text-gray-700">
-                Promotions & Offers
-              </label>
-            </div>
-          </div>
-        </div>
 
         {/* Password Update */}
         <div>

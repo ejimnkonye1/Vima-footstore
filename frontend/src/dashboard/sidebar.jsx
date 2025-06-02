@@ -1,10 +1,12 @@
 import { BiPurchaseTagAlt } from "react-icons/bi"
-import { FiHeart, FiLogOut, FiMapPin, FiSettings, FiShoppingBag, FiUser } from "react-icons/fi"
+import {  FiLogOut,  FiSettings, FiShoppingBag, FiUser } from "react-icons/fi"
 import { useSelector } from "react-redux";
 
 
-const UserSidebar = ({userData,setActiveTab,orders,wishlist, activeTab}) => {
+const UserSidebar = ({setActiveTab,orders, activeTab}) => {
       const user = useSelector((state) => state.user);
+      const firstLetter = user?.email ? user.email.charAt(0).toUpperCase() : '';
+
     return(
         <div>
                  <aside className="lg:w-64 flex-shrink-0">
@@ -12,10 +14,13 @@ const UserSidebar = ({userData,setActiveTab,orders,wishlist, activeTab}) => {
                           {/* User Profile Summary */}
                           <div className="p-6 border-b border-gray-200">
                             <div className="flex items-center">
-                              <img className="h-16 w-16 rounded-full mr-4" src={userData.avatar} alt="User avatar" />
+    <div className="h-16 w-16 rounded-full bg-gray-300 flex items-center justify-center mr-4">
+      {firstLetter}
+    </div>
+
                               <div>
-                                <h2 className="font-medium text-gray-900">{userData.name}</h2>
-                                <p className="text-sm text-gray-500">Member since {userData.joinDate} {user.email}</p>
+                                <h2 className="font-medium text-gray-900">{user.username}</h2>
+                                <p className="text-sm text-gray-500">Member since 2024</p>
                               </div>
                             </div>
                           </div>
@@ -48,31 +53,8 @@ const UserSidebar = ({userData,setActiveTab,orders,wishlist, activeTab}) => {
                                   </span>
                                 </button>
                               </li>
-                              <li>
-                                <button
-                                  onClick={() => setActiveTab('addresses')}
-                                  className={`w-full flex items-center justify-between px-4 py-3 rounded-lg ${activeTab === 'addresses' ? 'bg-indigo-50 text-indigo-600' : 'text-gray-700 hover:bg-gray-100'}`}
-                                >
-                                  <span className="flex items-center">
-                                    <FiMapPin className="mr-3" />
-                                    Addresses
-                                  </span>
-                                </button>
-                              </li>
-                              <li>
-                                <button
-                                  onClick={() => setActiveTab('wishlist')}
-                                  className={`w-full flex items-center justify-between px-4 py-3 rounded-lg ${activeTab === 'wishlist' ? 'bg-indigo-50 text-indigo-600' : 'text-gray-700 hover:bg-gray-100'}`}
-                                >
-                                  <span className="flex items-center">
-                                    <FiHeart className="mr-3" />
-                                    Wishlist
-                                  </span>
-                                  <span className="bg-gray-200 text-gray-800 text-xs font-medium px-2 py-0.5 rounded-full">
-                                    {wishlist.length}
-                                  </span>
-                                </button>
-                              </li>
+
+                  
                               <li>
                                 <button
                                   onClick={() => setActiveTab('settings')}
