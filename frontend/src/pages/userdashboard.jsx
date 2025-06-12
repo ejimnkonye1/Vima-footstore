@@ -32,12 +32,12 @@ const UserDashboard = () => {
       navigate('/login');
     } else {
       // Initialize user data if user exists
-      setUserData({
-        username: user.username || '',
-        email: user.email || '',
-        phoneNumber: user.phoneNumber || '',
-        joinDate: user.joinDate || ''
-      });
+      // setUserData({
+      //   username: user.username || '',
+      //   email: user.email || '',
+      //   phoneNumber: user.phoneNumber || '',
+      //   joinDate: user.joinDate || ''
+      // });
     }
   }, [user, navigate]);
 

@@ -7,6 +7,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import formatAsNaira from '../currency/naira';
 import capitalizeFirstLetter from '../util/cap';
 import { Helmet } from 'react-helmet';
+import { useSelector } from 'react-redux';
+import { Toaster, toast } from 'react-hot-toast';
 const CartPage = () => {
     const { cart, updateQuantity, removeFromCart } = useCart();
 const navigate = useNavigate()
@@ -16,12 +18,29 @@ const navigate = useNavigate()
 
   const total = subtotal + shipping ;
 
+  const user = useSelector((state) => state.user);
+const [loading, setLoading] = useState(false)
+
+const handleCheckout = async () => {
+    setLoading(true);
+    
+    try {
+        if (!user) {
+            toast.error("Login first to checkout orders");
+            return; // Exit early if no user
+        }
+      
+           await new Promise(resolve => setTimeout(resolve, 1000));
+        navigate("/checkout");
+    } catch (err) {
+        console.error("Error during checkout:", err);
+        toast.error("An error occurred. Please try again.");
+    } finally {
+        setLoading(false); 
+    }
+};
 
 
-
-const handlechekout =  () => {
-  navigate("/checkout")
-}
 
 
 if(cart.length === 0 ){
@@ -65,6 +84,7 @@ if(cart.length === 0 ){
 
       {/* Main Content */}
       <main className="container mx-auto px-4 py-8">
+           <Toaster position="top-center" />
           <Helmet>
   <title>{`Your Cart ${cart.length > 0 ? `(${cart.length})` : ''} | Nique Wear`}</title>
   <meta name="description" content={cart.length > 0 
@@ -185,10 +205,23 @@ if(cart.length === 0 ){
                     <span className="font-bold text-gray-900">{formatAsNaira(total.toFixed(0))}</span>
                   </div>
                 </div>
-
-                <button onClick={handlechekout} className="mt-6 w-full bg-indigo-600 text-white py-3 px-6 rounded-md hover:bg-indigo-700 font-medium">
-                  Proceed to Checkout
-                </button>
+<button 
+  onClick={handleCheckout} 
+  disabled={loading}
+  className="mt-6 w-full bg-indigo-600 text-white py-3 px-6 rounded-md hover:bg-indigo-700 font-medium disabled:opacity-75 disabled:cursor-not-allowed flex justify-center items-center gap-2"
+>
+  {loading ? (
+    <>
+      <svg className="animate-spin -ml-1 mr-2 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+      </svg>
+      Processing
+    </>
+  ) : (
+    "Proceed to Checkout"
+  )}
+</button>
 
            
 
