@@ -44,10 +44,10 @@ app.use("/products", require("./routes/product"))
 app.use('/product', require('./routes/productdetails'));
 app.use('/search', require('./routes/searchproduct'));
 app.use('/user', require('./routes/userprofile'));
-app.use('/api/updateuser', require('./routes/userupdate'));
+
 // app.use('/updateproduct', require('./routes/updateproduct'));
 // app.use('/deleteproduct', require('./routes/deleteproduct'));
-app.use('/api/orders', require('./routes/order'));
+
 
 // Paystack webhook needs raw body for signature verification
 app.post('/api/orders/webhook', 
@@ -62,7 +62,10 @@ app.use(verifyJWT)
 app.use('/api/admin/getallusers', require('./routes/admin/getallusers'));
 app.use('/api/admin/getallorders', require('./routes/admin/getallorders'));
 app.use('/api/admin/products', require('./routes/admin/products'));
-
+//user route
+app.use('/api/updateuser', require('./routes/userupdate'));
+app.use('/api/orders', require('./routes/order'));
+app.use('/api/updateuser', require('./routes/userupdate'));
 //error handler
 app.use(errorHandler)
 
