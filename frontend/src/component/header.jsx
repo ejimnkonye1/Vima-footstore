@@ -21,7 +21,7 @@ const Header = ({ setActiveCategory, searchQuery, setSearchQuery, activeCategory
             </div>
             
             {/* Desktop Navigation */}
-            <nav className="hidden md:flex space-x-8">
+            <nav className="hidden lg:flex space-x-8">
               <button 
                 className={`py-2 font-medium ${activeCategory === 'all' ? 'text-indigo-600 border-b-2 border-indigo-600' : 'text-gray-700 hover:text-indigo-500'}`}
                 onClick={() => setActiveCategory('all')}

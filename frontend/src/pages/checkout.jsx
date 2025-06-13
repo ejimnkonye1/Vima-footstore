@@ -109,7 +109,6 @@ const CheckoutPage = () => {
         paymentReference: reference.reference,
         paymentMethod,
         subtotal,
-        tax,
         shipping,
         total
       };

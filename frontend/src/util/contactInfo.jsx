@@ -10,7 +10,7 @@ const ContactInfo = () => {
             href="mailto:order@vimafootstore.com" 
             className="text-gray-700 hover:text-emerald-600 transition-colors"
           >
-            order@vimafootstore.com
+            niquewear@gmail.com
           </a>
         </div>
         

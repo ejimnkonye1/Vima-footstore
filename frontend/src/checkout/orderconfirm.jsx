@@ -1,4 +1,5 @@
 import { FiCheck } from "react-icons/fi";
+import { Link } from "react-router-dom";
 
 
 const OrderConfirmation = ({ orderNumber, email }) => (
@@ -16,18 +17,22 @@ const OrderConfirmation = ({ orderNumber, email }) => (
         <p className="mt-1 text-sm text-gray-500">Within 3-5 business days</p>
       </div>
       <div className="mt-6">
+        <Link to={'/userdashboard'}>
+     
         <button
-          onClick={() => navigate('/account/orders')}
           className="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700"
         >
           View Order Details
         </button>
+           </Link>
+           <Link to={'/'}>
         <button
-          onClick={() => navigate('/')}
+  
           className="mt-3 w-full flex justify-center py-3 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50"
         >
           Continue Shopping
         </button>
+           </Link>
       </div>
     </div>
   </div>
