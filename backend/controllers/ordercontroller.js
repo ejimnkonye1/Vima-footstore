@@ -115,18 +115,28 @@ const createOrder = async (req, res) => {
 // Add this new function for order lookup
 
 const getOrderDetails = async (req, res) => {
- try {
+  try {
     const { email } = req.params;
-    console.log("useremail", email)
-    const orders = await Order.find({ userEmail: email })
     
-       if(!orders|| orders.length === 0) {
-            return res.status(204).json({"message": "No order found"});
-        }
+    if (!email) {
+      return res.status(400).json({ error: 'Email parameter is required' });
+    }
 
-    res.json(orders);
+    console.log("Fetching orders for user:", email);
+    const orders = await Order.find({ userEmail: email });
+
+    // Always return 200 with empty array instead of 204 for consistency
+    if (!orders || orders.length === 0) {
+      return res.status(200).json([]);
+    }
+
+    res.status(200).json(orders);
   } catch (error) {
-    res.status(500).json({ error: 'Failed to fetch orders' });
+    console.error("Error fetching orders:", error);
+    res.status(500).json({ 
+      error: 'Failed to fetch orders',
+      details: process.env.NODE_ENV === 'development' ? error.message : undefined
+    });
   }
 };
 
