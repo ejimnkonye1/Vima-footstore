@@ -56,7 +56,7 @@ const handleSubmit = async (e) => {
       return;
     }
     toast.success("Login success")
-    console.log(data)
+    console.log("dd",data)
          const user = data; // Already available!
      
     dispatch(
