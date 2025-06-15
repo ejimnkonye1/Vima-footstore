@@ -31,7 +31,7 @@ const ProductDetails = () => {
   useEffect(() => {
     const fetchProductDetails = async () => {
       try {
-        const response = await axios.get(`https://nique-backend.vercel.app/product/${name}`);
+        const response = await axios.get(`${import.meta.env.VITE_SERVER_URL}/product/${name}`);
         setProduct({
           ...response.data,
           ...staticProductData,

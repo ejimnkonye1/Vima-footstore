@@ -11,7 +11,9 @@ import CheckoutProgress from '../checkout/checkoutprogress';
 import OrderConfirmation from '../checkout/orderconfirm';
 import PaymentMethod from '../checkout/paymentmethod';
 import OrderReview from '../checkout/orderreview';
+import { useSelector } from 'react-redux';
 const CheckoutPage = () => {
+    const user = useSelector((state) => state.user);
   const [activeStep, setActiveStep] = useState('shipping');
   const [saveShippingInfo, setSaveShippingInfo] = useState(true);
   const [paymentMethod, setPaymentMethod] = useState('paystack');
@@ -36,13 +38,13 @@ const CheckoutPage = () => {
   const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
   const shipping = 1000; 
   const total = subtotal + shipping ;
-
+const paystackKey = import.meta.env.VITE_PAYSTACK_KEY;
   // Paystack config with useMemo to prevent unnecessary re-renders
   const paystackConfig = useMemo(() => ({
     reference: (new Date()).getTime().toString(),
-    email: formData.email || 'customer@example.com',
+    email: formData.email ,
     amount: total * 100, // Paystack uses kobo
-    publicKey:  'pk_test_9f04ff1cdc541872fbbdb8816c9057d2b6c883a5',
+    publicKey:  paystackKey,
     currency: 'NGN',
     channels: ['card', 'bank', 'ussd', 'qr', 'mobile_money'],
     metadata: {
@@ -95,10 +97,9 @@ const CheckoutPage = () => {
       // Prepare order data
       const orderData = {
         ...formData,
-        //   userId: user._id  || "6834d109e0f179138ed2fa50",         // Keep user ID for reference
-        //  userEmail: user.email || "don@gmail.com", 
-        userId: "6834d109e0f179138ed2fa50",         // Keep user ID for reference
-         userEmail: "don@gmail.com", 
+          userId: user._id,         // Keep user ID for reference
+         userEmail: user.email ,
+
         items: cart.map(item => ({
           productId: item._id,
           name: item.name,
@@ -116,7 +117,7 @@ const CheckoutPage = () => {
       console.log('Submitting order to backend:', orderData);
       
       // Submit order to backend
-      const response = await axios.post('http://localhost:4500/api/orders', orderData);
+      const response = await axios.post(`${import.meta.env.VITE_SERVER_URL}/api/orders`, orderData);
       console.log('Order created:', response.data);
           const order = response.data;
       setCreatedOrder(order);

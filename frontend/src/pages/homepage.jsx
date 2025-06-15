@@ -26,39 +26,39 @@ const HomePage = ({activeCategory, setActiveCategory, searchQuery, setSearchQuer
 
 
   // Fetch products based on active category
-  useEffect(() => {
-    const fetchProducts = async () => {
-      setLoading(true);
-      setError('');
-      try {
-        let endpoint = 'https://nique-backend.vercel.app/products';
-        
-        if (activeCategory === 'men') {
-          endpoint = 'https://nique-backend.vercel.app/products/men';
-        } else if (activeCategory === 'women') {
-          endpoint = 'https://nique-backend.vercel.app/products/women';
-        }
+   useEffect(() => {
+     const fetchProducts = async () => {
+       setLoading(true);
+       setError('');
+       try {
+         let endpoint = `${import.meta.env.VITE_SERVER_URL}/products`;
+         
+         if (activeCategory === 'men') {
+           endpoint = `${import.meta.env.VITE_SERVER_URL}/products/men`;
+         } else if (activeCategory === 'women') {
+           endpoint = `${import.meta.env.VITE_SERVER_URL}/products/women`;
+         }
 
-        const response = await axios.get(endpoint);
-        console.log("res", response)
-        // Ensure price is treated as number
-        const formattedProducts = response.data.map(p => ({
-          ...p,
-          price: typeof p.price === 'string' ? parseFloat(p.price) : p.price
-        }));
-        console.log(response.data)
-        setProducts(formattedProducts);
-        setFilteredProducts(formattedProducts);
-      } catch (err) {
-        setError(err.response?.data?.message || 'Failed to fetch products');
-        console.error('Error:', err);
-      } finally {
-        setLoading(false);
-      }
-    };
+         const response = await axios.get(endpoint);
+         console.log("res", response);
+         const formattedProducts = response.data.map(p => ({
+           ...p,
+           price: typeof p.price === 'string' ? parseFloat(p.price) : p.price
+         }));
+         console.log(response.data);
+         setProducts(formattedProducts);
+         setFilteredProducts(formattedProducts);
+       } catch (err) {
+         setError(err.response?.data?.message || 'Failed to fetch products');
+         console.error('Error:', err);
+       } finally {
+         setLoading(false);
+       }
+     };
 
-    fetchProducts();
-  }, [activeCategory]);
+     fetchProducts();
+   }, [activeCategory]);
+   
 
   // Filter products based on search and price
   useEffect(() => {
