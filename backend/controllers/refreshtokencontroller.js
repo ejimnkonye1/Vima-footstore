@@ -1,44 +1,70 @@
-const  User = require("../models/Users")
+const User = require("../models/Users");
+const jwt = require("jsonwebtoken");
 
-const jwt = require("jsonwebtoken")
- 
- 
 const handleRefreshToken = async (req, res) => {
-   const cookies = req.cookies
-   
-   if(!cookies?.jwt) return res.sendStatus(401)
-    console.log(cookies.jwt)
+ const authHeader = req.headers['authorization'];
+    const refreshToken = authHeader && authHeader.split(' ')[1]; // Format: "Bearer <token>"
 
-   const refreshToken = cookies.jwt
-
-    // check for found user token
-  const foundUser = await User.findOne({refreshToken}).exec()
-   if(!foundUser) 
-    return res.sendStatus(403)
-
-   // evaluate jwt
-   jwt.verify(
-    refreshToken,
-    process.env.REFRESH_TOKEN_SECRET,
-    (err, decoded) => {
-        if(err || foundUser.email !== decoded.email) return res.sendStatus(403);
-        const roles = Object.values(foundUser.roles)
-        const acccessToken = jwt.sign(
-            {
-                "UserInfo": {          
-                "email": foundUser.email,
-                 "roles": roles,  
-            }
-            },
-            process.env.ACCESS_TOKEN_SECRET,
-            {expiresIn: "60s"}
-        )
-        res.json({acccessToken})
+    if (!refreshToken) {
+        return res.status(401).json({ message: "Unauthorized - Refresh token required" });
     }
-   )
 
+    try {
+        // Find user with the refresh token
+        const foundUser = await User.findOne({ refreshToken }).exec();
+        if (!foundUser) {
+            return res.status(403).json({ message: "Forbidden - Invalid refresh token" });
+        }
 
-        
-}
+        // Verify refresh token
+        jwt.verify(
+            refreshToken,
+            process.env.REFRESH_TOKEN_SECRET,
+            (err, decoded) => {
+                if (err || foundUser.email !== decoded.UserInfo.email) {
+                    return res.status(403).json({ message: "Forbidden - Invalid refresh token" });
+                }
 
-module.exports = { handleRefreshToken }
+                const roles = Object.values(foundUser.roles);
+                
+                // Generate new access token
+                const accessToken = jwt.sign(
+                    {
+                        UserInfo: {
+                            _id: foundUser._id,
+                            email: foundUser.email,
+                            username: foundUser.username,
+                            roles
+                        }
+                    },
+                    process.env.ACCESS_TOKEN_SECRET,
+                    { expiresIn: "10m" }
+                );
+
+                // Set new access token cookie
+                res.cookie('accessToken', accessToken, {
+                    httpOnly: true,
+                    secure: process.env.NODE_ENV === 'production',
+                    sameSite: 'None',
+                    maxAge: 15 * 60 * 1000 // 15 minutes
+                });
+
+                // Return the new access token in response body
+                res.json({ 
+                    accessToken,
+                    user: {
+                        _id: foundUser._id,
+                        username: foundUser.username,
+                        email: foundUser.email,
+                        roles: foundUser.roles
+                    }
+                });
+            }
+        );
+    } catch (error) {
+        console.error("Refresh token error:", error);
+        res.status(500).json({ message: "Internal server error" });
+    }
+};
+
+module.exports = { handleRefreshToken };

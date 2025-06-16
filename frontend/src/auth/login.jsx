@@ -32,52 +32,48 @@ const navigate = useNavigate();
   };
 
 const handleSubmit = async (e) => {
-  e.preventDefault();
-  setError('');
-  setLoading(true);
+    e.preventDefault();
+    setError('');
+    setLoading(true);
 
-  try {
-    const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/login`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        email: formData.email,
-        pwd: formData.password  // Changed from formData.pwd to formData.password
-      }),
-      credentials: 'include'  // Added for cookie handling
-    });
-    
-    const data = await response.json();
-    
-    if (!response.ok) {
-      const errorMessage = data.message || "Login failed";
-      setError(errorMessage);
-      toast.error(errorMessage);
-      return;
+    try {
+        const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/login`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            credentials: 'include',
+            body: JSON.stringify({
+                email: formData.email,
+                pwd: formData.password
+            })
+        });
+        
+        const data = await response.json();
+        
+        if (!response.ok) {
+            throw new Error(data.message || "Login failed");
+        }
+         console.log(data)
+        console.log("a",data.tokens.accessToken)
+          console.log("r",data.tokens.refreshToken)
+        // Store tokens in localStorage (optional fallback)
+        localStorage.setItem("accessToken", data.tokens.accessToken);
+        localStorage.setItem("refreshToken", data.tokens.refreshToken);
+        
+        // Store user data
+        dispatch(setUser({
+            _id: data.user._id,
+            email: data.user.email,
+            username: data.user.username,
+            roles: data.user.roles
+        }));
+        
+        navigate("/userdashboard");
+    } catch (err) {
+        setError(err.message);
+        toast.error(err.message);
+    } finally {
+        setLoading(false);
     }
-    toast.success("Login success")
-    console.log("dd",data)
-         const user = data; // Already available!
-     
-    dispatch(
-      setUser({
-     _id: user._id,
-     email: user.email,
-      username: user.user,
-      roles: user.roles,
-      phoneNumber:user.phoneNumber,
-      joinDate: user.createdAt
-      })
-    );
-    
-    navigate("/userdashboard");
-  } catch (err) {
-    const errorMessage = err.message || "An error occurred. Please try again.";
-    setError(errorMessage);
-    toast.error(errorMessage);
-  } finally {
-    setLoading(false);
-  }
 };
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">

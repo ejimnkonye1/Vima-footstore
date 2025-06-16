@@ -47,7 +47,7 @@ const handleSubmit = async (e) => {
   try {
     const response = await axios.post(
       // `${process.env.REACT_APP_API_URL}/api/users/register`,
-         `http://localhost:4500/register`,
+         `${import.meta.env.VITE_SERVER_URL}/register`,
       {
         username: formData.name.trim(),
         email: formData.email.trim().toLowerCase(),

@@ -12,6 +12,7 @@ import { useEffect } from 'react';
 import { Toaster, toast } from 'react-hot-toast';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { apiClient } from '../util/apiclient';
 const UserDashboard = () => {
   const [activeTab, setActiveTab] = useState('overview');
   const [editMode, setEditMode] = useState(false);
@@ -54,17 +55,18 @@ const UserDashboard = () => {
  const saveProfileChanges = async () => {
     try {
       setSaving(true);
-      const response = await axios.put(
-        `http://localhost:4500/api/updateuser/${user._id}`,
-        {
+      const response = await apiClient.request(
+        `${import.meta.env.VITE_SERVER_URL}/api/updateuser/${user._id}`,
+        
+         {
+        method: 'PUT',
+        body: JSON.stringify({
           username: userData.username,
-          phoneNumber: userData?.phoneNumber, 
-        },
-        {
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        }
+          phoneNumber: userData?.phoneNumber,
+        }),
+      }
+    
+        
       );
       
       
@@ -87,22 +89,36 @@ const UserDashboard = () => {
     }
   };
 
-    useEffect(() => {
-        const getOrders = async () => {
-            setLoading(true);
-            try {
-                const response = await axios.get(`http://localhost:4500/api/orders/${user.email}`);
-                setOrders(response.data || []);
-                console.log("r",response)
-            } catch (err) {
-                setError(err.response?.data?.message || 'Failed to fetch orders');
-                console.log("error", error)
-            } finally {
-                setLoading(false);
-            }
-        };
-        getOrders();
-    }, [user.email]);
+useEffect(() => {
+  const getOrders = async () => {
+    setLoading(true);
+    try {
+      const response = await apiClient.request(
+        `${import.meta.env.VITE_SERVER_URL}/api/orders/${user.email}`,
+        {
+          method: 'GET', // Specify the method
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error('Failed to fetch orders');
+      }
+
+      const data = await response.json(); // Parse the response as JSON
+      setOrders(data || []);
+      console.log("Orders fetched:", data);
+    } catch (err) {
+      setError(err.message || 'Failed to fetch orders'); // Use err.message here
+      console.log("Error:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  getOrders();
+}, [user.email]);
+
+
 
   const renderContent = () => {
     switch (activeTab) {
@@ -125,7 +141,7 @@ const UserDashboard = () => {
       {/* Header */}
    <Toaster position="top-center" />
 
-      {/* Main Content */}
+      89uohh{/* Main Content */}
       <main className="container mx-auto px-4 py-8">
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Sidebar Navigation */}

@@ -18,51 +18,56 @@ const SettingsSection = () => {
     return null;
   };
 
-  const handlePasswordChange = async (e) => {
-    e.preventDefault();
-    setError(null);
+const handlePasswordChange = async (e) => {
+  e.preventDefault();
+  setError(null);
 
-    // Validate passwords
-    const passwordError = validatePassword(newPassword);
-    if (passwordError) {
-      setError(passwordError);
-      return;
-    }
+  // Validate passwords
+  const passwordError = validatePassword(newPassword);
+  if (passwordError) {
+    setError(passwordError);
+    return;
+  }
 
-    if (newPassword !== confirmPassword) {
-      setError("New passwords don't match");
-      return;
-    }
+  if (newPassword !== confirmPassword) {
+    setError("New passwords don't match");
+    return;
+  }
 
-    try {
-      setLoading(true);
-      const response = await axios.put(
-        `http://localhost:4500/api/updateuser/${user._id}/password`,
-        {
+  try {
+    setLoading(true);
+    const response = await apiClient.request(
+      `${import.meta.env.VITE_SERVER_URL}/api/updateuser/${user._id}/password`,
+      {
+        method: 'PUT',
+        body: JSON.stringify({
           currentPassword,
           newPassword,
+        }),
+        headers: {
+          "Content-Type": "application/json",
         },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      }
+    );
 
-      toast.success("Password updated successfully!")
-      setCurrentPassword("");
-      setNewPassword("");
-      setConfirmPassword("");
-    } catch (err) {
-      setError(
-        err.response?.data?.message ||
-          "Failed to update password. Please try again."
-      );
-    toast.error(error);
-    } finally {
-      setLoading(false);
+    if (!response.ok) {
+      throw new Error('Failed to update password');
     }
-  };
+
+    toast.success("Password updated successfully!");
+    setCurrentPassword("");
+    setNewPassword("");
+    setConfirmPassword("");
+  } catch (err) {
+    setError(
+      err.message || "Failed to update password. Please try again."
+    );
+    toast.error(err.message);
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   return (
     <div className="bg-white rounded-lg shadow-sm p-6">

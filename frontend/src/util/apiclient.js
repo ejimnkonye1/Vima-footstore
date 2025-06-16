@@ -1,60 +1,80 @@
-// apiClient.ts
 export const apiClient = {
-  async request() {
-    // Get token from localStorage
-    const token = localStorage.getItem('accessToken');
-    console.log("access token",token)
-    
-    const headers = new Headers(options.headers || {});
-    headers.set('Content-Type', 'application/json');
-    
-    if (token) {
-      headers.set('Authorization', `Bearer ${token}`);
+    async request(url, options = {}) {
+        // Initial request with access token
+        let response = await this._makeRequest(url, options);
+        
+        // If unauthorized, try refresh
+        if (response.status === 401) {
+            const refreshed = await this._refreshToken();
+            if (refreshed) {
+                // Retry with new token
+                response = await this._makeRequest(url, options);
+            } else {
+                this._clearAuth();
+                window.location.href = '/login';
+            }
+        }
+        
+        return response;
+    },
+
+    async _makeRequest(url, options) {
+        const token = localStorage.getItem('accessToken');
+        const headers = new Headers(options.headers || {});
+        headers.set('Content-Type', 'application/json');
+        if (token) headers.set('Authorization', `Bearer ${token}`);
+        
+        return fetch(url, {
+            ...options,
+            headers,
+            credentials: 'include'
+        });
+    },
+
+    async _refreshToken() {
+        try {
+            const refreshToken = localStorage.getItem('refreshToken');
+            if (!refreshToken) {
+                console.error('No refresh token available');
+                return false;
+            }
+  
+            // Option 2: Send refresh token in Authorization header (alternative)
+            const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/refresh`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${refreshToken}`
+                }
+            });
+            
+
+            if (!response.ok) throw new Error('Refresh failed');
+            
+            const data = await response.json();
+            console.log(data)
+            // Store the new access token
+            if (data.accessToken) {
+                localStorage.setItem('accessToken', data.accessToken);
+                
+                // If backend returns a new refresh token (rotation), store it
+                if (data.refreshToken) {
+                    localStorage.setItem('refreshToken', data.refreshToken);
+                }
+                
+                return true;
+            }
+            
+            return false;
+            
+        } catch (error) {
+            console.error('Refresh failed:', error);
+            return false;
+        }
+    },
+
+    _clearAuth() {
+        localStorage.removeItem('accessToken');
+        localStorage.removeItem('refreshToken');
+        // You might want to clear user state here too
     }
-
-    const response = await fetch(url, {
-      ...options,
-      headers,
-      credentials: 'include', // Still include cookies for http-only tokens
-    });
-
-    if (response.status === 401) {
-      // Handle token refresh here if needed
-      await handleTokenRefresh();
-    }
-
-    return response;
-  },
 };
-
-const handleTokenRefresh = async () => {
-  try {
-    const refreshToken = localStorage.getItem('refreshToken');
-    console.log("refreshe", refreshToken)
-    if (!refreshToken) throw new Error('No refresh token');
-    
-    const response = await fetch(`https://nique-backend.vercel.app/api/refreshToken`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ refreshToken }),
-    });
-
-    const data = await response.json();
-    console.log("d", data)
-    if (response.ok && data.accessToken) {
-      localStorage.setItem('accessToken', data.accessToken);
-      return true;
-    }
-    throw new Error('Refresh failed');
-  } catch (error) {
-    console.log(error)
-    // Clear tokens and redirect to login if refresh fails
-    localStorage.removeItem('accessToken');
-    localStorage.removeItem('refreshToken');
-    window.location.href = '/login';
-    return false;
-  }
-};
-
