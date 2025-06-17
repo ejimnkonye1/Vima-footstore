@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import axios from 'axios';
+
+import { apiClient } from "../util/apiclient";
 
 const EditProductForm = ({ product, onUpdateProduct, onCancel }) => {
   const [formData, setFormData] = useState({
@@ -52,11 +53,12 @@ console.log(formData.name)
       formDataToSend.append('category', formData.category);
       
 
-      const response = await axios.put(
-        'https://nique-backend.vercel.app/api/admin/products/updateproduct',
+      const response = await apiClient.request(
+        `${import.meta.env.VITE_SERVER_URL}//api/admin/products/updateproduct`,
         formDataToSend,
         {
       withCredentials: true, 
+         method: 'PUT',
         }
       );
       

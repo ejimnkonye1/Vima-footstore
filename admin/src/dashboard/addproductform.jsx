@@ -1,5 +1,6 @@
 import { useState, } from "react";
-import axios from 'axios';
+
+import { apiClient } from "../util/apiclient";
 
 const AddProductForm = ({ onAddProduct, }) => {
   const [formData, setFormData] = useState({
@@ -44,14 +45,15 @@ const AddProductForm = ({ onAddProduct, }) => {
 
         // Create new product
            
-        const response = await axios.post(
-          'https://nique-backend.vercel.app/api/admin/products/addproduct',
+        const response = await apiClient.request(
+          `${import.meta.env.VITE_SERVER_URL}/api/admin/products/addproduct`,
           formDataToSend,
           {
             headers: {
               'Content-Type': 'multipart/form-data',
 
             },
+              method: 'POST',
          withCredentials: true, 
           }
         );

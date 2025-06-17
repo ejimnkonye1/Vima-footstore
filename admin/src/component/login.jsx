@@ -39,7 +39,9 @@ const handleSubmit = async (e) => {
     });
     
     const data = await response.json();
-    
+       localStorage.setItem("accessToken", data.tokens.accessToken);
+        localStorage.setItem("refreshToken", data.tokens.refreshToken);
+        
     if (!response.ok) {
       const errorMessage = data.message || "Login failed";
       setError(errorMessage);

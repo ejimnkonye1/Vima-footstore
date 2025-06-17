@@ -1,8 +1,9 @@
 import { useState } from 'react';
-import axios from 'axios';
+
 import toast, { Toaster } from 'react-hot-toast';
 import formatAsNaira from '../util/naira';
 import capitalizeFirstLetter from '../util/cap';
+import { apiClient } from '../util/apiclient';
 
 const ProductsSection = ({ products, onEdit, onDelete, loading, error }) => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -19,10 +20,11 @@ const ProductsSection = ({ products, onEdit, onDelete, loading, error }) => {
 const confirmDelete = async () => {
   setDeleteLoading(true);
   try {
-    const response = await axios.delete(
-      `https://nique-backend.vercel.app/api/admin/products/deleteproduct/${encodeURIComponent(productToDelete.name)}`,
+    const response = await apiClient.request(
+      `${import.meta.env.VITE_SERVER_URL}/api/admin/products/deleteproduct/${encodeURIComponent(productToDelete.name)}`,
       {
   withCredentials: true, 
+   method: 'DELETE',
       }
     );
 

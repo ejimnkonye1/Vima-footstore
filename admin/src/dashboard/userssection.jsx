@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
-import axios from 'axios';
 import { ErrorDisplay, LoadingSpinner } from "../component/reuse";
 import capitalizeFirstLetter from "../util/cap";
+import { apiClient } from "../util/apiclient";
 
 const UsersSection = () => {
   const [loading, setLoading] = useState(false);
@@ -12,11 +12,13 @@ const UsersSection = () => {
     const getUsers = async () => {
       setLoading(true);
       try {
-        const response = await axios.get('https://nique-backend.vercel.app/api/admin/getallusers',{
+        const response = await apiClient.request(`${import.meta.env.VITE_SERVER_URL}/api/admin/getallusers`,{
         withCredentials: true, // This is important to send cookies
+          method: 'GET',
        headers: {
            'Content-Type': 'application/json'
        }
+       
         });
         setUsers(response.data.users); // Changed from response.data.Users to response.data.users
         console.log("Users", response.data);

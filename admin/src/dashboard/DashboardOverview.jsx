@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { useEffect } from "react";
-import axios from 'axios';
+
 import { ErrorDisplay, LoadingSpinner } from "../component/reuse";
 import formatAsNaira from "../util/naira";
+import { apiClient } from "../util/apiclient";
 
 const DashboardOverview = () => {
 const [loading, setLoading] = useState(false)
@@ -16,11 +17,14 @@ const [orders, setOrders] = useState([])
       const getproduct = async () => {
         setLoading(true);
         try {
-          const response = await axios.get('https://nique-backend.vercel.app/api/admin/getallorders',{
+          const response = await apiClient.request(`${import.meta.env.VITE_SERVER_URL}/api/admin/getallorders`,{
        withCredentials: true, 
+          method: 'GET',
           });
-          const userres = await axios.get('https://nique-backend.vercel.app/api/admin/getallusers',{
+
+          const userres = await apiClient.request(`${import.meta.env.VITE_SERVER_URL}/api/admin/getallusers`,{
        withCredentials: true,   
+            method: 'GET',
           });
        
           setTotalUser(userres.data.total)
