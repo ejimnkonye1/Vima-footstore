@@ -10,9 +10,10 @@ import DashboardOverview from '../dashboard/DashboardOverview';
 import Sidebar from '../dashboard/sidebar';
 import HeaderDashboard from '../dashboard/header';
 import { useEffect } from 'react';
-import axios from 'axios';
+
 import EditProductForm from '../dashboard/editproduct';
 import toast, { Toaster } from 'react-hot-toast';
+import { apiClient } from '../util/apiclient';
 
 const AdminDashboard = () => {
     
@@ -51,9 +52,12 @@ const AdminDashboard = () => {
         const getProducts = async () => {
         setLoading(true);
         try {
-          const response = await axios.get('https://nique-backend.vercel.app/products',{
+          const response = await apiClient(`${import.meta.env.VITE_SERVER_URL}//products`,{
       withCredentials: true, 
-          });
+          method: 'GET',
+          }
+       
+        );
           console.log('Products:', response.data);
           setProducts(response.data || []);
         } catch (err) {

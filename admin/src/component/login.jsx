@@ -28,7 +28,7 @@ const handleSubmit = async (e) => {
   setLoading(true);
 
   try {
-    const response = await fetch("https://nique-backend.vercel.app/login", {
+        const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/login`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
