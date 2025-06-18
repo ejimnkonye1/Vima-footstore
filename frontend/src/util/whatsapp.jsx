@@ -6,7 +6,7 @@ const WhatsAppLink = () => {
   const defaultMessage = 'Hello! I saw a product on your website and would like to make an enquiry about it.';
 
   return (
-    <div className="fixed bottom-6 right-6 z-50">
+    <div className="fixed bottom-20 md:bottom-6 right-6 z-50">
       <a
         href={`https://wa.me/${phoneNumber}?text=${encodeURIComponent(defaultMessage)}`}
         target="_blank"

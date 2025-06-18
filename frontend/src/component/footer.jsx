@@ -32,14 +32,7 @@ const Footer = () => {
           </div>
 
           {/* Quick Links */}
-          <div>
-            <h3 className="text-lg font-semibold mb-4">Shop</h3>
-            <ul className="space-y-2">
-              <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Men's Collection</a></li>
-              <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Women's Collection</a></li>
-              <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Kids' Collection</a></li>
-            </ul>
-          </div>
+      
 
           {/* Customer Service */}
        
@@ -60,17 +53,14 @@ const Footer = () => {
                 <FiMail className="flex-shrink-0 h-5 w-5 mr-3" />
                 <span>niquewear@gmail.com</span>
               </li>
-              <li className="flex items-center pt-4">
-                <BiLeaf className="flex-shrink-0 h-6 w-6 mr-2 text-green-400" />
-                <span className="text-green-400">Carbon Neutral Since 2023</span>
-              </li>
+           
             </ul>
           </div>
         </div>
 
       
         {/* Bottom Footer */}
-        <div className="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center">
+        <div className="border-t border-gray-800 pt-8 md:pb-0 pb-10 flex flex-col md:flex-row justify-between items-center">
           <p className="text-gray-500 text-sm mb-4 md:mb-0">
             &copy; {new Date().getFullYear()} Niquewear. All rights reserved.
           </p>

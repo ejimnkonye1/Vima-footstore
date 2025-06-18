@@ -80,35 +80,66 @@ const Header = ({ setActiveCategory, searchQuery, setSearchQuery, activeCategory
           </div>
           
           {/* Mobile Search */}
-          <div className="mt-4 md:hidden">
-            {/* Mobile Categories as Tabs */}
-            <div className="grid grid-cols-4 gap-2 mt-2">
-              <button 
-                className={`w-full text-center py-2 rounded-lg ${activeCategory === 'all' ? 'bg-indigo-50 text-indigo-600' : 'text-gray-700 hover:bg-gray-100'}`}
-                onClick={() => { setActiveCategory('all'); }}
-              >
-                All
-              </button>
-              <button 
-                className={`w-full text-center py-2 rounded-lg ${activeCategory === 'men' ? 'bg-indigo-50 text-indigo-600' : 'text-gray-700 hover:bg-gray-100'}`}
-                onClick={() => { setActiveCategory('men'); }}
-              >
-                Men
-              </button>
-              <button 
-                className={`w-full text-center py-2 rounded-lg ${activeCategory === 'women' ? 'bg-indigo-50 text-indigo-600' : 'text-gray-700 hover:bg-gray-100'}`}
-                onClick={() => { setActiveCategory('women'); }}
-              >
-                Women
-              </button>
-              <button 
-                className={`w-full text-center py-2 rounded-lg ${activeCategory === 'kids' ? 'bg-indigo-50 text-indigo-600' : 'text-gray-700 hover:bg-gray-100'}`}
-                onClick={() => { setActiveCategory('kids'); }}
-              >
-                Kids
-              </button>
-            </div>
-          </div>
+         {/* <div className="mt-4 md:hidden">
+ 
+  <div className="grid grid-cols-4 gap-4 mt-2 px-2">
+    <button
+      onClick={() => setActiveCategory('all')}
+      className={`flex flex-col items-center ${activeCategory === 'all' ? 'text-indigo-600' : 'text-gray-700'}`}
+    >
+      <div className={`w-14 h-14 rounded-full flex items-center justify-center mb-1 ${activeCategory === 'all' ? 'bg-indigo-50 border-2 border-indigo-200' : 'bg-gray-100 hover:bg-gray-200'}`}>
+        <img 
+          src="/categories/all.png" 
+          alt="All"
+          className="w-8 h-8 object-contain"
+        />
+      </div>
+      <span className="text-xs">All</span>
+    </button>
+
+    <button
+      onClick={() => setActiveCategory('men')}
+      className={`flex flex-col items-center ${activeCategory === 'men' ? 'text-indigo-600' : 'text-gray-700'}`}
+    >
+      <div className={`w-14 h-14 rounded-full flex items-center justify-center mb-1 ${activeCategory === 'men' ? 'bg-indigo-50 border-2 border-indigo-200' : 'bg-gray-100 hover:bg-gray-200'}`}>
+        <img 
+          src="/categories/men.png" 
+          alt="Men"
+          className="w-8 h-8 object-contain"
+        />
+      </div>
+      <span className="text-xs">Men</span>
+    </button>
+
+    <button
+      onClick={() => setActiveCategory('women')}
+      className={`flex flex-col items-center ${activeCategory === 'women' ? 'text-indigo-600' : 'text-gray-700'}`}
+    >
+      <div className={`w-14 h-14 rounded-full flex items-center justify-center mb-1 ${activeCategory === 'women' ? 'bg-indigo-50 border-2 border-indigo-200' : 'bg-gray-100 hover:bg-gray-200'}`}>
+        <img 
+          src="/categories/women.png" 
+          alt="Women"
+          className="w-8 h-8 object-contain"
+        />
+      </div>
+      <span className="text-xs">Women</span>
+    </button>
+
+    <button
+      onClick={() => setActiveCategory('kids')}
+      className={`flex flex-col items-center ${activeCategory === 'kids' ? 'text-indigo-600' : 'text-gray-700'}`}
+    >
+      <div className={`w-14 h-14 rounded-full flex items-center justify-center mb-1 ${activeCategory === 'kids' ? 'bg-indigo-50 border-2 border-indigo-200' : 'bg-gray-100 hover:bg-gray-200'}`}>
+        <img 
+          src="/categories/kids.png" 
+          alt="Kids"
+          className="w-8 h-8 object-contain"
+        />
+      </div>
+      <span className="text-xs">Kids</span>
+    </button>
+  </div>
+</div> */}
         </div>
       </header>
 

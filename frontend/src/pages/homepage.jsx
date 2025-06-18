@@ -26,38 +26,55 @@ const HomePage = ({activeCategory, setActiveCategory, searchQuery, setSearchQuer
 
 
   // Fetch products based on active category
-   useEffect(() => {
-     const fetchProducts = async () => {
-       setLoading(true);
-       setError('');
-       try {
-         let endpoint = `${import.meta.env.VITE_SERVER_URL}/products`;
-         
-         if (activeCategory === 'men') {
-           endpoint = `${import.meta.env.VITE_SERVER_URL}/products/men`;
-         } else if (activeCategory === 'women') {
-           endpoint = `${import.meta.env.VITE_SERVER_URL}/products/women`;
-         }
+useEffect(() => {
+const fetchProducts = async () => {
+  setLoading(true);
+  setError('');
 
-         const response = await axios.get(endpoint);
-         console.log("res", response);
-         const formattedProducts = response.data.map(p => ({
-           ...p,
-           price: typeof p.price === 'string' ? parseFloat(p.price) : p.price
-         }));
-         console.log(response.data);
-         setProducts(formattedProducts);
-         setFilteredProducts(formattedProducts);
-       } catch (err) {
-         setError(err.response?.data?.message || 'Failed to fetch products');
-         console.error('Error:', err);
-       } finally {
-         setLoading(false);
-       }
-     };
+  try {
+    let endpoint = `${import.meta.env.VITE_SERVER_URL}/products`;
+    
+    if (activeCategory === 'men') {
+      endpoint = `${import.meta.env.VITE_SERVER_URL}/products/men`;
+    } else if (activeCategory === 'women') {
+      endpoint = `${import.meta.env.VITE_SERVER_URL}/products/women`;
+    }
 
-     fetchProducts();
-   }, [activeCategory]);
+    const response = await axios.get(endpoint);
+    
+    // Validate the response data structure
+    if (!response.data || !Array.isArray(response.data)) {
+      throw new Error('Invalid products data format');
+    }
+
+    const formattedProducts = response.data.map(product => ({
+      ...product,
+      price: typeof product.price === 'string' 
+        ? parseFloat(product.price) 
+        : product.price
+    }));
+
+    setProducts(formattedProducts);
+    setFilteredProducts(formattedProducts);
+    
+  } catch (err) {
+    const errorMessage = err.response?.data?.message 
+      || err.message 
+      || 'Failed to fetch products';
+    
+    setError(errorMessage);
+    console.error('Fetch products error:', err);
+    
+    // Reset products to empty array on error
+    setProducts([]);
+    setFilteredProducts([]);
+  } finally {
+    setLoading(false);
+  }
+};
+
+  fetchProducts();
+}, [activeCategory]);
    
 
   // Filter products based on search and price

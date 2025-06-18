@@ -95,12 +95,18 @@ if(cart.length === 0 ){
           {/* Cart Items */}
           <div className="lg:w-2/3">
             <div className="bg-white rounded-lg shadow-sm p-6">
-              <div className="flex items-center justify-between mb-6">
-                <h1 className="md:text-2xl text-lg font-bold text-gray-900">Your Cart ({cart.length})</h1>
-                <Link to="/" className="text-indigo-600 hover:text-indigo-800 flex items-center">
-                  <FiArrowLeft className="mr-1" /> Continue Shopping
-                </Link>
-              </div>
+       <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
+  <h1 className="text-sm md:text-2xl font-bold text-gray-900 whitespace-nowrap">
+    Your Cart ({cart.length})
+  </h1>
+  <Link 
+    to="/" 
+    className="inline-flex items-center text-indigo-600 hover:text-indigo-800 transition-colors duration-200 group whitespace-nowrap"
+  >
+    <FiArrowLeft className="mr-2 group-hover:-translate-x-1 transition-transform" />
+    <span className="hover:underline">Continue Shopping</span>
+  </Link>
+</div>
 
                 <>
                   {/* Cart Items List */}

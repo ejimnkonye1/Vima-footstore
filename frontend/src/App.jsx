@@ -16,17 +16,24 @@ import UserDashboard from './pages/userdashboard.jsx';
 import LoginPage from './auth/login.jsx';
 import RegisterPage from './auth/register.jsx';
 import SecondHeader from './component/secondheader.jsx';
+import BottomNavbar from './util/bottomnav.jsx';
+import Test from './component/test.jsx';
 
 // Loader component
 const Loader = () => (
-  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh' }}>
-    <div className="text-center">
-      <div className="spinner-grow text-dark" role="status">
-        <span className="sr-only">Loading...</span>
-      </div>
-    </div>
+  <div className="fixed inset-0 flex flex-col items-center justify-center bg-white dark:bg-gray-900 z-50">
+    <div className="w-16 h-16 border-4 border-dashed rounded-full animate-spin border-yellow-500"></div>
+    <h2 className="text-xl font-medium text-gray-800 dark:text-white mt-4">
+      Loading Your Shopping Experience
+    </h2>
+    <p className="text-gray-500 dark:text-gray-400 mt-2">
+      We're preparing something special for you...
+    </p>
   </div>
 );
+
+
+
 
 // Layout component that includes the loader logic
 const Layout = ({ children }) => {
@@ -69,6 +76,14 @@ function App() {
           <SecondHeader
           />
         )}
+                {  location.pathname !== '/cart' &&
+                !location.pathname.startsWith('/product/') &&   location.pathname !== '/checkout' 
+                  && location.pathname !== '/userdashboard'  && location.pathname !== '/checkout' 
+              &&  (
+             <Test />
+          
+        )}
+     
         <Routes>
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
@@ -87,6 +102,7 @@ function App() {
         </Routes>
         <ContactInfo />
         <WhatsAppLink />
+        <BottomNavbar />
         <Footer />
       </Layout>
     </div>
