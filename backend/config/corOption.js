@@ -5,6 +5,7 @@ const wishList = [
       "http://localhost:5174",
       "https://vima-footstore-admin.vercel.app",
       "https://nique-wear.vercel.app",
+      "https://nique-admin.vercel.app"
    
 ]
 
