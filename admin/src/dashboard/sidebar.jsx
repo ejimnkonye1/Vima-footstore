@@ -1,9 +1,14 @@
 
+import { useState } from 'react';
 import {  FiBox, FiUsers, FiShoppingBag, FiSettings, FiLogOut } from 'react-icons/fi';
 import { RiDashboardHorizontalLine } from "react-icons/ri";
+import LogoutModal from './modal';
 const Sidebar = ({mobileMenuOpen, setActiveTab, setMobileMenuOpen, activeTab}) => {
+    const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
+
     return (
-        <div className={`${mobileMenuOpen ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0 transform fixed md:static inset-y-0 left-0 w-64 bg-indigo-800 text-white transition-transform duration-300 ease-in-out z-40`}>
+      <>
+          <div className={`${mobileMenuOpen ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0 transform fixed md:static inset-y-0 left-0 w-64 bg-indigo-800 text-white transition-transform duration-300 ease-in-out z-40`}>
                <div className="flex items-center justify-center h-16 px-4 border-b border-indigo-700">
                  <h1 className="text-xl font-bold">NIQUEWARE</h1>
                </div>
@@ -40,17 +45,23 @@ const Sidebar = ({mobileMenuOpen, setActiveTab, setMobileMenuOpen, activeTab}) =
                    </button>
                  </nav>
                  <div className="mt-auto pt-4 border-t border-indigo-700">
-                   <button className="flex items-center w-full px-4 py-3 text-indigo-200 hover:text-white hover:bg-indigo-700 rounded-lg">
-                     <FiSettings className="mr-3" />
-                     Settings
-                   </button>
-                   <button className="flex items-center w-full px-4 py-3 text-indigo-200 hover:text-white hover:bg-indigo-700 rounded-lg">
+                   <button
+                      onClick={() => setIsLogoutModalOpen(true)}
+                    className="flex items-center w-full px-4 py-3 text-indigo-200 hover:text-white hover:bg-indigo-700 rounded-lg">
                      <FiLogOut className="mr-3" />
                      Logout
                    </button>
                  </div>
+ 
                </div>
              </div> 
+          <LogoutModal
+                isOpen={isLogoutModalOpen}
+                onClose={() => setIsLogoutModalOpen(false)}
+               
+            />
+      </>
+    
     )
 }
 

@@ -10,6 +10,6 @@ const verifyAdmin = require("../../middleware/verifyadmin");
 // Corrected routes
 router.post("/addproduct", verifyAdmin, upload.single('image'), addproductsController.createNewProduct);
 router.delete('/deleteproduct/:name', verifyAdmin, deleteProduct);
-router.put('/updateproduct', verifyAdmin, updateProduct);
+router.put('/updateproduct', verifyAdmin, upload.none(), updateProduct);
 
 module.exports = router;

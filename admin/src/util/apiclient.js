@@ -19,10 +19,27 @@ export const apiClient = {
     },
 
     async _makeRequest(url, options) {
+        console.log('Available tokens during request:');
+        console.log('accessToken:', localStorage.getItem('accessToken'));
+        console.log('refreshToken:', localStorage.getItem('refreshToken'));
+        
         const token = localStorage.getItem('accessToken');
         const headers = new Headers(options.headers || {});
-        headers.set('Content-Type', 'application/json');
+        
+        // Only set Content-Type if it's not FormData (browser will set it automatically for FormData)
+        if (!(options.body instanceof FormData)) {
+            headers.set('Content-Type', 'application/json');
+        }
+        
         if (token) headers.set('Authorization', `Bearer ${token}`);
+        
+        // Log request details for debugging
+        console.log('Making request to:', url);
+        console.log('Request options:', {
+            ...options,
+            headers: Object.fromEntries(headers.entries()),
+            body: options.body instanceof FormData ? '[FormData]' : options.body
+        });
         
         return fetch(url, {
             ...options,
@@ -39,24 +56,22 @@ export const apiClient = {
                 return false;
             }
   
-            // Option 2: Send refresh token in Authorization header (alternative)
             const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/refresh`, {
                 method: 'GET',
                 headers: {
-                    'Authorization': `Bearer ${refreshToken}`
+                    'Authorization': `Bearer ${refreshToken}`,
+                    'Content-Type': 'application/json'
                 }
             });
             
-
             if (!response.ok) throw new Error('Refresh failed');
             
             const data = await response.json();
-            console.log(data)
-            // Store the new access token
+            console.log('Refresh token response:', data);
+            
             if (data.accessToken) {
                 localStorage.setItem('accessToken', data.accessToken);
                 
-                // If backend returns a new refresh token (rotation), store it
                 if (data.refreshToken) {
                     localStorage.setItem('refreshToken', data.refreshToken);
                 }
@@ -75,6 +90,6 @@ export const apiClient = {
     _clearAuth() {
         localStorage.removeItem('accessToken');
         localStorage.removeItem('refreshToken');
-        // You might want to clear user state here too
+        // Clear any other user-related state if needed
     }
 };

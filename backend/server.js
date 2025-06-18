@@ -21,7 +21,7 @@ connectDB()
 
 // cors 
 app.use(cors(corsOption));
-app.use(express.urlencoded({extended:false}))
+app.use(express.urlencoded({extended:true}))
 
 // built in middleware for json
 app.use(express.json());
@@ -66,6 +66,9 @@ app.use('/api/admin/products', require('./routes/admin/products'));
 app.use('/api/updateuser', require('./routes/userupdate'));
 app.use('/api/orders', require('./routes/order'));
 app.use('/api/updateuser', require('./routes/userupdate'));
+//logout
+app.use("/logout", require("./routes/logout"));
+
 //error handler
 app.use(errorHandler)
 

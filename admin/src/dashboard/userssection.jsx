@@ -8,29 +8,43 @@ const UsersSection = () => {
   const [users, setUsers] = useState([]);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
-    const getUsers = async () => {
-      setLoading(true);
-      try {
-        const response = await apiClient.request(`${import.meta.env.VITE_SERVER_URL}/api/admin/getallusers`,{
-        withCredentials: true, // This is important to send cookies
+useEffect(() => {
+  const getUsers = async () => {
+    setLoading(true);
+    try {
+      const response = await apiClient.request(
+        `${import.meta.env.VITE_SERVER_URL}/api/admin/getallusers`,
+        {
           method: 'GET',
-       headers: {
-           'Content-Type': 'application/json'
-       }
-       
-        });
-        setUsers(response.data.users); // Changed from response.data.Users to response.data.users
-        console.log("Users", response.data);
-      } catch (err) {
-        setError(err.response?.data?.message || 'Failed to fetch Users');
-        console.error('Error:', err);
-      } finally {
-        setLoading(false);
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        }
+      );
+      
+      const responseData = await response.json();
+      
+      // Check if 'users' exists in the response (not 'orders')
+      if (responseData.users) {
+        setUsers(responseData.users);
+        console.log("Users:", responseData.users);
+      } else {
+        console.error("No 'users' field in response:", responseData);
+        setError('Unexpected response format from server');
       }
-    };
-    getUsers();
-  }, []);
+      
+    } catch (err) {
+      // Improved error handling
+      const errorMessage = err.message || 'Failed to fetch users';
+      setError(errorMessage);
+      console.error('Error:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
+  
+  getUsers();
+}, []);
 
   // Format date function
   const formatDate = (dateString) => {

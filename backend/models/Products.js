@@ -23,6 +23,7 @@
       values: ["men", "women", "kids"],
       message: "{VALUE} is not supported. Use: men, women, or kids", // Validation error
     },
+       trim: true
   },
 
  });

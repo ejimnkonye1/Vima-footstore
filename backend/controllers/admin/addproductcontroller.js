@@ -36,7 +36,11 @@ const createNewProduct = async (req, res) => {
   if (!req?.body?.name || !req?.file || !req?.body?.price || !req?.body?.description || !req?.body?.category) {
     return res.status(400).json({ message: "All fields including image are required" });
   }
-
+  console.log("cat",req?.body?.name)
+  console.log("cat",req?.body?.description)
+  console.log("cat",req?.body?.price)
+  console.log("cat",req?.file)
+console.log("cat",req?.body?.category)
   try {
     // Upload single image (req.file instead of req.files)
     const imageUrl = await uploadToSupabase([req.file], req.user?.uid || 'guest');

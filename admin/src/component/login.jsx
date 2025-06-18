@@ -35,13 +35,14 @@ const handleSubmit = async (e) => {
         email: formData.email,
         pwd: formData.password  // Changed from formData.pwd to formData.password
       }),
-      credentials: 'include'  // Added for cookie handling
+      credentials: 'include'  
     });
     
     const data = await response.json();
        localStorage.setItem("accessToken", data.tokens.accessToken);
         localStorage.setItem("refreshToken", data.tokens.refreshToken);
-        
+        console.log(data)
+
     if (!response.ok) {
       const errorMessage = data.message || "Login failed";
       setError(errorMessage);
@@ -50,6 +51,8 @@ const handleSubmit = async (e) => {
     }
     
     navigate("/dashboard");
+    console.log('Stored access token:', localStorage.getItem('accessToken'));
+console.log('Stored refresh token:', localStorage.getItem('refreshToken'));
   } catch (err) {
     const errorMessage = err.message || "An error occurred. Please try again.";
     setError(errorMessage);

@@ -8,25 +8,36 @@ const OrdersSection = () => {
     const [orders, setOrders] = useState([])
      const [error, setError] = useState(null)
 
-       useEffect(() => {
-      const getproduct = async () => {
-        setLoading(true);
-        try {
-          const response = await apiClient.request(`${import.meta.env.VITE_SERVER_URL}/api/admin/getallorders`,{
-          withCredentials: true, 
-           method: 'GET',
-          });
-            setOrders(response.data.orders)
-            console.log("order", response.data.orders)
-        } catch (err) {
-          setError(err.response?.data?.message || 'Failed to fetch products');
-          console.error('Error:', err);
-        } finally {
-          setLoading(false);
-        }
-      };
-      getproduct();
-    }, []);
+   useEffect(() => {
+  const getproduct = async () => {
+    setLoading(true);
+    try {
+      const response = await apiClient.request(
+        `${import.meta.env.VITE_SERVER_URL}/api/admin/getallorders`,
+        { method: 'GET' }
+      );
+      
+      // Parse the JSON response manually
+      const responseData = await response.json();
+      
+      // Check if `orders` exists in the response
+      if (responseData.orders) {
+        setOrders(responseData.orders);
+        console.log("Orders:", responseData.orders);
+      } else {
+        console.error("No 'orders' field in response:", responseData);
+      }
+    } catch (err) {
+      // Handle errors (fetch errors won't have `.response.data`)
+      const errorMessage = err.message || 'Failed to fetch orders';
+      setError(errorMessage);
+      console.error('Error:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
+  getproduct();
+}, []);
           if (loading) return <LoadingSpinner />;
       if (error) return <ErrorDisplay message={error} />;
     

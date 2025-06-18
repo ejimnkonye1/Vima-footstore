@@ -13,35 +13,39 @@ const [totalorders, setTotalOrders] = useState('')
 const [totalrevenue, setTotalRevenue] = useState('')
 const [orders, setOrders] = useState([])
  const [error, setError] = useState(null)
-        useEffect(() => {
-      const getproduct = async () => {
-        setLoading(true);
-        try {
-          const response = await apiClient.request(`${import.meta.env.VITE_SERVER_URL}/api/admin/getallorders`,{
-       withCredentials: true, 
-          method: 'GET',
-          });
+useEffect(() => {
+  const getData = async () => {
+    setLoading(true);
+    try {
+      // Fetch orders
+      const ordersResponse = await apiClient.request(
+        `${import.meta.env.VITE_SERVER_URL}/api/admin/getallorders`
+      );
+      const ordersData = await ordersResponse.json(); // Parse JSON
+      console.log("Orders response:", ordersData); // Debug log
 
-          const userres = await apiClient.request(`${import.meta.env.VITE_SERVER_URL}/api/admin/getallusers`,{
-       withCredentials: true,   
-            method: 'GET',
-          });
-       
-          setTotalUser(userres.data.total)
-          setTotalOrders(response.data.totalorder);
-           setTotalProducts(response.data.totalproducts);
-            setTotalRevenue(response.data.totalRevenue);
-            setOrders(response.data.orders)
-            console.log("order", response.data.orders)
-        } catch (err) {
-          setError(err.response?.data?.message || 'Failed to fetch');
-          console.error('Error:', err);
-        } finally {
-          setLoading(false);
-        }
-      };
-      getproduct();
-    }, []);
+      // Fetch users
+      const usersResponse = await apiClient.request(
+        `${import.meta.env.VITE_SERVER_URL}/api/admin/getallusers`
+      );
+      const usersData = await usersResponse.json(); // Parse JSON
+      console.log("Users response:", usersData); // Debug log
+
+      // Update state (adjust paths based on actual response)
+      setTotalUser(usersData.total); // Check if it's `usersData.total` or `usersData.data.total`
+      setTotalOrders(ordersData.totalorder);
+      setTotalProducts(ordersData.totalproducts);
+      setTotalRevenue(ordersData.totalRevenue);
+      setOrders(ordersData.orders);
+    } catch (err) {
+      setError(err.message || 'Failed to fetch');
+      console.error('Error:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
+  getData();
+}, []);
       if (loading) return <LoadingSpinner />;
   if (error) return <ErrorDisplay message={error} />;
 

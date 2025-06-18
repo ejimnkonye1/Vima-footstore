@@ -24,12 +24,13 @@ const AdminDashboard = () => {
   const [editingProduct, setEditingProduct] = useState(null);
   const [loading, setLoading] = useState(false);
  console.log(editingProduct,";;")
+  console.log(products,"ppp")
   const [error, setError] = useState(null);
   const renderContent = () => {
     switch (activeTab) {
       case 'products':
-        return <ProductsSection products={products}       onEdit={(product) => {
-                setEditingProduct(product);
+        return <ProductsSection products={products}       onEdit={(products) => {
+                setEditingProduct(products);
                 setActiveTab('editProduct'); // Add this line
               }} 
                onDelete={handleDeleteProduct} loading={loading} error={error} />;
@@ -49,32 +50,55 @@ const AdminDashboard = () => {
         return <DashboardOverview />;
     }
   };
-        const getProducts = async () => {
-        setLoading(true);
-        try {
-          const response = await apiClient(`${import.meta.env.VITE_SERVER_URL}//products`,{
-      withCredentials: true, 
-          method: 'GET',
-          }
-       
-        );
-          console.log('Products:', response.data);
-          setProducts(response.data || []);
-        } catch (err) {
-          setError(err.response?.data?.message || 'Failed to fetch products');
-          console.error('Error:', err);
-        } finally {
-          setLoading(false);
-        }
-      };
-    useEffect(() => {
+  const getProducts = async () => {
+  setLoading(true);
+  try {
+    const response = await apiClient.request(
+      `${import.meta.env.VITE_SERVER_URL}/products`,
+      {
+        method: 'GET',
+      }
+    );
 
-      getProducts();
-    }, []);
+    // Parse the JSON response
+    const responseData = await response.json();
+
+    // Check if response was successful
+    if (!response.ok) {
+      throw new Error(responseData.message || 'Failed to fetch products');
+    }
+
+    console.log('Products:', responseData);
+    setProducts(responseData || []);
+  } catch (err) {
+    let errorMessage = 'Failed to fetch products';
+    
+    // Handle different error types
+    if (err instanceof Response) {
+      try {
+        const errorData = await err.json();
+        errorMessage = errorData.message || errorMessage;
+      } catch (parseError) {
+        console.error('Error parsing error response:', parseError);
+      }
+    } else if (err.message) {
+      errorMessage = err.message;
+    }
+
+    setError(errorMessage);
+    console.error('Fetch error:', err);
+  } finally {
+    setLoading(false);
+  }
+};
+
+useEffect(() => {
+  getProducts();
+}, []);
   
 
   const handleAddProduct = (newProduct) => {
-    setProducts([...products, { ...newProduct, _id: products.length + 1 }]);
+    setProducts([...products, { ...newProduct, }]);
     setActiveTab('products');
   };
 

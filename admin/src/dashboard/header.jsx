@@ -10,7 +10,7 @@ const HeaderDashboard = ({ activeTab, editingProduct }) => {
         
         <div className="flex items-center justify-end w-full md:w-auto space-x-4">
           {/* Notification Button - Hidden on mobile */}
-          <div className="hidden md:block relative">
+          <div className=" md:block relative">
             <button className="p-1 rounded-full bg-gray-100 hover:bg-gray-200">
               <span className="sr-only">Notifications</span>
               <div className="relative">
@@ -23,16 +23,14 @@ const HeaderDashboard = ({ activeTab, editingProduct }) => {
           </div>
           
           {/* Profile Section - Always right-aligned */}
-          <div className="flex items-center">
+          {/* <div className="flex items-center">
             <img 
               className="h-8 w-8 rounded-full" 
               src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" 
               alt="Admin profile" 
             />
-            <span className="ml-2 text-sm font-medium text-gray-700 hidden md:inline">
-              Admin User
-            </span>
-          </div>
+       
+          </div> */}
         </div>
       </div>
     </header>

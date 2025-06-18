@@ -23,23 +23,39 @@ const confirmDelete = async () => {
     const response = await apiClient.request(
       `${import.meta.env.VITE_SERVER_URL}/api/admin/products/deleteproduct/${encodeURIComponent(productToDelete.name)}`,
       {
-  withCredentials: true, 
-   method: 'DELETE',
+        method: 'DELETE',
       }
     );
 
-    // Check for successful response (Axios uses response.status)
-    if (response.status >= 200 && response.status < 300) {
+    // Parse the response data (fetch doesn't auto-parse like Axios)
+    const responseData = await response.json();
+
+    // Check for successful response
+    if (response.ok) {  // response.ok checks for status 200-299
       toast.success('Product deleted successfully');
-          onDelete(productToDelete._id);// Pass the ID to update state
+      onDelete(productToDelete._id); // Pass the ID to update state
       setShowDeleteModal(false);
       setProductToDelete(null);
     } else {
-      setDeleteError(response.data.message || 'Failed to delete product');
-      toast.error(response.data.message || 'Failed to delete product');
+      const errorMsg = responseData.message || 'Failed to delete product';
+      setDeleteError(errorMsg);
+      toast.error(errorMsg);
     }
   } catch (err) {
-    const errorMsg = err.response?.data?.message || 'Error deleting product';
+    let errorMsg = 'Error deleting product';
+    
+    // Try to get error message from response if available
+    if (err instanceof Response) {
+      try {
+        const errorData = await err.json();
+        errorMsg = errorData.message || errorMsg;
+      } catch (parseError) {
+        console.error('Error parsing error response:', parseError);
+      }
+    } else if (err.message) {
+      errorMsg = err.message;
+    }
+
     setDeleteError(errorMsg);
     toast.error(errorMsg);
     console.error('Delete error:', err);
@@ -59,7 +75,7 @@ const confirmDelete = async () => {
     <div className="bg-white shadow rounded-lg overflow-hidden">
       {loading && <p className="p-4">Loading products...</p>}
       {error && <p className="text-red-500 p-4">{error}</p>}
-
+<Toaster position="bottom-right" />
       {/* Delete Confirmation Modal */}
         {showDeleteModal && (
         <div className="fixed inset-0  bg-opacity-50 flex items-center justify-center z-50">
@@ -98,6 +114,7 @@ const confirmDelete = async () => {
       <div className="overflow-x-auto">
         <table className="min-w-full divide-y divide-gray-200">
           {/* Table Head */}
+          
           <thead className="bg-gray-50">
             <tr>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Product</th>

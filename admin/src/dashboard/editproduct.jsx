@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-
+import toast, { Toaster } from 'react-hot-toast';
 import { apiClient } from "../util/apiclient";
 
 const EditProductForm = ({ product, onUpdateProduct, onCancel }) => {
@@ -24,7 +24,6 @@ console.log(formData.name)
         price: product.price?.toString() || '', // Convert numbers to strings
         description: product.description || '',
         category: product.category || '',
-        stock: product.stock?.toString() || '' // Convert numbers to strings
       });
     }
   }, [product]);
@@ -38,39 +37,61 @@ console.log(formData.name)
     setImage(e.target.files[0]);
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    setError('');
-    setSuccess('');
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  setLoading(true);
+  setError('');
+  setSuccess('');
 
-    try {
-      const formDataToSend = new FormData();
-      formDataToSend.append('oldName', product.name);
-      formDataToSend.append('newName', formData.name);
-      formDataToSend.append('price', formData.price);
-      formDataToSend.append('description', formData.description);
-      formDataToSend.append('category', formData.category);
-      
+  try {
+    const formDataToSend = new FormData();
+      formDataToSend.append('id', product._id);
+    formDataToSend.append('newName', formData.name);
+    formDataToSend.append('price', formData.price);
+    formDataToSend.append('description', formData.description);
+    formDataToSend.append('category', formData.category);
 
-      const response = await apiClient.request(
-        `${import.meta.env.VITE_SERVER_URL}//api/admin/products/updateproduct`,
-        formDataToSend,
-        {
-      withCredentials: true, 
-         method: 'PUT',
-        }
-      );
-      
-      onUpdateProduct(response.data);
-      setSuccess('Product updated successfully!');
-    } catch (err) {
-      setError(err.response?.data?.message || 'Failed to update product');
-      console.error('Error:', err);
-    } finally {
-      setLoading(false);
+    // Don't set Content-Type header manually - let the browser set it with boundary
+    const response = await apiClient.request(
+      `${import.meta.env.VITE_SERVER_URL}/api/admin/products/updateproduct`,
+      {
+        method: 'PUT',
+        body: formDataToSend  // FormData will be sent as multipart/form-data
+      }
+    );
+
+    // Parse the JSON response
+    const responseData = await response.json();
+
+    if (!response.ok) {
+      throw new Error(responseData.message || 'Failed to update product');
     }
-  };
+
+    onUpdateProduct(responseData);
+    setSuccess('Product updated successfully!');
+    toast.success('Product updated successfully!');
+  } catch (err) {
+    // Improved error handling
+    let errorMessage = 'Failed to update product';
+    
+    if (err instanceof Response) {
+      try {
+        const errorData = await err.json();
+        errorMessage = errorData.message || errorMessage;
+      } catch (parseError) {
+        console.error('Error parsing error response:', parseError);
+      }
+    } else if (err.message) {
+      errorMessage = err.message;
+    }
+
+    setError(errorMessage);
+    toast.error(errorMessage);
+    console.error('Update error:', err);
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <div className="bg-white shadow rounded-lg p-6">
@@ -140,23 +161,7 @@ console.log(formData.name)
           </div>
 
           {/* Stock */}
-          <div className="sm:col-span-2">
-            <label htmlFor="stock" className="block text-sm font-medium text-gray-700">
-              Stock
-            </label>
-            <div className="mt-1">
-              <input
-                type="number"
-                name="stock"
-                id="stock"
-                value={formData.stock}
-                onChange={handleChange}
-                className="py-2 px-3 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border border-gray-300 rounded-md"
-                required
-                min="0"
-              />
-            </div>
-          </div>
+       
 
           {/* Category */}
           <div className="sm:col-span-2">

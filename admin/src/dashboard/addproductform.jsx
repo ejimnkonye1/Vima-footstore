@@ -1,5 +1,5 @@
 import { useState, } from "react";
-
+import toast, { Toaster } from 'react-hot-toast';
 import { apiClient } from "../util/apiclient";
 
 const AddProductForm = ({ onAddProduct, }) => {
@@ -8,7 +8,7 @@ const AddProductForm = ({ onAddProduct, }) => {
     price: '',
     description: '',
     category: '',
-    stock: ''
+
   });
   const [image, setImage] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -26,47 +26,84 @@ const AddProductForm = ({ onAddProduct, }) => {
     setImage(e.target.files[0]);
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    setError('');
-    setSuccess('');
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  setLoading(true);
+  
+  // Debug form data before submission
+  console.log('Form data before submission:', {
+    name: formData.name,
+    price: formData.price,
+    description: formData.description,
+    category: formData.category,
+    image: image ? image.name : 'No image selected'
+  });
 
-    try {
-      const formDataToSend = new FormData();
-      formDataToSend.append('name', formData.name);
-      formDataToSend.append('price', formData.price);
-      formDataToSend.append('description', formData.description);
-      formDataToSend.append('category', formData.category);
-      formDataToSend.append('stock', formData.stock);
-      if (image) {
-        formDataToSend.append('image', image);
-      }
+  // Validation
+  const price = Number(formData.price);
+  if (isNaN(price)) {
+    toast.error('Please enter a valid price');
+    setLoading(false);
+    return;
+  }
 
-        // Create new product
-           
-        const response = await apiClient.request(
-          `${import.meta.env.VITE_SERVER_URL}/api/admin/products/addproduct`,
-          formDataToSend,
-          {
-            headers: {
-              'Content-Type': 'multipart/form-data',
+  if (!formData.category) {
+    toast.error('Please select a category');
+    setLoading(false);
+    return;
+  }
 
-            },
-              method: 'POST',
-         withCredentials: true, 
-          }
-        );
-        onAddProduct(response.data);
-        setSuccess('Product created successfully!');
-      
-    } catch (err) {
-      setError(err.response?.data?.message || 'Failed to process product');
-      console.error('Error:', err);
-    } finally {
-      setLoading(false);
+  try {
+    // Create new FormData object (don't reuse the same variable name)
+    const formDataToSend = new FormData();
+    formDataToSend.append('name', formData.name);
+    formDataToSend.append('price', price.toString()); // Ensure string value
+    formDataToSend.append('description', formData.description);
+    formDataToSend.append('category', formData.category);
+    if (image) {
+      formDataToSend.append('image', image);
     }
-  };
+
+    // Debug what's actually being sent
+    console.log('FormData contents:');
+    for (let [key, value] of formDataToSend.entries()) {
+      console.log(key, value);
+    }
+
+    const response = await apiClient.request(
+      `${import.meta.env.VITE_SERVER_URL}/api/admin/products/addproduct`,
+      {
+        method: 'POST',
+        body: formDataToSend,
+  
+      }
+    );
+
+    // Debug raw response
+    const responseText = await response.text();
+    console.log('Raw response:', responseText);
+
+    if (!response.ok) {
+      try {
+        const errorData = JSON.parse(responseText);
+        throw new Error(errorData.message || 'Upload failed');
+      // eslint-disable-next-line no-unused-vars
+      } catch (parseError) {
+        throw new Error(responseText || 'Upload failed' );
+       
+      }
+    }
+
+    const result = JSON.parse(responseText);
+    onAddProduct(result);
+    toast.success('Product added!');
+  } catch (err) {
+    console.error('Full error:', err);
+    toast.error(err.message || 'Failed to add product');
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <div className="bg-white shadow rounded-lg p-6">
@@ -115,13 +152,13 @@ const AddProductForm = ({ onAddProduct, }) => {
           </div>
 
           {/* Price */}
-          <div className="sm:col-span-2">
+          <div className="sm:col-span-3">
             <label htmlFor="price" className="block text-sm font-medium text-gray-700">
               Price
             </label>
             <div className="mt-1 relative rounded-md shadow-sm">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <span className="text-gray-500 sm:text-sm">$</span>
+                <span className="text-gray-500 sm:text-sm">₦</span>
               </div>
               <input
                 type="number"
@@ -137,44 +174,28 @@ const AddProductForm = ({ onAddProduct, }) => {
             </div>
           </div>
 
-          {/* Stock */}
-          <div className="sm:col-span-2">
-            <label htmlFor="stock" className="block text-sm font-medium text-gray-700">
-              Stock
-            </label>
-            <div className="mt-1">
-              <input
-                type="number"
-                name="stock"
-                id="stock"
-                value={formData.stock}
-                onChange={handleChange}
-                className="py-2 px-3 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border border-gray-300 rounded-md"
-                required
-                min="0"
-              />
-            </div>
-          </div>
+     
+     
 
           {/* Category */}
-          <div className="sm:col-span-2">
+          <div className="sm:col-span-3">
             <label htmlFor="category" className="block text-sm font-medium text-gray-700">
               Category
             </label>
             <div className="mt-1">
-              <select
-                id="category"
-                name="category"
-                value={formData.category}
-                onChange={handleChange}
-                className="py-2 px-3 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border border-gray-300 rounded-md"
-                required
-              >
-                <option value="">Select a category</option>
-                <option value="men">Men</option>
-                <option value="women">Women</option>
-                <option value="kids">Kids</option>
-              </select>
+           <select
+  id="category"
+  name="category"
+  value={formData.category}
+  onChange={handleChange}
+  className="py-2 px-3 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border border-gray-300 rounded-md"
+  required
+>
+  <option value="">Select a category</option>
+  <option value="men">Men</option>
+  <option value="women">Women</option> {/* Changed from "Women" to "women" */}
+  <option value="kids">Kids</option>
+</select>
             </div>
           </div>
 
