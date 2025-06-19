@@ -12,6 +12,7 @@ import OrderConfirmation from '../checkout/orderconfirm';
 import PaymentMethod from '../checkout/paymentmethod';
 import OrderReview from '../checkout/orderreview';
 import { useSelector } from 'react-redux';
+import { apiClient } from '../util/apiclient';
 const CheckoutPage = () => {
     const user = useSelector((state) => state.user);
   const [activeStep, setActiveStep] = useState('shipping');
@@ -117,7 +118,7 @@ const paystackKey = import.meta.env.VITE_PAYSTACK_KEY;
       console.log('Submitting order to backend:', orderData);
       
       // Submit order to backend
-      const response = await axios.post(`${import.meta.env.VITE_SERVER_URL}/api/orders`, orderData);
+      const response = await apiClient.request(`${import.meta.env.VITE_SERVER_URL}/api/orders`, orderData);
       console.log('Order created:', response.data);
           const order = response.data;
       setCreatedOrder(order);
