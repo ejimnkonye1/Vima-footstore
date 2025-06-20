@@ -2,7 +2,7 @@ import { FiMail, FiPhone } from "react-icons/fi";
 
 const ContactInfo = () => {
     return(
-       <div className="bg-gray-50 py-6 px-4 border-t border-b border-gray-200">
+       <div className="hidden md:flex bg-gray-50 py-6 px-4 border-t border-b border-gray-200">
       <div className="max-w-4xl mx-auto flex flex-col sm:flex-row justify-center items-center gap-4 sm:gap-8">
         <div className="flex items-center gap-2">
           <FiMail className="text-emerald-600 text-xl" />

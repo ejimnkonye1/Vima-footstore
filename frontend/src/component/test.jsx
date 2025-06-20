@@ -4,8 +4,8 @@ import Men from '../component/gg.png';
 import Women from '../component/g.jpg';
 import Kids from '../component/g.jpg';
 
-const Test = () => {
-  const [activeCategory, setActiveCategory] = useState('all');
+const Test = ({activeCategory,setActiveCategory}) => {
+//   const [activeCategory, setActiveCategory] = useState('all');
 
   const categories = [
     { id: 'all', name: 'All', icon: All },

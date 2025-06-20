@@ -18,6 +18,7 @@ import RegisterPage from './auth/register.jsx';
 import SecondHeader from './component/secondheader.jsx';
 import BottomNavbar from './util/bottomnav.jsx';
 import Test from './component/test.jsx';
+import Search from './component/search.jsx';
 
 // Loader component
 const Loader = () => (
@@ -80,10 +81,22 @@ function App() {
                 !location.pathname.startsWith('/product/') &&   location.pathname !== '/checkout' 
                   && location.pathname !== '/userdashboard'  && location.pathname !== '/checkout' 
               &&  (
-             <Test />
-          
-        )}
+                <>
+                             <Search 
+          searchQuery={searchQuery}
+          setSearchQuery={setSearchQuery}
+          />
+                     <Test
+                  setActiveCategory={setActiveCategory}
+                  activeCategory={activeCategory}
+             />
      
+                </>
+        
+      
+
+        )}
+    
         <Routes>
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
